@@ -10,14 +10,14 @@ type PropsStyles = {
 export const ABADashboardLayout = (props: PropsStyles) => {
   return (
     <>
-      <Box sx={{ marginLeft: "230px"}}>
+      <Box sx={{ marginLeft: "285px"}}>
         <Drawer
           variant="permanent"
           sx={{
             flexShrink: 0,
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
-              backgroundColor: "#1976d2",
+              backgroundColor: "#EBF7FD",
               color: "white",
             },
           }}
@@ -26,7 +26,6 @@ export const ABADashboardLayout = (props: PropsStyles) => {
         </Drawer>
         <main>
           <Header />
-
           <Main>{props.children}</Main>
         </main>
       </Box>
