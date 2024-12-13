@@ -35,3 +35,17 @@
     }
 }
 
+.footer{
+    border-top: 1px solid #E5E5E5;
+    text-align: start;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding-bottom: 2rem;
+    &>h3,
+    &>p{
+        color: #000000;
+        margin: 0 0 0.5rem 1rem;
+    }
+}

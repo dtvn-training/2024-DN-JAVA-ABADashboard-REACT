@@ -10,7 +10,7 @@ type PropsStyles = {
 export const ABADashboardLayout = (props: PropsStyles) => {
   return (
     <>
-      <Box sx={{ marginLeft: "285px"}}>
+      <Box sx={{ marginLeft: "295px"}}>
         <Drawer
           variant="permanent"
           sx={{
@@ -19,6 +19,11 @@ export const ABADashboardLayout = (props: PropsStyles) => {
               boxSizing: "border-box",
               backgroundColor: "#EBF7FD",
               color: "white",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+              height: "100vh",
+              padding: "0 10px",
             },
           }}
         >
