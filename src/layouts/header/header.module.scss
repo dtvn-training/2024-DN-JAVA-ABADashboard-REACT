@@ -1,0 +1,21 @@
+header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+    &>h1{
+        margin: 0;
+        font-weight: 600;
+        font-size: 30px;
+    }
+    &>.download-report{
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        cursor: pointer;
+        font-weight: 500;
+        font-size: 20px;
+    }
+}

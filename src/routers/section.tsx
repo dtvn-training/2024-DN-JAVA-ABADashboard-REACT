@@ -1,5 +1,5 @@
 import { Suspense, lazy } from "react";
-import { Navigate, Outlet, useRoutes } from "react-router-dom";
+import { Outlet, useRoutes } from "react-router-dom";
 import { ABADashboardLayout } from "../layouts";
 export const DashboardPage = lazy(() => import("../pages/dashboard"));
 
