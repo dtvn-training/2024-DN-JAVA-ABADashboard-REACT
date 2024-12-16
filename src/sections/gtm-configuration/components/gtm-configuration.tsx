@@ -36,6 +36,8 @@ import styled from "./gtm-configuration.module.scss";
 import classnames from "classnames/bind";
 import { useState } from "react";
 
+import CreateTagModal from "../../../components/create-modal/CreateTagModal";
+
 const cx = classnames.bind(styled);
 const recentSales = [
   { id: "TR001", customer: "John Doe", amount: 1200, date: "2024-01-15" },
@@ -49,6 +51,8 @@ type ButtonListStyle={
   label: string;
   icon: JSX.Element;
 }
+
+
 
 const buttonList:ButtonListStyle[]= [
   {
@@ -72,6 +76,15 @@ const buttonList:ButtonListStyle[]= [
 const GtmConfigurationComponent = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   const handleChangePage = (_: React.MouseEvent<HTMLButtonElement> | null ,newPage: number) => {
     setPage(newPage);
@@ -85,16 +98,22 @@ const GtmConfigurationComponent = () => {
   };
   return (
     <div className={cx("container")}>
-      <div className={cx("section-actions")}>
-        {buttonList.map((buttonItem,index)=>{
-          return (
-            <div key={index} className={cx("button")}>
+      <div>
+        <div className={cx("section-actions")}>
+          {buttonList.map((buttonItem, index) => (
+            <div
+              key={index}
+              onClick={buttonItem.label === "Tag" ? openModal : undefined} // Gọi openModal khi nhấn "Tag"
+              className={cx("button")}
+            >
               <span>{buttonItem.label}</span>
               {buttonItem.icon}
             </div>
-          )
-        })}
-      </div>
+          ))}
+        </div>
+        <CreateTagModal isOpen={isModalOpen} onClose={closeModal} />
+
+    </div>
 
       {/* <Grid container spacing={3} sx={{ mb: 4 }}>
         <Grid size={12}>
