@@ -27,8 +27,12 @@ export default function Router() {
           index: true,
         },
         {
-          path: "/gtm-configuration",
+          path: "/gtm-config",
           element: <GtmConfigurationPage />
+        },
+        {
+          path: "/gtm-view",
+          element: <DashboardPage />
         }
       ]
     },

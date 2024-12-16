@@ -4,13 +4,16 @@ import { FaTachometerAlt, FaCog, FaChartBar } from "react-icons/fa";
 import Logo from "../../assets/logo.png";
 import classNames from "classnames/bind";
 import styled from "./sidebar.module.scss";
+import useRouter from "../../hooks/useRouter";
 
 const cx = classNames.bind(styled);
 
 const SideBar = () => {
+  const router= useRouter();
   const [selectedView, setSelectedView] = useState("dashboard");
   const handleViewChange = (view: string) => {
     setSelectedView(view);
+    router.push(`/${view}`);
   };
   return (
     <React.Fragment>

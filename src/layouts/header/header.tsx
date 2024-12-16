@@ -12,7 +12,7 @@ type SwitchHeaderStyles = {
   path: string;
 };
 
-const SwitcheHeader: SwitchHeaderStyles[] = [
+const switcherHeader: SwitchHeaderStyles[] = [
   {
     id: 1,
     title: "Report",
@@ -21,7 +21,7 @@ const SwitcheHeader: SwitchHeaderStyles[] = [
   {
     id: 2,
     title: "GTM configuration",
-    path: "/gtm-configuration",
+    path: "/gtm-config",
   },
   {
     id: 3,
@@ -34,16 +34,13 @@ const Header = () => {
   const [viewTitle, setViewTitle] = useState("Report");
 
   useEffect(() => {
-    const handleViewTitle = () => {
-      const getTitle = SwitcheHeader.find((item) =>
-        location.pathname.includes(item.path)
-      );
-      if (getTitle) {
-        setViewTitle(getTitle.title);
-      }
-    };
-    handleViewTitle();
-  }, []);
+    const currentHeader = switcherHeader.find((item) =>
+      location.pathname.includes(item.path)
+    );
+    if (currentHeader) {
+      setViewTitle(currentHeader.title);
+    }
+  }, [location.pathname]);
   return (
     <header>
       <h1>{viewTitle}</h1>

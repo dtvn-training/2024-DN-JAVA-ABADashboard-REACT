@@ -5,7 +5,7 @@ const GtmConfigurationPage = () => {
   return (
     <>
       <Helmet>
-        <title>Dashboard page</title>
+        <title>GTM configuration page</title>
       </Helmet>
       <GtmConfigurationView />
     </>
