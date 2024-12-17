@@ -31,12 +31,11 @@ ChartJS.register(
   Legend
 );
 import AddIcon from '@mui/icons-material/Add';
-
+import CustomModal from "../../../components/create-modal/CustomModal";
 import styled from "./gtm-configuration.module.scss";
 import classnames from "classnames/bind";
 import { useState } from "react";
 
-import CreateTagModal from "../../../components/create-modal/CreateTagModal";
 
 const cx = classnames.bind(styled);
 const recentSales = [
@@ -77,8 +76,10 @@ const GtmConfigurationComponent = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalType, setModalType] = useState("");
 
-  const openModal = () => {
+  const openModal = (type: string) => {
+    setModalType(type);
     setIsModalOpen(true);
   };
 
@@ -101,17 +102,27 @@ const GtmConfigurationComponent = () => {
       <div>
         <div className={cx("section-actions")}>
           {buttonList.map((buttonItem, index) => (
+            <>
             <div
               key={index}
-              onClick={buttonItem.label === "Tag" ? openModal : undefined} // Gọi openModal khi nhấn "Tag"
+              onClick={() => openModal(buttonItem.label)} 
               className={cx("button")}
             >
               <span>{buttonItem.label}</span>
               {buttonItem.icon}
             </div>
+            
+            </>
           ))}
         </div>
-        <CreateTagModal isOpen={isModalOpen} onClose={closeModal} />
+        <CustomModal
+              isOpen={isModalOpen}
+              onClose={closeModal}
+              type={modalType}
+              name=""
+              children={null}
+            >
+       </CustomModal>
 
     </div>
 
