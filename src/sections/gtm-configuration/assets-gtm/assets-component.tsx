@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import "./CustomModal.scss";
-import TagConfigModal from "./TagConfigModal";
+import styled from "./assets-component.module.scss";
+import TypeModal from "../assets-gtm-type/asset-gtm-type-component";
+import Ga4 from "../ga4/ga4-component";
 
 interface CustomModalProps {
   isOpen: boolean;
@@ -10,6 +11,7 @@ interface CustomModalProps {
   children: React.ReactNode;
   width?: string;
   height?: string;
+  icon: React.ReactNode;
   //   footerContent?: React.ReactNode;
 }
 
@@ -26,19 +28,19 @@ import classnames from "classnames/bind";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTags, faLink } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router";
-const cx = classnames.bind();
+const cx = classnames.bind(styled);
 
 const Section: React.FC<SectionProps> = ({ title, description, icon, onClick, showLink = true, children }) => (
-  <div className="section" onClick={onClick}>
-  {title && <div className="section-title">{title}</div>} 
-  {icon && <div className="icon-container">{icon}</div>} 
-  {description && <div className="description">{description}</div>}
+  <div className={cx("section")} onClick={onClick}>
+  {title && <div className={cx("section-title")}>{title}</div>} 
+  {icon && <div className={cx("icon-container")}>{icon}</div>} 
+  {description && <div className={cx("description")}>{description}</div>}
   {children} {/* Hiển thị children nếu có */}
   {showLink && <Link to="https://support.google.com/tagmanager/answer/3281060">Learn more</Link>} 
 </div>
 );
 
-const CustomModal: React.FC<CustomModalProps> = ({
+const AssetsModal: React.FC<CustomModalProps> = ({
   isOpen,
   onClose,
   type,
@@ -48,6 +50,8 @@ const CustomModal: React.FC<CustomModalProps> = ({
 }) => {
   const [isShiftLeft, setIsShiftLeft] = useState(true); 
   const [isTagConfigOpen, setIsTagConfigOpen] = useState(false);
+  console.log(children);
+  
   const handleDetail = (value : String) =>{
       setIsTagConfigOpen(true); 
       setIsShiftLeft(!isShiftLeft);
@@ -62,24 +66,24 @@ const CustomModal: React.FC<CustomModalProps> = ({
   
   return (
     <>
-      {isOpen && <div className="modal-overlay" onClick={onClose}></div>}
+      {isOpen && <div className={cx("modal-overlay")} onClick={onClose}></div>}
       <div className={cx("modal", { open: isOpen, 'shift-left': isShiftLeft, 'shift-left-left': !isShiftLeft })}>
-        <div className="modal-container">
-          <div className="gtm-sheet-header">
-            <div className="gtm-icon-cancel">
+        <div className={cx("modal-container")}>
+          <div className={cx("gtm-sheet-header")}>
+            <div className={cx("gtm-icon-cancel")}>
               <i
-                className="gtm-sheet-header__close"
+                className={cx("gtm-sheet-header__close")}
                 onClick={onClose}
                 role="button"
                 aria-label="Close the screen"
               >
                 &#x2715;
               </i>
-              <div className="gtm-flex__section gtm-sheet-header__title">
-                <div className="gtm-veditor_entity-name">
+              <div className={cx("gtm-flex__section gtm-sheet-header__title")}>
+                <div className={cx("gtm-veditor_entity-name")}>
                   <div
                     contentEditable
-                    className="contenteditable"
+                    className={cx("contenteditable")}
                     aria-label={`${type ? type : name}`}
                   >
                     {type ? `Untitled ${type}` : name}
@@ -87,15 +91,17 @@ const CustomModal: React.FC<CustomModalProps> = ({
                 </div>
               </div>
             </div>
-            <div className="gtm-flex__section--fixed">
-              <button type="button" className="btn btn-action" disabled>
+            <div className={cx("gtm-flex__section--fixed")}>
+              <button type="button" className={cx("btn btn-action")} disabled>
                 Save
               </button>
             </div>
           </div>
           <>
           {children ? (
-            <Section>{children}</Section>
+            <Section title={""} description={""} icon={undefined} onClick={function (): void {
+                throw new Error("Function not implemented.");
+              } }>{children}</Section>
           ) : (
             <>
                <Section
@@ -116,7 +122,7 @@ const CustomModal: React.FC<CustomModalProps> = ({
               )}
             </>
           )}
-          {isTagConfigOpen && <TagConfigModal  onClose={closeTagConfigModal}  isOpen={true}/>}
+          {isTagConfigOpen && <TypeModal  onClose={closeTagConfigModal}  isOpen={true}/>}
           </>
         </div>
       </div>
@@ -124,4 +130,4 @@ const CustomModal: React.FC<CustomModalProps> = ({
   );
 };
 
-export default CustomModal;
+export default AssetsModal;

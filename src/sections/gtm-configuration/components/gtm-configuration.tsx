@@ -31,8 +31,9 @@ ChartJS.register(
   Legend
 );
 import AddIcon from '@mui/icons-material/Add';
-import CustomModal from "../../../components/create-modal/CustomModal";
+import AssetsModal from "../assets-gtm/assets-component";
 import styled from "./gtm-configuration.module.scss";
+import Ga4 from "../ga4/ga4-component";
 import classnames from "classnames/bind";
 import { useState } from "react";
 
@@ -115,14 +116,14 @@ const GtmConfigurationComponent = () => {
             </>
           ))}
         </div>
-        <CustomModal
-              isOpen={isModalOpen}
-              onClose={closeModal}
-              type={modalType}
-              name=""
-              children={null}
-            >
-       </CustomModal>
+        
+        <AssetsModal
+          isOpen={isModalOpen}
+          onClose={closeModal}
+          type={modalType}
+          name=""
+          children={<Ga4 />} icon={undefined}            >
+       </AssetsModal>
 
     </div>
 
@@ -145,7 +146,7 @@ const GtmConfigurationComponent = () => {
           </Paper>
         </Grid>
       </Grid> */}
-
+      
       <Paper sx={{ width: "100vw", overflow: "hidden", textAlign: "start", marginBottom: "3rem" }}>
         <Typography variant="h6" sx={{ p: 2 }}>
           Tag

@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import './TagConfigModal.scss'; 
+import styled from "./asset-gtm-type-component.module.scss";
+import classnames from "classnames/bind";
 
-const TagConfigModal: React.FC<{ onClose: () => void; isOpen: boolean }> = ({ onClose, isOpen }) => {
+const cx = classnames.bind(styled);
+const TypeModal: React.FC<{ onClose: () => void; isOpen: boolean }> = ({ onClose, isOpen }) => {
   const [tags, setTags] = useState<{ name: string; description: string; enabled: boolean }[]>([]); 
   const [loading, setLoading] = useState<boolean>(true); 
 
@@ -12,7 +14,7 @@ const TagConfigModal: React.FC<{ onClose: () => void; isOpen: boolean }> = ({ on
           { name: 'Google Analytics', description: 'Theo dõi lưu lượng truy cập', enabled: true },
           { name: 'Google Ads', description: 'Quảng cáo trực tuyến', enabled: true },
           { name: 'Floodlight', description: 'Theo dõi chuyển đổi', enabled: false },
-          // Thêm các thẻ khác ở đây
+
         ]);
       }, 1000); 
     });
@@ -29,29 +31,29 @@ const TagConfigModal: React.FC<{ onClose: () => void; isOpen: boolean }> = ({ on
     <>
       {isOpen && (
         <>
-          <div className={`modal-overlay ${isOpen ? 'active' : ''}`} onClick={onClose}></div>
-          <div className="tag-config-modal-container">
-            <div className="tag-config-modal active">
-              <div className="tag-config-header">
+          <div className={cx("modal-overlay-type")} onClick={onClose}></div>
+          <div className={cx("tag-config-modal-container")}>
+            <div className={cx("tag-config-modal active")}>
+              <div className={cx("tag-config-header")}>
                 <h3>Chọn loại biến</h3>
-                <button className="close-button" onClick={onClose}>X</button>
+                <button className={cx("close-button")} onClick={onClose}>X</button>
               </div>
-              <div className="tag-list">
+              <div className={cx("tag-list")}>
                 {loading ? (
                   <p>Loading...</p>
                 ) : (
-                  <div className="item-list">
+                  <div className={cx("item-list")}>
                     {tags.map((template, index) => (
                       <div
                         key={index}
-                        className={`item ${!template.enabled ? 'disabled' : ''}`}
-                        onClick={() => template.enabled && console.log(`Selected: ${template.name}`)} // Thay thế bằng hàm chọn thẻ
+                        className={cx("item")}
+                        onClick={() => template.enabled && console.log(`Selected: ${template.name}`)} 
                         role="button"
                       >
-                        <div className="item-icon">
-                          <i className="gtm-variable-nav-icon-small icon-matting icon-matting--blue"></i>
+                        <div className={cx("item-icon")}>
+                          <i className={cx("gtm-variable-nav-icon-small icon-matting icon-matting--blue")}></i>
                         </div>
-                        <div className="item-content">
+                        <div className={cx("item-content")}>
                           <h3>{template.name}</h3>
                           <p dangerouslySetInnerHTML={{ __html: template.description }}></p>
                         </div>
@@ -68,4 +70,4 @@ const TagConfigModal: React.FC<{ onClose: () => void; isOpen: boolean }> = ({ on
   );
 };
 
-export default TagConfigModal;
+export default TypeModal;

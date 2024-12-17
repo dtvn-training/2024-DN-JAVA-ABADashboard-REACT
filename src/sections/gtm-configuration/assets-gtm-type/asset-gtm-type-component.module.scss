@@ -1,14 +1,17 @@
 .tag-config-modal-container {
     position: fixed;
     top: 0;
-    left: 0;
-    width: 70%;
+    right: 0;
+    width: 30%;
     height: 100%;
+    background-color: #fff;
     transition: transform 0.3s ease;
     z-index: 10001; 
+    
 
 }
 
+.tag-config-modal-container
 .tag-config-modal {
     position: fixed;
     top: 0;
@@ -17,33 +20,38 @@
     height: 100%;
     background-color: white;
     transition: transform 0.3s ease;
-
+    
     &.active {
         transform: translateX(-100%);
     }
 }
 
-.modal-type-overlay {
+
+.modal-overlay-type {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
     background: rgba(0, 0, 0, 0.4);
-    z-index: 10001; 
-    display: none; 
-
+    z-index: 999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10001;
     &.active {
         display: block; 
     }
 }
 
+.tag-config-modal-container
 .item-list {
     margin: 20px;
     padding: 0;
     list-style: none;
 }
 
+.tag-config-modal-container
 .item {
     display: flex;
     align-items: flex-start;
@@ -65,6 +73,7 @@
     }
 }
 
+.tag-config-modal-container
 .item-icon {
     width: 40px;
     height: 40px;
@@ -78,17 +87,20 @@
     margin-right: 10px;
 }
 
+.tag-config-modal-container
 .item-content h3 {
     margin: 0;
     font-size: 1.2em;
     color: #333;
 }
 
+.tag-config-modal-container
 .item-content p {
     margin: 5px 0 0;
     color: #666;
 }
 
+.tag-config-modal-container
 .tag-config-header {
     display: flex;
     justify-content: space-between;
@@ -98,12 +110,14 @@
     border-bottom: 1px solid #e0e0e0;
 }
 
+.tag-config-modal-container
 .tag-config-header h3 {
     margin: 0;
     font-size: 1.5em;
     color: #333;
 }
 
+.tag-config-modal-container
 .close-button {
     background: none;
     border: none;
