@@ -1,7 +1,7 @@
-import { GtmConfigurationComponent } from "../components"
+import { GtmConfigurationComponent } from "../components";
 
 const GtmConfigurationView = () => {
-  return <GtmConfigurationComponent />
-}
+  return <GtmConfigurationComponent />;
+};
 
-export default GtmConfigurationView
+export default GtmConfigurationView;

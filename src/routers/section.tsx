@@ -33,6 +33,10 @@ export default function Router() {
         {
           path: "/gtm-view",
           element: <DashboardPage />
+        },
+        {
+          path: "/*",
+          element: <Navigate to="/dashboard" />,
         }
       ]
     },

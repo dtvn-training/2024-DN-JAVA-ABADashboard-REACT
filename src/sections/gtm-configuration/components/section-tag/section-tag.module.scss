@@ -1,0 +1,72 @@
+.table {
+  padding: 0 20px;
+}
+
+.section-table-same {
+  & > table {
+    & > thead > tr > th {
+      border-bottom: none;
+      position: relative;
+      &::after {
+        content: "";
+        position: absolute;
+        width: 80%;
+        height: 1px;
+        border-bottom: 1px solid #e0e0e0;
+        bottom: 0;
+        left: 5%;
+      }
+    }
+    & > tbody > tr {
+      cursor: pointer;
+      & > td:first-child {
+        color: #2974ff;
+      }
+      & > td {
+        border: none;
+      }
+      & > td.trigger {
+        & > .box {
+          display: flex;
+          align-items: center;
+          padding: 2px 8px 2px 2px;
+          background-color: rgba(0, 0, 0, 3%);
+          width: max-content;
+          min-width: 120px;
+          gap: 0.5em;
+          border-radius: 20px;
+          box-shadow: #dadce0 0px 1px 4px, #dadce0 0px 0px 0px 2px;
+          & > .icon {
+            width: 30px;
+            height: 30px;
+            background-color: #4285f4;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            & > svg {
+              color: #ffffff;
+              font-size: 16px;
+            }
+          }
+        }
+        & > .box.active {
+          cursor: no-drop;
+        }
+      }
+      & > td:last-child > span {
+        padding: 5px 15px;
+        background-color: #95fc9c;
+        border-radius: 5px;
+        &.active {
+          background-color: #fbec78;
+        }
+      }
+      &:hover {
+        & > td:first-child {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}

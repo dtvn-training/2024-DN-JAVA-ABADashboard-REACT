@@ -1,1 +1,1 @@
-export {default as GtmConfigurationView} from "./gtm-configuration-view";
+export { default as GtmConfigurationView } from "./gtm-configuration-view";

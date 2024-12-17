@@ -1,1 +1,1 @@
-export {default as GtmConfigurationComponent} from "./gtm-configuration";
+export { default as GtmConfigurationComponent } from "./gtm-configuration";

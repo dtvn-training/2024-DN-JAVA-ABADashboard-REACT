@@ -1,1 +1,1 @@
-export {default as DashboardView} from "./dashboard-view";
+export { default as DashboardView } from "./dashboard-view";

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, List, ListItemIcon, ListItemText } from "@mui/material";
+import { Box, List, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 import { FaTachometerAlt, FaCog, FaChartBar } from "react-icons/fa";
 import Logo from "../../assets/logo.png";
 import classNames from "classnames/bind";
@@ -24,7 +24,7 @@ const SideBar = () => {
           <img src={Logo} alt="ABA Logo" />
         </div>
         <List className={cx("list-item")}>
-          <button
+          <ListItemButton 
             className={cx(
               "item",
               `${selectedView === "dashboard" && "selected"}`
@@ -35,8 +35,8 @@ const SideBar = () => {
               <FaTachometerAlt />
             </ListItemIcon>
             <ListItemText className={cx("text")} primary="Dashboard View" />
-          </button>
-          <button
+          </ListItemButton>
+          <ListItemButton 
             className={cx(
               "item",
               `${selectedView === "gtm-view" && "selected"}`
@@ -47,8 +47,8 @@ const SideBar = () => {
               <FaChartBar />
             </ListItemIcon>
             <ListItemText className={cx("text")} primary="GTM View" />
-          </button>
-          <button
+          </ListItemButton>
+          <ListItemButton 
             className={cx(
               "item",
               `${selectedView === "gtm-config" && "selected"}`
@@ -59,7 +59,7 @@ const SideBar = () => {
               <FaCog />
             </ListItemIcon>
             <ListItemText className={cx("text")} primary="GTM Configuration" />
-          </button>
+          </ListItemButton>
         </List>
       </Box>
       <footer className={cx("footer")}>
