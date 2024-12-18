@@ -1,8 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
+import TagReducer from "./tag-slice/tag-slice";
 
 export const store= configureStore({
-    reducer: {},
+    reducer: {
+        tag: TagReducer
+    },
 });
 
 export type AppDispatch = typeof store.dispatch;

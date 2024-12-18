@@ -4,8 +4,11 @@ import classnames from "classnames/bind";
 import { SectionTag } from "./section-tag";
 import { SectionVariable } from "./section-variable";
 import { SectionTrigger } from "./section-trigger";
-import {SectionFolder} from "./section-folder";
+import { SectionFolder } from "./section-folder";
 import { recentSales } from "../../../utils/_mock-data";
+import { useAppDispatch } from "../../../redux/store";
+import { useEffect } from "react";
+import { GetAllTagsAction } from "../../../redux/tag-slice/tag-slice";
 
 const cx = classnames.bind(styled);
 
@@ -33,8 +36,15 @@ const buttonList: ButtonListStyle[] = [
   },
 ];
 
-
 const GtmConfigurationComponent = () => {
+  const dispatch= useAppDispatch();
+  
+  useEffect(()=>{
+    dispatch(GetAllTagsAction({
+      pageNum: 1,
+      pageSize: 5,
+    }))
+  },[dispatch]);
   return (
     <div className={cx("container")}>
       <div className={cx("section-actions")}>
@@ -47,7 +57,7 @@ const GtmConfigurationComponent = () => {
           );
         })}
       </div>
-      <SectionTag recentSales={recentSales} />
+      <SectionTag />
       <SectionVariable recentSales={recentSales} />
       <SectionTrigger recentSales={recentSales} />
       <SectionFolder />

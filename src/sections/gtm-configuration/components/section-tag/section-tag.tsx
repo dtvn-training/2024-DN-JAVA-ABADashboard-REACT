@@ -12,30 +12,30 @@ import {
 } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import styled from "./section-tag.module.scss";
-
 import classnames from "classnames/bind";
+import { useAppDispatch, useAppSelector } from "../../../../redux/store";
+import { parseISO, format } from "date-fns";
+import { GetAllTagsAction } from "../../../../redux/tag-slice/tag-slice";
 
 const cx = classnames.bind(styled);
+const rowPerOptions = [5, 10, 25];
 
-interface PropsStyles {
-  recentSales: {
-    id: string;
-    customer: string;
-    amount: number;
-    date: string;
-  }[];
-}
-
-const rowPerOptions=[5, 10, 25];
-
-const SectionTag = (props: PropsStyles) => {
+const SectionTag = () => {
+  const dispatch = useAppDispatch();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const { TagList } = useAppSelector((state) => state.tag);
   const handleChangePage = (
     _: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number
   ) => {
     setPage(newPage);
+    dispatch(
+      GetAllTagsAction({
+        pageNum: newPage,
+        pageSize: rowsPerPage,
+      })
+    );
   };
 
   const handleChangeRowsPerPage = (
@@ -46,6 +46,7 @@ const SectionTag = (props: PropsStyles) => {
       setPage(0);
     }
   };
+
   return (
     <Paper
       className={cx("wrapper")}
@@ -69,16 +70,16 @@ const SectionTag = (props: PropsStyles) => {
               <TableCell>Type</TableCell>
               <TableCell>Triggers</TableCell>
               <TableCell>Updated date</TableCell>
+              <TableCell>Create by</TableCell>
               <TableCell>Status</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {props.recentSales
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row) => (
-                <TableRow key={row.id} hover>
-                  <TableCell>{row.id}</TableCell>
-                  <TableCell>{row.customer}</TableCell>
+            {TagList &&
+              TagList.data.map((row) => (
+                <TableRow key={row.name} hover>
+                  <TableCell>{row.type}</TableCell>
+                  <TableCell>{row.tagId}</TableCell>
                   <TableCell className={cx("trigger")}>
                     <div className={cx("box")}>
                       <div className={cx("icon")}>
@@ -87,9 +88,17 @@ const SectionTag = (props: PropsStyles) => {
                       <span className={cx("trigger-name")}>All page</span>
                     </div>
                   </TableCell>
-                  <TableCell>{row.date}</TableCell>
                   <TableCell>
-                    <span>Save</span>
+                    {row.updatedAt !== null &&
+                      format(parseISO(row.updatedAt), "HH:mm:ss dd/MM/yyyy")}
+                  </TableCell>
+                  <TableCell>{row.createdBy}</TableCell>
+                  <TableCell>
+                    <span
+                      className={cx(`${row.status !== "SAVE" && "active"}`)}
+                    >
+                      {row.status === "SAVE" ? "Save" : "Save & push"}
+                    </span>
                   </TableCell>
                 </TableRow>
               ))}
@@ -99,7 +108,7 @@ const SectionTag = (props: PropsStyles) => {
       <TablePagination
         rowsPerPageOptions={rowPerOptions}
         component="div"
-        count={props.recentSales.length}
+        count={TagList && TagList.data.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}

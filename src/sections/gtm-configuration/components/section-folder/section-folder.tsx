@@ -14,7 +14,7 @@ import classnames from "classnames/bind";
 
 const cx = classnames.bind(styled);
 
-const rowPerOptions=[5, 10, 25];
+const rowPerOptions = [5, 10, 25];
 const SectionFolder = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);

@@ -230,11 +230,7 @@ const Rows = () => {
   return (
     <React.Fragment>
       <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
-        <Box
-          component="div"
-          className={cx("box")}
-          onClick={() => setOpen(!open)}
-        >
+        <TableCell className={cx("box")} onClick={() => setOpen(!open)}>
           <div>Items are removed from the folder</div>
           <div className={cx("actions")}>
             <div className={cx("icon-dropdown")}>
@@ -254,7 +250,7 @@ const Rows = () => {
               <MoreVertIcon />
             </div>
           </div>
-        </Box>
+        </TableCell>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           {open && (
             <TableContainer>
