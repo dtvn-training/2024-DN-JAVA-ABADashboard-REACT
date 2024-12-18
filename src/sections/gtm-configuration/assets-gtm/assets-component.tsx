@@ -45,30 +45,42 @@ const AssetsModal: React.FC<CustomModalProps> = ({
   onClose,
   type,
   name,
-  children
-  // width = "70%"
 }) => {
-  const [isShiftLeft, setIsShiftLeft] = useState(true); 
+  const [isShiftLeft, setIsShiftLeft] = useState(true);
   const [isTagConfigOpen, setIsTagConfigOpen] = useState(false);
-  console.log(children);
-  
-  const handleDetail = (value : String) =>{
-      setIsTagConfigOpen(true); 
-      setIsShiftLeft(!isShiftLeft);
-  }
+  const [selectedTagType, setSelectedTagType] = useState<string | null>(null);
+
+  const handleDetail = (value: string) => {
+    setIsTagConfigOpen(true);
+    setIsShiftLeft(!isShiftLeft);
+    document.body.style.overflow = 'hidden';
+  };
 
   const closeTagConfigModal = () => {
-    setIsTagConfigOpen(false); 
+    setIsTagConfigOpen(false);
     setIsShiftLeft(true);
-  }
+    document.body.style.overflow = 'auto';
+  };
+
+  const handleSelectTagType = (types: string) => {
+    setSelectedTagType(types);
+    closeTagConfigModal(); 
+  };
 
   if (!isOpen) return null;
-  
+
   return (
     <>
       {isOpen && <div className={cx("modal-overlay")} onClick={onClose}></div>}
-      <div className={cx("modal", { open: isOpen, 'shift-left': isShiftLeft, 'shift-left-left': !isShiftLeft })}>
+      <div className={cx("modal", { open: isOpen, 'shift-left': isShiftLeft })}>
         <div className={cx("modal-container")}>
+          {isTagConfigOpen && (
+            <TypeModal
+              onClose={closeTagConfigModal}
+              isOpen={true}
+              onSelectTagType={handleSelectTagType} 
+            />
+          )}
           <div className={cx("gtm-sheet-header")}>
             <div className={cx("gtm-icon-cancel")}>
               <i
@@ -95,15 +107,15 @@ const AssetsModal: React.FC<CustomModalProps> = ({
               <button type="button" className={cx("btn btn-action")} disabled>
                 Save
               </button>
+              <button type="button" className={cx("btn btn-action")} disabled>
+                Save and Push
+              </button>
             </div>
-          </div>
-          <>
-          {children ? (
-            <Section title={""} description={""} icon={undefined} onClick={function (): void {
-                throw new Error("Function not implemented.");
-              } }>{children}</Section>
-          ) : (
+          </div>        
             <>
+            {selectedTagType === "Google Analytics" ? (
+            <Ga4 /> 
+            ) : (
                <Section
                 title={type ? `Configuration for ${type}` : name}
                 description={type ? `Select the type of ${type} to start setting up...` : "Start setting up..."}
@@ -111,6 +123,7 @@ const AssetsModal: React.FC<CustomModalProps> = ({
                 onClick={() => handleDetail(type)}
                 showLink={false} 
               />
+            )}
               {type === "Tag" && (
                 <Section
                   title="Configuration for Trigger"
@@ -120,10 +133,7 @@ const AssetsModal: React.FC<CustomModalProps> = ({
                   showLink={true} 
                 />
               )}
-            </>
-          )}
-          {isTagConfigOpen && <TypeModal  onClose={closeTagConfigModal}  isOpen={true}/>}
-          </>
+            </>     
         </div>
       </div>
     </>

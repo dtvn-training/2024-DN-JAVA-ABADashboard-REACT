@@ -3,7 +3,7 @@ import styled from "./asset-gtm-type-component.module.scss";
 import classnames from "classnames/bind";
 
 const cx = classnames.bind(styled);
-const TypeModal: React.FC<{ onClose: () => void; isOpen: boolean }> = ({ onClose, isOpen }) => {
+const TypeModal: React.FC<{ onClose: () => void; isOpen: boolean; onSelectTagType: (type: string) => void  }> = ({ onClose, isOpen ,onSelectTagType}) => {
   const [tags, setTags] = useState<{ name: string; description: string; enabled: boolean }[]>([]); 
   const [loading, setLoading] = useState<boolean>(true); 
 
@@ -47,12 +47,15 @@ const TypeModal: React.FC<{ onClose: () => void; isOpen: boolean }> = ({ onClose
                       <div
                         key={index}
                         className={cx("item")}
-                        onClick={() => template.enabled && console.log(`Selected: ${template.name}`)} 
+                        onClick={() => {
+                          if (template.enabled) {
+                            onSelectTagType(template.name); 
+                            onClose(); 
+                          }
+                        }}
                         role="button"
                       >
-                        <div className={cx("item-icon")}>
-                          <i className={cx("gtm-variable-nav-icon-small icon-matting icon-matting--blue")}></i>
-                        </div>
+                        <div className={cx("item-icon")}></div>
                         <div className={cx("item-content")}>
                           <h3>{template.name}</h3>
                           <p dangerouslySetInnerHTML={{ __html: template.description }}></p>

@@ -1,4 +1,88 @@
-.container{
+/* General Reset */
+  
+  .tag-config-container {
     width: 95%;
-    height: auto;
-}
+    background-color: #fff;
+    padding: 0px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    justify-content: left;
+    text-align: left;
+    padding: 5px
+  }
+  
+  .tag-config-title {
+    text-align: left;
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 20px;
+  }
+  
+  .field-group {
+    margin-bottom: 16px;
+  
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: #555;
+    }
+  
+    .field-input {
+      input, select {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+  
+        &:focus {
+          border-color: #4285f4;
+          outline: none;
+        }
+      }
+    }
+  }
+  
+  .checkbox-group {
+    display: flex;
+    align-items: center;
+  
+    input {
+      margin-right: 8px;
+    }
+  
+    label {
+      color: #555;
+      font-size: 14px;
+    }
+  }
+  
+  .collapsible {
+    margin-top: 10px;
+  
+    .collapsible-header {
+      background-color: #4285f4;
+      color: #fff;
+      padding: 10px;
+      text-align: left;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+      border-radius: 4px;
+  
+      &:hover {
+        background-color: #3367d6;
+      }
+    }
+  
+    .collapsible-content {
+      padding: 10px;
+      background-color: #f1f1f1;
+      border-radius: 4px;
+  
+      p {
+        color: #555;
+      }
+    }
+  }
+  

@@ -33,7 +33,7 @@ ChartJS.register(
 import AddIcon from '@mui/icons-material/Add';
 import AssetsModal from "../assets-gtm/assets-component";
 import styled from "./gtm-configuration.module.scss";
-import Ga4 from "../ga4/ga4-component";
+// import Ga4 from "../ga4/ga4-component";
 import classnames from "classnames/bind";
 import { useState } from "react";
 
@@ -122,7 +122,8 @@ const GtmConfigurationComponent = () => {
           onClose={closeModal}
           type={modalType}
           name=""
-          children={<Ga4 />} icon={undefined}            >
+          // children={<Ga4 />} icon={undefined}       
+          children={null} icon={undefined}          >
        </AssetsModal>
 
     </div>

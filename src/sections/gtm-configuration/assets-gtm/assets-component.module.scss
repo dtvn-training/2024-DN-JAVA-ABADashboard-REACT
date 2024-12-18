@@ -9,6 +9,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    height: auto;
     z-index: 9999;
     &.active {
         display: block; 
@@ -19,10 +20,12 @@
     position: fixed;
     top: 0;
     left: 0;
-    width: 70%;
-    height: 100%;
+    width: 100%;
+    height: auto;
     background-color: #fff;
     transition: left 0.5s ease;
+    overflow-x: hidden;
+    overflow-y: auto; 
     z-index: 10000;
 
     &.open {
@@ -30,8 +33,8 @@
     }
 
     &.shift-left {
-        left: 30%;
-        width: 70%;
+        left: 20%;
+        width: 80%;
     }
 
     &.shift-left-left {
@@ -77,10 +80,10 @@
         justify-content: center;
         flex-direction: column;
         text-align: center;
-        height: 240px;
         margin-inline-start: 10%;
         margin-inline-end: 10%;
-
+        width: auto;
+        
         &:hover {
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
         }
