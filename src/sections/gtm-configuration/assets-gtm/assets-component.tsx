@@ -12,7 +12,9 @@ interface CustomModalProps {
   width?: string;
   height?: string;
   icon: React.ReactNode;
-  //   footerContent?: React.ReactNode;
+  selectedTagType: string | null;
+  onSelectTagType: (type:string)=>void
+
 }
 
 interface SectionProps {
@@ -22,6 +24,7 @@ interface SectionProps {
   onClick: () => void;
   showLink?: boolean; 
   children?: React.ReactNode; 
+  
 }
 
 import classnames from "classnames/bind";
@@ -35,7 +38,7 @@ const Section: React.FC<SectionProps> = ({ title, description, icon, onClick, sh
   {title && <div className={cx("section-title")}>{title}</div>} 
   {icon && <div className={cx("icon-container")}>{icon}</div>} 
   {description && <div className={cx("description")}>{description}</div>}
-  {children} {/* Hiển thị children nếu có */}
+  {children} 
   {showLink && <Link to="https://support.google.com/tagmanager/answer/3281060">Learn more</Link>} 
 </div>
 );
@@ -45,12 +48,15 @@ const AssetsModal: React.FC<CustomModalProps> = ({
   onClose,
   type,
   name,
+  selectedTagType,
+  onSelectTagType
 }) => {
   const [isShiftLeft, setIsShiftLeft] = useState(true);
   const [isTagConfigOpen, setIsTagConfigOpen] = useState(false);
-  const [selectedTagType, setSelectedTagType] = useState<string | null>(null);
+  
 
-  const handleDetail = (value: string) => {
+  
+  const handleDetail = () => {
     setIsTagConfigOpen(true);
     setIsShiftLeft(!isShiftLeft);
     document.body.style.overflow = 'hidden';
@@ -62,13 +68,11 @@ const AssetsModal: React.FC<CustomModalProps> = ({
     document.body.style.overflow = 'auto';
   };
 
-  const handleSelectTagType = (types: string) => {
-    setSelectedTagType(types);
-    closeTagConfigModal(); 
-  };
-
-  if (!isOpen) return null;
-
+  if (!isOpen) {  
+    return null;
+  }
+  console.log(isTagConfigOpen);
+  
   return (
     <>
       {isOpen && <div className={cx("modal-overlay")} onClick={onClose}></div>}
@@ -78,7 +82,7 @@ const AssetsModal: React.FC<CustomModalProps> = ({
             <TypeModal
               onClose={closeTagConfigModal}
               isOpen={true}
-              onSelectTagType={handleSelectTagType} 
+              onSelectTagType={onSelectTagType} 
             />
           )}
           <div className={cx("gtm-sheet-header")}>
@@ -114,13 +118,13 @@ const AssetsModal: React.FC<CustomModalProps> = ({
           </div>        
             <>
             {selectedTagType === "Google Analytics" ? (
-            <Ga4 /> 
+            <Ga4  /> 
             ) : (
                <Section
                 title={type ? `Configuration for ${type}` : name}
                 description={type ? `Select the type of ${type} to start setting up...` : "Start setting up..."}
                 icon={<FontAwesomeIcon icon={faTags} size="2x" />}
-                onClick={() => handleDetail(type)}
+                onClick={() => handleDetail()}
                 showLink={false} 
               />
             )}
@@ -129,7 +133,7 @@ const AssetsModal: React.FC<CustomModalProps> = ({
                   title="Configuration for Trigger"
                   description="Select the trigger to activate this tag..."
                   icon={<FontAwesomeIcon icon={faLink} size="2x" />}
-                  onClick={() => handleDetail(type)}
+                  onClick={() => handleDetail()}
                   showLink={true} 
                 />
               )}

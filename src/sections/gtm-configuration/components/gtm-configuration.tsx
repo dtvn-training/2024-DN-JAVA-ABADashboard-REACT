@@ -78,6 +78,7 @@ const GtmConfigurationComponent = () => {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalType, setModalType] = useState("");
+  const [selectedTagType, setSelectedTagType] = useState<string | null>(null);
 
   const openModal = (type: string) => {
     setModalType(type);
@@ -86,6 +87,7 @@ const GtmConfigurationComponent = () => {
 
   const closeModal = () => {
     setIsModalOpen(false);
+    setSelectedTagType(null);
   };
 
   const handleChangePage = (_: React.MouseEvent<HTMLButtonElement> | null ,newPage: number) => {
@@ -97,6 +99,10 @@ const GtmConfigurationComponent = () => {
       setRowsPerPage(parseInt(event.target.value, 10));
       setPage(0);
     }
+  };
+
+  const handleSelectTagType = (types: string) => {
+    setSelectedTagType(types);
   };
   return (
     <div className={cx("container")}>
@@ -121,9 +127,11 @@ const GtmConfigurationComponent = () => {
           isOpen={isModalOpen}
           onClose={closeModal}
           type={modalType}
-          name=""
-          // children={<Ga4 />} icon={undefined}       
-          children={null} icon={undefined}          >
+          name=""    
+          children={null} icon={undefined}     
+          onSelectTagType={handleSelectTagType}  
+          selectedTagType={selectedTagType}
+          >
        </AssetsModal>
 
     </div>
@@ -233,3 +241,4 @@ const GtmConfigurationComponent = () => {
 }
 
 export default GtmConfigurationComponent
+
