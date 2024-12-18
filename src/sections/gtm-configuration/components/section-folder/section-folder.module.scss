@@ -1,0 +1,36 @@
+.box-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  & > button {
+    margin-right: 2rem;
+    background-color: rgba(26, 115, 232, 10%);
+    outline: none;
+    border: none;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: all 0.2s ease-in-out;
+    & > span {
+      color: #1a73e8;
+    }
+    &:hover {
+      box-shadow: rgba(26, 115, 232, 10%) 0px 1px 4px,
+        rgba(26, 115, 232) 0px 0px 0px 3px;
+    }
+  }
+}
+
+.table {
+  padding: 0 20px;
+}
+.section-folder {
+  & > table > tbody {
+    & > tr {
+      display: flex;
+      border: 1px solid #000000;
+      flex-direction: column;
+      margin-bottom: 1rem;
+      border-radius: 5px;
+    }
+  }
+}

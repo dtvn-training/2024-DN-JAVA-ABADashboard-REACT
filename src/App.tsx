@@ -1,14 +1,13 @@
-import './App.css'
-import GlobalStyles from './components/global-styles/global-styles'
-import Router from './routers/section'
+import "./App.css";
+import GlobalStyles from "./components/global-styles/global-styles";
+import Router from "./routers/section";
 
 function App() {
-
   return (
-    <GlobalStyles >
+    <GlobalStyles>
       <Router />
     </GlobalStyles>
-  )
+  );
 }
 
 export default App;

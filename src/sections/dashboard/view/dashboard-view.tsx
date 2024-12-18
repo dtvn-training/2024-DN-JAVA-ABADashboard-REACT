@@ -1,5 +1,7 @@
-const DashboardView= ()=>{
-    return <div>Dashboard view</div>
-}
+import { DashboardComponent } from "../components";
+
+const DashboardView = () => {
+  return <DashboardComponent />;
+};
 
 export default DashboardView;
