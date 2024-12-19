@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useDispatch,useSelector } from "react-redux";
 import styled from "./assets-component.module.scss";
 import TypeModal from "../assets-gtm-type/asset-gtm-type-component";
 import Ga4 from "../ga4/ga4-component";
@@ -7,13 +8,11 @@ interface CustomModalProps {
   isOpen: boolean;
   onClose: () => void;
   name: string;
-  type : String;
+  type : string;
   children: React.ReactNode;
   width?: string;
   height?: string;
   icon: React.ReactNode;
-  selectedTagType: string | null;
-  onSelectTagType: (type:string)=>void
 
 }
 
@@ -31,8 +30,9 @@ import classnames from "classnames/bind";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTags, faLink } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router";
+import { RootState } from "../../../redux/store";
+import { setWidthTypeModal } from "../../../redux/assetSlice";
 const cx = classnames.bind(styled);
-
 const Section: React.FC<SectionProps> = ({ title, description, icon, onClick, showLink = true, children }) => (
   <div className={cx("section")} onClick={onClick}>
   {title && <div className={cx("section-title")}>{title}</div>} 
@@ -48,30 +48,35 @@ const AssetsModal: React.FC<CustomModalProps> = ({
   onClose,
   type,
   name,
-  selectedTagType,
-  onSelectTagType
 }) => {
+  const dispatch = useDispatch();
   const [isShiftLeft, setIsShiftLeft] = useState(true);
   const [isTagConfigOpen, setIsTagConfigOpen] = useState(false);
+  const seclectedTagType = useSelector((state: RootState) => state.tags.selectedTagType);
+  const widthTypeModal = useSelector((state: RootState) => state.tags.widthTypeModal);
   
 
-  
-  const handleDetail = () => {
+  console.log("name", name);
+  console.log("type", type);
+  const handleDetail = (typeAsset: string) => {
     setIsTagConfigOpen(true);
     setIsShiftLeft(!isShiftLeft);
     document.body.style.overflow = 'hidden';
+    if(typeAsset === "Variable"){
+      dispatch(setWidthTypeModal("70%"));
+    }
+    
   };
 
   const closeTagConfigModal = () => {
     setIsTagConfigOpen(false);
     setIsShiftLeft(true);
+    dispatch(setWidthTypeModal("40%"));
     document.body.style.overflow = 'auto';
   };
 
-  if (!isOpen) {  
+  if (!isOpen) 
     return null;
-  }
-  console.log(isTagConfigOpen);
   
   return (
     <>
@@ -82,7 +87,8 @@ const AssetsModal: React.FC<CustomModalProps> = ({
             <TypeModal
               onClose={closeTagConfigModal}
               isOpen={true}
-              onSelectTagType={onSelectTagType} 
+              name="trigger"
+              width={widthTypeModal}
             />
           )}
           <div className={cx("gtm-sheet-header")}>
@@ -117,14 +123,14 @@ const AssetsModal: React.FC<CustomModalProps> = ({
             </div>
           </div>        
             <>
-            {selectedTagType === "Google Analytics" ? (
+            {seclectedTagType === "Google Analytics" ? (
             <Ga4  /> 
             ) : (
                <Section
                 title={type ? `Configuration for ${type}` : name}
                 description={type ? `Select the type of ${type} to start setting up...` : "Start setting up..."}
                 icon={<FontAwesomeIcon icon={faTags} size="2x" />}
-                onClick={() => handleDetail()}
+                onClick={() => handleDetail(type)}
                 showLink={false} 
               />
             )}
@@ -133,7 +139,7 @@ const AssetsModal: React.FC<CustomModalProps> = ({
                   title="Configuration for Trigger"
                   description="Select the trigger to activate this tag..."
                   icon={<FontAwesomeIcon icon={faLink} size="2x" />}
-                  onClick={() => handleDetail()}
+                  onClick={() => handleDetail("Trigger")}
                   showLink={true} 
                 />
               )}

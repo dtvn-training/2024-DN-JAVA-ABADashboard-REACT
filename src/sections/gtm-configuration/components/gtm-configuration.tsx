@@ -33,9 +33,10 @@ ChartJS.register(
 import AddIcon from '@mui/icons-material/Add';
 import AssetsModal from "../assets-gtm/assets-component";
 import styled from "./gtm-configuration.module.scss";
-// import Ga4 from "../ga4/ga4-component";
+import { useDispatch } from "react-redux";
 import classnames from "classnames/bind";
 import { useState } from "react";
+import { setSelectedTagType } from "../../../redux/assetSlice";
 
 
 const cx = classnames.bind(styled);
@@ -74,11 +75,11 @@ const buttonList:ButtonListStyle[]= [
 ]
 
 const GtmConfigurationComponent = () => {
+  const dispatch = useDispatch();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalType, setModalType] = useState("");
-  const [selectedTagType, setSelectedTagType] = useState<string | null>(null);
 
   const openModal = (type: string) => {
     setModalType(type);
@@ -86,8 +87,8 @@ const GtmConfigurationComponent = () => {
   };
 
   const closeModal = () => {
+    dispatch(setSelectedTagType(null));
     setIsModalOpen(false);
-    setSelectedTagType(null);
   };
 
   const handleChangePage = (_: React.MouseEvent<HTMLButtonElement> | null ,newPage: number) => {
@@ -101,9 +102,6 @@ const GtmConfigurationComponent = () => {
     }
   };
 
-  const handleSelectTagType = (types: string) => {
-    setSelectedTagType(types);
-  };
   return (
     <div className={cx("container")}>
       <div>
@@ -129,8 +127,6 @@ const GtmConfigurationComponent = () => {
           type={modalType}
           name=""    
           children={null} icon={undefined}     
-          onSelectTagType={handleSelectTagType}  
-          selectedTagType={selectedTagType}
           >
        </AssetsModal>
 
