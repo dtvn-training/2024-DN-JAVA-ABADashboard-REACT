@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "./asset-gtm-type-component.module.scss";
 import TypeTag from "../type-tag/type-tag-component";
+import TypeTrigger from "../type-trigger/type-trigger-component";
 import classnames from "classnames/bind";
 
 const cx = classnames.bind(styled);
@@ -46,7 +47,7 @@ const TypeModal: React.FC<{
                 </button>
               </div>
               <div className={cx("tag-list")}>
-                <TypeTag items={specificTags} onClose={onClose}/>
+                <TypeTrigger onClose={onClose}/>
               </div>
             </div>
           </div>

@@ -36,7 +36,7 @@ import styled from "./gtm-configuration.module.scss";
 import { useDispatch } from "react-redux";
 import classnames from "classnames/bind";
 import { useState } from "react";
-import { setSelectedTagType } from "../../../redux/assetSlice";
+import { setSelectedTagType } from "../../../redux/tag-slice/assetSlice";
 
 
 const cx = classnames.bind(styled);

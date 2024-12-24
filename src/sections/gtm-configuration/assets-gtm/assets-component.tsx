@@ -31,7 +31,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTags, faLink } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router";
 import { RootState } from "../../../redux/store";
-import { setWidthTypeModal } from "../../../redux/assetSlice";
+import { setWidthTypeModal } from "../../../redux/tag-slice/assetSlice";
 const cx = classnames.bind(styled);
 const Section: React.FC<SectionProps> = ({ title, description, icon, onClick, showLink = true, children }) => (
   <div className={cx("section")} onClick={onClick}>
@@ -52,8 +52,8 @@ const AssetsModal: React.FC<CustomModalProps> = ({
   const dispatch = useDispatch();
   const [isShiftLeft, setIsShiftLeft] = useState(true);
   const [isTagConfigOpen, setIsTagConfigOpen] = useState(false);
-  const seclectedTagType = useSelector((state: RootState) => state.tags.selectedTagType);
-  const widthTypeModal = useSelector((state: RootState) => state.tags.widthTypeModal);
+  const seclectedTagType = useSelector((state: RootState) => state.asset.selectedTagType);
+  const widthTypeModal = useSelector((state: RootState) => state.asset.widthTypeModal);
   
 
   console.log("name", name);
@@ -69,7 +69,10 @@ const AssetsModal: React.FC<CustomModalProps> = ({
   };
 
   const closeTagConfigModal = () => {
-    setIsTagConfigOpen(false);
+    setTimeout(()=>{
+      setIsTagConfigOpen(false);
+    },500)
+    
     setIsShiftLeft(true);
     dispatch(setWidthTypeModal("40%"));
     document.body.style.overflow = 'auto';

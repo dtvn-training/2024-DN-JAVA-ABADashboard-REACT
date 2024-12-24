@@ -1,11 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
-import tagReducer from './assetSlice';
+import tagReducer from './tag-slice/assetSlice';
 
 
 export const store= configureStore({
     reducer: {
-        tags: tagReducer,
+        asset: tagReducer,
     },
 });
 

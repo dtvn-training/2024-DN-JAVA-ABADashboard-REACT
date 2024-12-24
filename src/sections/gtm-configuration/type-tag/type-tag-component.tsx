@@ -1,7 +1,7 @@
 
 import classnames from "classnames/bind";
 import styled from "./type-tag.module.scss";
-import { setSelectedTagType } from "../../../redux/assetSlice";
+import { setSelectedTagType } from "../../../redux/tag-slice/assetSlice";
 import { useDispatch } from "react-redux";
 
 interface Item {

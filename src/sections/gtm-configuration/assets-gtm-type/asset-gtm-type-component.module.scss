@@ -29,11 +29,11 @@
 .tag-config-modal {
     position: fixed;
     top: 0;
-    right: -30%;
+    right: -60%;
     width: 30%;
     height: 100%;
     background-color: white;
-    transition: transform 1.5s ease;
+    transition: transform 0.5s ease;
 
     &.active {
         transform: translateX(100%);
