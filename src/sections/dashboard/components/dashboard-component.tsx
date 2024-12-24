@@ -17,6 +17,7 @@ import {
   FaShoppingCart,
   FaDollarSign,
   FaChartLine,
+  FaPiedPiper
 } from "react-icons/fa";
 import { Line, Bar } from "react-chartjs-2";
 import {
@@ -46,6 +47,9 @@ import { styled as style } from "@mui/material/styles";
 import styled from "./dashboard-component.module.scss";
 import classnames from "classnames/bind";
 import { useState } from "react";
+// import { AnalyticsDashboard } from 'react-analytics-charts';
+// Over ten different commonly used charts are available
+// import { SessionsByDateChart, SessionsGeoChart } from 'react-analytics-charts';
 
 const cx = classnames.bind(styled);
 
@@ -109,6 +113,7 @@ const recentSales = [
 const DashboardComponent = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const data = [{ value: 50 }, { value: 80 }, { value: 90 }, { value: 70 }];
 
   const handleChangePage = (newPage: any) => {
     setPage(newPage);
@@ -121,138 +126,179 @@ const DashboardComponent = () => {
 
   return (
     <div className={cx("container")}>
-      <Grid container spacing={3} sx={{ mb: 4 }}>
-        <Grid size={12}>
-          <Item>
-            <StyledCard>
-              <CardContent>
-                <IconWrapper>
-                  <FaDollarSign />
-                </IconWrapper>
-                <Typography variant="h6" component="div">
-                  Total Sales
-                </Typography>
-                <Typography variant="h4" sx={{ mt: 2 }}>
-                  $45,600
-                </Typography>
-              </CardContent>
-            </StyledCard>
-          </Item>
+      <Grid container>
+        <Grid container spacing={2} size={6}>
+          <Grid size={4}>
+            <Item>
+              <StyledCard>
+                <CardContent>
+                  <IconWrapper></IconWrapper>
+                  <Typography variant="h6" component="div">
+                    Active Users
+                  </Typography>
+                  <Typography variant="h4" sx={{ mt: 2 }}>
+                    100
+                  </Typography>
+                </CardContent>
+              </StyledCard>
+            </Item>
+          </Grid>
+
+          <Grid size={4}>
+            <Item>
+              <StyledCard>
+                <CardContent>
+                  <IconWrapper>{/* <FaShoppingCart /> */}</IconWrapper>
+                  <Typography variant="h6" component="div">
+                    Event Count
+                  </Typography>
+                  <Typography variant="h4" sx={{ mt: 2 }}>
+                    1,234
+                  </Typography>
+                </CardContent>
+              </StyledCard>
+            </Item>
+          </Grid>
+
+          <Grid size={4}>
+            <Item>
+              <StyledCard>
+                <CardContent>
+                  <IconWrapper>{/* <FaChartLine /> */}</IconWrapper>
+                  <Typography variant="h6" component="div">
+                    View Pages
+                  </Typography>
+                  <Typography variant="h4" sx={{ mt: 2 }}>
+                    250
+                  </Typography>
+                </CardContent>
+              </StyledCard>
+            </Item>
+          </Grid>
+          <Grid size={4} sx={{mb:1}}>
+            <Item>
+              <StyledCard>
+                <CardContent>
+                  <IconWrapper></IconWrapper>
+                  <Typography variant="h6" component="div">
+                    Scroll Pages
+                  </Typography>
+                  <Typography variant="h4" sx={{ mt: 2 }}>
+                    100
+                  </Typography>
+                </CardContent>
+              </StyledCard>
+            </Item>
+          </Grid>
+
+          <Grid size={4}>
+            <Item>
+              <StyledCard>
+                <CardContent>
+                  <IconWrapper></IconWrapper>
+                  <Typography variant="h6" component="div">
+                    Purchase
+                  </Typography>
+                  <Typography variant="h4" sx={{ mt: 2 }}>
+                    1,234
+                  </Typography>
+                </CardContent>
+              </StyledCard>
+            </Item>
+          </Grid>
+
+          <Grid size={4}>
+            <Item>
+              <StyledCard>
+                <CardContent>
+                  <IconWrapper>{/* <FaChartLine /> */}</IconWrapper>
+                  <Typography variant="h6" component="div">
+                    Clicks
+                  </Typography>
+                  <Typography variant="h4" sx={{ mt: 2 }}>
+                    250
+                  </Typography>
+                </CardContent>
+              </StyledCard>
+            </Item>
+          </Grid>
         </Grid>
 
-        <Grid size={12}>
-          <Item>
-            <StyledCard>
-              <CardContent>
-                <IconWrapper>
-                  <FaShoppingCart />
-                </IconWrapper>
-                <Typography variant="h6" component="div">
-                  Total Orders
-                </Typography>
-                <Typography variant="h4" sx={{ mt: 2 }}>
-                  1,234
-                </Typography>
-              </CardContent>
-            </StyledCard>
-          </Item>
+        <Grid size={6}>
+          <Grid>
+            <Paper sx={{ p: 3 }}>
+              <Typography variant="h6" gutterBottom>
+                Sales Trend
+              </Typography>
+              <Line data={salesData} options={{ responsive: true }} />
+            </Paper>
+          </Grid>
         </Grid>
 
-        <Grid size={12}>
-          <Item>
-            <StyledCard>
-              <CardContent>
-                <IconWrapper>
-                  <FaChartLine />
-                </IconWrapper>
-                <Typography variant="h6" component="div">
-                  Average Order
-                </Typography>
-                <Typography variant="h4" sx={{ mt: 2 }}>
-                  $250
-                </Typography>
-              </CardContent>
-            </StyledCard>
-          </Item>
-        </Grid>
+      </Grid>
 
-        <Grid size={12}>
-          <Item>
-            <StyledCard>
-              <CardContent>
-                <IconWrapper>
-                  <FaUsers />
-                </IconWrapper>
-                <Typography variant="h6" component="div">
-                  Total Customers
-                </Typography>
-                <Typography variant="h4" sx={{ mt: 2 }}>
-                  856
-                </Typography>
-              </CardContent>
-            </StyledCard>
-          </Item>
+      <Grid size={12}>
+        <Grid container spacing={3} sx={{ mb: 4 }}>
+          <Grid size={6}>
+            <Paper sx={{ p: 3 }}>
+              <Typography variant="h6" gutterBottom>
+                Sales Trend
+              </Typography>
+              <Line data={salesData} options={{ responsive: true }} />
+            </Paper>
+          </Grid>
+
+          <Grid size={6}>
+            <Paper sx={{ p: 3 }}>
+              <Typography variant="h6" gutterBottom>
+                Sales by Category
+              </Typography>
+              <Bar data={categoryData} options={{ responsive: true }} />
+            </Paper>
+          </Grid>
         </Grid>
       </Grid>
 
-      <Grid container spacing={3} sx={{ mb: 4 }}>
-        <Grid size={12}>
-          <Paper sx={{ p: 3 }}>
-            <Typography variant="h6" gutterBottom>
-              Sales Trend
-            </Typography>
-            <Line data={salesData} options={{ responsive: true }} />
-          </Paper>
-        </Grid>
-
-        <Grid size={12}>
-          <Paper sx={{ p: 3 }}>
-            <Typography variant="h6" gutterBottom>
-              Sales by Category
-            </Typography>
-            <Bar data={categoryData} options={{ responsive: true }} />
-          </Paper>
-        </Grid>
+      <Grid size={12}>
+        <Paper sx={{ width: "100%", overflow: "hidden" }}>
+          <Typography variant="h6" sx={{ p: 2 }}>
+            Recent Sales
+          </Typography>
+          <TableContainer>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Transaction ID</TableCell>
+                  <TableCell>Customer</TableCell>
+                  <TableCell align="right">Amount</TableCell>
+                  <TableCell>Date</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {recentSales
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((row) => (
+                    <TableRow key={row.id} hover>
+                      <TableCell>{row.id}</TableCell>
+                      <TableCell>{row.customer}</TableCell>
+                      <TableCell align="right">${row.amount}</TableCell>
+                      <TableCell>{row.date}</TableCell>
+                    </TableRow>
+                  ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <TablePagination
+            rowsPerPageOptions={[5, 10, 25]}
+            component="div"
+            count={recentSales.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        </Paper>
       </Grid>
-
-      <Paper sx={{ width: "100%", overflow: "hidden" }}>
-        <Typography variant="h6" sx={{ p: 2 }}>
-          Recent Sales
-        </Typography>
-        <TableContainer>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Transaction ID</TableCell>
-                <TableCell>Customer</TableCell>
-                <TableCell align="right">Amount</TableCell>
-                <TableCell>Date</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {recentSales
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row) => (
-                  <TableRow key={row.id} hover>
-                    <TableCell>{row.id}</TableCell>
-                    <TableCell>{row.customer}</TableCell>
-                    <TableCell align="right">${row.amount}</TableCell>
-                    <TableCell>{row.date}</TableCell>
-                  </TableRow>
-                ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          count={recentSales.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
-      </Paper>
     </div>
   );
 };
