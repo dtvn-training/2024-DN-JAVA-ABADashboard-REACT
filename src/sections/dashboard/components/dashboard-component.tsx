@@ -1,307 +1,342 @@
+import React, { useState } from "react";
 import {
   Box,
-  CardContent,
-  Paper,
+  Grid,
   Card,
+  CardContent,
+  Typography,
+  Select,
+  MenuItem,
+  Checkbox,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
-  Typography,
+  Paper,
   TablePagination,
 } from "@mui/material";
-// import {
-//   FaUsers,
-//   FaShoppingCart,
-//   FaDollarSign,
-//   FaChartLine,
-//   FaPiedPiper
-// } from "react-icons/fa";
-import { Line, Bar } from "react-chartjs-2";
+import { Doughnut, Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
-  PointElement,
-  LineElement,
   BarElement,
   Title,
   Tooltip,
   Legend,
+  ArcElement,
 } from "chart.js";
-import Grid from "@mui/material/Grid2";
+
 ChartJS.register(
   CategoryScale,
   LinearScale,
-  PointElement,
-  LineElement,
   BarElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  ArcElement
 );
-import { styled as style } from "@mui/material/styles";
-
 import styled from "./dashboard-component.module.scss";
-import classnames from "classnames/bind";
-import { useState } from "react";
-import DashboardFilters from '../../../components/DashboardFilters';
-// import { AnalyticsDashboard } from 'react-analytics-charts';
-// Over ten different commonly used charts are available
-// import { SessionsByDateChart, SessionsGeoChart } from 'react-analytics-charts';
+import classNames from "classnames";
 
-const cx = classnames.bind(styled);
-
-const Item = style(Paper)(({ theme }) => ({
-  backgroundColor: "#fff",
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: "center",
-  color: theme.palette.text.secondary,
-  ...theme.applyStyles("dark", {
-    backgroundColor: "#1A2027",
-  }),
-}));
-
-const StyledCard = style(Card)(({}) => ({
-  height: "100%",
-  transition: "transform 0.2s",
-  "&:hover": {
-    transform: "translateY(-4px)",
-    boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
-  },
-}));
-
-const IconWrapper = style(Box)(({}) => ({
-  fontSize: "2rem",
-  marginBottom: "1rem",
-  color: "#1976d2",
-}));
-
-const salesData = {
-  labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
-  datasets: [
-    {
-      label: "Sales",
-      data: [3000, 4500, 3200, 5600, 4800, 6000],
-      borderColor: "#1976d2",
-      tension: 0.4,
-    },
-  ],
-};
-
-const categoryData = {
-  labels: ["Electronics", "Clothing", "Books", "Food", "Others"],
-  datasets: [
-    {
-      label: "Sales by Category",
-      data: [12000, 8000, 5000, 7000, 4000],
-      backgroundColor: ["#1976d2", "#2196f3", "#64b5f6", "#90caf9", "#bbdefb"],
-    },
-  ],
-};
-
-const recentSales = [
-  { id: "TR001", customer: "John Doe", amount: 1200, date: "2024-01-15" },
-  { id: "TR002", customer: "Jane Smith", amount: 850, date: "2024-01-14" },
-  { id: "TR003", customer: "Bob Wilson", amount: 2300, date: "2024-01-13" },
-  { id: "TR004", customer: "Alice Brown", amount: 760, date: "2024-01-12" },
-  { id: "TR005", customer: "Charlie Davis", amount: 1500, date: "2024-01-11" },
-];
+const cx = classNames.bind(styled);
 
 const DashboardComponent = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const data = [{ value: 50 }, { value: 80 }, { value: 90 }, { value: 70 }];
 
-  const handleChangePage = (newPage: any) => {
+  const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (event: any) => {
+  const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
 
+  const activityData = {
+    labels: [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ],
+    datasets: [
+      {
+        label: "Activity",
+        data: [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200],
+        backgroundColor: "rgba(54, 162, 235, 0.5)",
+        borderColor: "rgba(54, 162, 235, 1)",
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const weakestTopicsData = {
+    labels: ["Total Project", "Total Engagement", "Customer Growth"],
+    datasets: [
+      {
+        data: [81, 62, 22],
+        backgroundColor: ["#ff6384", "#ff9f40", "#ffcd56"],
+      },
+    ],
+  };
+
+  const strongestTopicsData = {
+    labels: ["Russia", "Seychelles", "Vietnam"],
+    datasets: [
+      {
+        data: [54, 27, 19],
+        backgroundColor: ["#36a2eb", "#4bc0c0", "#9966ff"],
+      },
+    ],
+  };
+
+  const rows = [
+    {
+      name: "Project A",
+      status: "Active",
+      totalBudget: "$10,000",
+      budgetLeft: "$5,000",
+      location: "New York",
+      startDate: "01/01/2023",
+      endDate: "12/31/2023",
+    },
+    {
+      name: "Project B",
+      status: "Completed",
+      totalBudget: "$20,000",
+      budgetLeft: "$0",
+      location: "London",
+      startDate: "01/01/2022",
+      endDate: "12/31/2022",
+    },
+  ];
+
   return (
-    <div className={cx("container")}>
-      <DashboardFilters />
-      <Grid container>
-        <Grid container spacing={2} size={6}>
-          <Grid size={4}>
-            <Item>
-              <StyledCard>
-                <CardContent>
-                  <IconWrapper></IconWrapper>
-                  <Typography variant="h6" component="div">
-                    Active Users
-                  </Typography>
-                  <Typography variant="h4" sx={{ mt: 2 }}>
-                    100
-                  </Typography>
-                </CardContent>
-              </StyledCard>
-            </Item>
+    <Box
+      sx={{
+        p: 3,
+        backgroundColor: "#f9f9f9",
+        minHeight: "100vh",
+        width: "1800px",
+      }}
+    >
+      <Box sx={{ display: "flex", justifyContent: "space-between", mb: 3 }}>
+        <Select defaultValue="Medium">
+          <MenuItem value="Medium">Medium</MenuItem>
+        </Select>
+        <Select defaultValue="Event">
+          <MenuItem value="Event">Event</MenuItem>
+        </Select>
+        <Select defaultValue="Weekly">
+          <MenuItem value="Weekly">Time: Weekly</MenuItem>
+        </Select>
+        <Select defaultValue="Campaign">
+          <MenuItem value="Campaign">Campaign</MenuItem>
+        </Select>
+      </Box>
+      <Grid container spacing={2}>
+        <Grid container spacing={2} md={6}>
+          <Grid   item xs={12} sm={6} md={4}>
+            <Card sx={{ p: 2, textAlign: "center" }}>
+              <Typography variant="h4">27/80</Typography>
+              <Typography variant="body2">Active Users</Typography>
+            </Card>
           </Grid>
-
-          <Grid size={4}>
-            <Item>
-              <StyledCard>
-                <CardContent>
-                  <IconWrapper>{/* <FaShoppingCart /> */}</IconWrapper>
-                  <Typography variant="h6" component="div">
-                    Event Count
-                  </Typography>
-                  <Typography variant="h4" sx={{ mt: 2 }}>
-                    1,234
-                  </Typography>
-                </CardContent>
-              </StyledCard>
-            </Item>
+          <Grid item xs={12} sm={6} md={4}>
+            <Card sx={{ p: 2, textAlign: "center" }}>
+              <Typography variant="h4">3,298</Typography>
+              <Typography variant="body2">Event Count</Typography>
+            </Card>
           </Grid>
-
-          <Grid size={4}>
-            <Item>
-              <StyledCard>
-                <CardContent>
-                  <IconWrapper>{/* <FaChartLine /> */}</IconWrapper>
-                  <Typography variant="h6" component="div">
-                    View Pages
-                  </Typography>
-                  <Typography variant="h4" sx={{ mt: 2 }}>
-                    250
-                  </Typography>
-                </CardContent>
-              </StyledCard>
-            </Item>
+          <Grid item xs={12} sm={6} md={4}>
+            <Card sx={{ p: 2, textAlign: "center" }}>
+              <Typography variant="h4">700</Typography>
+              <Typography variant="body2">View Pages</Typography>
+            </Card>
           </Grid>
-          <Grid size={4} sx={{mb:1}}>
-            <Item>
-              <StyledCard>
-                <CardContent>
-                  <IconWrapper></IconWrapper>
-                  <Typography variant="h6" component="div">
-                    Scroll Pages
-                  </Typography>
-                  <Typography variant="h4" sx={{ mt: 2 }}>
-                    100
-                  </Typography>
-                </CardContent>
-              </StyledCard>
-            </Item>
+          <Grid item xs={12} sm={6} md={4}>
+            <Card sx={{ p: 2, textAlign: "center" }}>
+              <Typography variant="h4">27/80</Typography>
+              <Typography variant="body2">Active Users</Typography>
+            </Card>
           </Grid>
-
-          <Grid size={4}>
-            <Item>
-              <StyledCard>
-                <CardContent>
-                  <IconWrapper></IconWrapper>
-                  <Typography variant="h6" component="div">
-                    Purchase
-                  </Typography>
-                  <Typography variant="h4" sx={{ mt: 2 }}>
-                    1,234
-                  </Typography>
-                </CardContent>
-              </StyledCard>
-            </Item>
+          <Grid item xs={12} sm={6} md={4}>
+            <Card sx={{ p: 2, textAlign: "center" }}>
+              <Typography variant="h4">3,298</Typography>
+              <Typography variant="body2">Event Count</Typography>
+            </Card>
           </Grid>
-
-          <Grid size={4}>
-            <Item>
-              <StyledCard>
-                <CardContent>
-                  <IconWrapper>{/* <FaChartLine /> */}</IconWrapper>
-                  <Typography variant="h6" component="div">
-                    Clicks
-                  </Typography>
-                  <Typography variant="h4" sx={{ mt: 2 }}>
-                    250
-                  </Typography>
-                </CardContent>
-              </StyledCard>
-            </Item>
+          <Grid item xs={12} sm={6} md={4}>
+            <Card sx={{ p: 2, textAlign: "center" }}>
+              <Typography variant="h4">700</Typography>
+              <Typography variant="body2">View Pages</Typography>
+            </Card>
           </Grid>
         </Grid>
-
-        <Grid size={6}>
-          <Grid>
-            <Paper sx={{ p: 3 }}>
-              <Typography variant="h6" gutterBottom>
-                Sales Trend
-              </Typography>
-              <Line data={salesData} options={{ responsive: true }} />
-            </Paper>
-          </Grid>
-        </Grid>
-
-      </Grid>
-
-      <Grid size={12}>
-        <Grid container spacing={3} sx={{ mb: 4 }}>
-          <Grid size={6}>
-            <Paper sx={{ p: 3 }}>
-              <Typography variant="h6" gutterBottom>
-                Sales Trend
-              </Typography>
-              <Line data={salesData} options={{ responsive: true }} />
-            </Paper>
-          </Grid>
-
-          <Grid size={6}>
-            <Paper sx={{ p: 3 }}>
-              <Typography variant="h6" gutterBottom>
-                Sales by Category
-              </Typography>
-              <Bar data={categoryData} options={{ responsive: true }} />
-            </Paper>
-          </Grid>
+        <Grid
+          container
+          spacing={2}
+          md={6}
+          sx={{  justifyContent: "center" , backgroundColor: "white",margin: "8px"}}
+        >
+          <Box sx={{ mt: 2 }}>
+            <Card sx={{ p: 3 }}>
+              <Bar
+                data={activityData}
+                options={{
+                  maintainAspectRatio: false,
+                }}
+                height={200}
+                width={600}
+              />
+            </Card>
+          </Box>
         </Grid>
       </Grid>
 
-      <Grid size={12}>
-        <Paper sx={{ width: "100%", overflow: "hidden" }}>
-          <Typography variant="h6" sx={{ p: 2 }}>
-            Recent Sales
-          </Typography>
-          <TableContainer>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Transaction ID</TableCell>
-                  <TableCell>Customer</TableCell>
-                  <TableCell align="right">Amount</TableCell>
-                  <TableCell>Date</TableCell>
+      <Grid container spacing={2} cx={{ alignItems: "center"}} >
+        <Grid container spacing={2} sx={{ mt: 4, backgroundColor: "white" }} md={6}>
+          <Grid item xs={12}>
+            <Card sx={{ p: 3 }}>
+              <Typography variant="h6" sx={{ mb: 2 }}>
+                Weakest Topics
+              </Typography>
+              <Grid container spacing={2} justifyContent="center">
+                <Grid item xs={4}>
+                  <Doughnut
+                    data={{
+                      labels: ["Total Project"],
+                      datasets: [
+                        {
+                          data: [81, 19],
+                          backgroundColor: ["#FF7043", "#F5F5F5"],
+                        },
+                      ],
+                    }}
+                    options={{
+                      plugins: {
+                        tooltip: { enabled: false },
+                      },
+                      cutout: "70%",
+                    }}
+                  />
+                  <Typography align="center" variant="body1" sx={{ mt: 1 }}>
+                    Total Project
+                  </Typography>
+                </Grid>
+                <Grid item xs={4}>
+                  <Doughnut
+                    data={{
+                      labels: ["Total Engagement"],
+                      datasets: [
+                        {
+                          data: [62, 38],
+                          backgroundColor: ["#FFA726", "#F5F5F5"],
+                        },
+                      ],
+                    }}
+                    options={{
+                      plugins: {
+                        tooltip: { enabled: false },
+                      },
+                      cutout: "70%",
+                    }}
+                  />
+                  <Typography align="center" variant="body1" sx={{ mt: 1 }}>
+                    Total Engagement
+                  </Typography>
+                </Grid>
+                <Grid item xs={4}>
+                  <Doughnut
+                    data={{
+                      labels: ["Customer Growth"],
+                      datasets: [
+                        {
+                          data: [22, 78],
+                          backgroundColor: ["#FFCC80", "#F5F5F5"],
+                        },
+                      ],
+                    }}
+                    options={{
+                      plugins: {
+                        tooltip: { enabled: false },
+                      },
+                      cutout: "70%",
+                    }}
+                  />
+                  <Typography align="center" variant="body1" sx={{ mt: 1 }}>
+                    Customer Growth
+                  </Typography>
+                </Grid>
+              </Grid>
+            </Card>
+          </Grid>
+        </Grid>
+
+        <Grid container spacing={2} sx={{ mt: 4, justifyContent: "center", alignItems: "center", backgroundColor: "white", borderRadius:"10px" }} md={6} >
+          <Grid item xs={8} md={6}>
+            <Card sx={{ p: 3, width : "300px", marginLeft:"20px" }} >
+              <Typography variant="h6" sx={{ mb: 2 }}>
+                Strongest Topics
+              </Typography>
+              <Doughnut data={strongestTopicsData}
+            
+                  
+              />
+            </Card>
+          </Grid>
+        </Grid>
+      </Grid>
+
+      <Box sx={{ mt: 4 }}>
+        <TableContainer component={Paper}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell padding="checkbox">
+                  <Checkbox />
+                </TableCell>
+                <TableCell>Name</TableCell>
+                <TableCell>Status</TableCell>
+                <TableCell>Total Budget</TableCell>
+                <TableCell>Budget Left</TableCell>
+                <TableCell>Location</TableCell>
+                <TableCell>Start Date</TableCell>
+                <TableCell>End Date</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {rows.map((row, index) => (
+                <TableRow key={index}>
+                  <TableCell padding="checkbox">
+                    <Checkbox />
+                  </TableCell>
+                  <TableCell>{row.name}</TableCell>
+                  <TableCell>{row.status}</TableCell>
+                  <TableCell>{row.totalBudget}</TableCell>
+                  <TableCell>{row.budgetLeft}</TableCell>
+                  <TableCell>{row.location}</TableCell>
+                  <TableCell>{row.startDate}</TableCell>
+                  <TableCell>{row.endDate}</TableCell>
                 </TableRow>
-              </TableHead>
-              <TableBody>
-                {recentSales
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row) => (
-                    <TableRow key={row.id} hover>
-                      <TableCell>{row.id}</TableCell>
-                      <TableCell>{row.customer}</TableCell>
-                      <TableCell align="right">${row.amount}</TableCell>
-                      <TableCell>{row.date}</TableCell>
-                    </TableRow>
-                  ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
-            component="div"
-            count={recentSales.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
-        </Paper>
-      </Grid>
-    </div>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Box>
+    </Box>
   );
 };
 
