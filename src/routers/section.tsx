@@ -1,5 +1,5 @@
 import { Suspense, lazy } from "react";
-import { Outlet, useRoutes } from "react-router-dom";
+import { Navigate, Outlet, useRoutes } from "react-router-dom";
 import { ABADashboardLayout } from "../layouts";
 export const DashboardPage = lazy(() => import("../pages/dashboard"));
 
@@ -17,8 +17,17 @@ export default function Router() {
       children: [
         {
             path: "/",
-            element: <DashboardPage />,
+            element: <Navigate to="/dashboard" />,
             index: true,
+        },
+        {
+          path: "/dashboard",
+          element: <DashboardPage />,
+          index: true,
+        },
+        {
+          path: "/*",
+          element: <Navigate to="/dashboard" />,
         }
       ]
     },

@@ -12,13 +12,13 @@ import {
   Typography,
   TablePagination,
 } from "@mui/material";
-import {
-  FaUsers,
-  FaShoppingCart,
-  FaDollarSign,
-  FaChartLine,
-  FaPiedPiper
-} from "react-icons/fa";
+// import {
+//   FaUsers,
+//   FaShoppingCart,
+//   FaDollarSign,
+//   FaChartLine,
+//   FaPiedPiper
+// } from "react-icons/fa";
 import { Line, Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -47,6 +47,7 @@ import { styled as style } from "@mui/material/styles";
 import styled from "./dashboard-component.module.scss";
 import classnames from "classnames/bind";
 import { useState } from "react";
+import DashboardFilters from '../../../components/DashboardFilters';
 // import { AnalyticsDashboard } from 'react-analytics-charts';
 // Over ten different commonly used charts are available
 // import { SessionsByDateChart, SessionsGeoChart } from 'react-analytics-charts';
@@ -126,6 +127,7 @@ const DashboardComponent = () => {
 
   return (
     <div className={cx("container")}>
+      <DashboardFilters />
       <Grid container>
         <Grid container spacing={2} size={6}>
           <Grid size={4}>
