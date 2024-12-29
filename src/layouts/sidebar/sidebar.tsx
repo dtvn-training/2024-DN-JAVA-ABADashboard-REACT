@@ -17,9 +17,10 @@ const SideBar = () => {
     setSelectedView(view);
     router.push(`/${view}`);
   };
+
   return (
-    <React.Fragment>
-      <Box className={cx("container")} sx={{ overflow: "auto", mt: 8 }}>
+    <div className={cx("sidebar")}>
+      <Box className={cx("container")}>
         <div className={cx("logo")}>
           <img src={Logo} alt="ABA Logo" />
         </div>
@@ -34,7 +35,7 @@ const SideBar = () => {
             <ListItemIcon className={cx("icon")}>
               <FaTachometerAlt />
             </ListItemIcon>
-            <ListItemText className={cx("text")} primary="Dashboard View" />
+            <ListItemText primary="Dashboard View" />
           </ListItemButton>
           <ListItemButton 
             className={cx(
@@ -46,7 +47,7 @@ const SideBar = () => {
             <ListItemIcon className={cx("icon")}>
               <FaChartBar />
             </ListItemIcon>
-            <ListItemText className={cx("text")} primary="GTM View" />
+            <ListItemText primary="GTM View" />
           </ListItemButton>
           <ListItemButton 
             className={cx(
@@ -58,7 +59,7 @@ const SideBar = () => {
             <ListItemIcon className={cx("icon")}>
               <FaCog />
             </ListItemIcon>
-            <ListItemText className={cx("text")} primary="GTM Configuration" />
+            <ListItemText primary="GTM Configuration" />
           </ListItemButton>
         </List>
       </Box>
@@ -66,7 +67,7 @@ const SideBar = () => {
         <h3>DTU Intern</h3>
         <p>dtu_intern@gmail.com</p>
       </footer>
-    </React.Fragment>
+    </div>
   );
 };
 
