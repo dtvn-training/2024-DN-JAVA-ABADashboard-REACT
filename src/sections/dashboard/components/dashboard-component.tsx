@@ -1,25 +1,83 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Box } from "@mui/material";
 import Grid2 from '@mui/material/Grid2';
 import DashboardFilters from "./dashboard-filters/DashboardFilters";
 import MetricsCards from "./metrics-card/MetricsCards";
 import ActivityChart from "./ActivityChart";
 import ProjectsTable from "./ProjectsTable";
+import DonutChart from '../../../components/donut-chart/DonutChart';
+import LineChart from "../../../components/line-chart/LineChart";
 import LoadingSpinner from '../../../components/loading-spinner/loading-spinner';
+import { fetchActiveUsers } from "../../../services/dashboard-services/active-users-services";
+import EventDashboard from "./EventDashboard";
 
 const DashboardComponent = () => {
   const [loading, setLoading] = useState(false);
-  // const [page, setPage] = useState(0);
-  // const [rowsPerPage, setRowsPerPage] = useState(5);
-
-  // const handleChangePage = (event: React.ChangeEvent<unknown>, newPage: number) => {
-  //   setPage(newPage);
+  const [dimension, setDimension] = useState('');
+  const [metric, setMetric] = useState('');
+  const [chartData, setChartData] = useState<number[]>([]);
+  const [chartLabels, setChartLabels] = useState<string[]>([]);
+  const [purchaseData, setPurchaseData] = useState<number[]>([]);
+  const [purchaseLabels, setPurchaseLabels] = useState<string[]>([]);
+  const [dateRange, setDateRange] = useState<{ startDate: Date, endDate: Date }>({
+    startDate: new Date(),
+    endDate: new Date(),
+  });
+  // const handleFilterChange = (dimension: string, metric: string) => {
+  //   setDimension(dimension);
+  //   setMetric(metric);
   // };
 
-  // const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   setRowsPerPage(parseInt(event.target.value, 10));
-  //   setPage(0);
-  // };
+  useEffect(() => {
+    const getActiveUsers = async () => {
+      setLoading(true);
+      try {
+        // Fake data for active users
+        const fakeData = [
+          { city: 'New York', activeUsers: 120 },
+          { city: 'Los Angeles', activeUsers: 80 },
+          { city: 'Chicago', activeUsers: 50 },
+          { city: 'Houston', activeUsers: 30 },
+          { city: 'Phoenix', activeUsers: 20 },
+        ];
+        const labels = fakeData.map(user => user.city);
+        const values = fakeData.map(user => user.activeUsers);
+        setChartLabels(labels);
+        setChartData(values);
+      } catch (error) {
+        console.error("Error fetching active users:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    const getPurchaseData = async () => {
+      setLoading(true);
+      try {
+        // Fake data for purchases
+        const fakeData = [
+          { date: '2023-01-01', count: 10 },
+          { date: '2023-01-02', count: 15 },
+          { date: '2023-01-03', count: 20 },
+          { date: '2023-01-04', count: 25 },
+          { date: '2023-01-05', count: 30 },
+        ];
+        const labels = fakeData.map(purchase => purchase.date);
+        const values = fakeData.map(purchase => purchase.count);
+        setPurchaseLabels(labels);
+        setPurchaseData(values);
+      } catch (error) {
+        console.error("Error fetching purchase data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    getActiveUsers();
+    getPurchaseData();
+  }, [dimension, metric, dateRange]);
+
+ 
 
   const activityData = {
     labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
@@ -70,15 +128,24 @@ const DashboardComponent = () => {
     >
       <DashboardFilters />
       <Grid2 container >
-          <Grid2 container size={{ md: 6 }}>
-            <MetricsCards />
-          </Grid2>
-          <Grid2 container  size={{ md: 6 }}>
-            <ActivityChart data={activityData} />
-          </Grid2>
-          
+        <Grid2 container size={{ md: 6 }}>
+          <MetricsCards />
+        </Grid2>
+        <Grid2 container size={{ md: 6 }}>
+          <ActivityChart data={activityData} />
+        </Grid2>
+        <Grid2 container size={{ md: 6 }}>
+          <DonutChart data={chartData} labels={chartLabels} colors={["#FF6384", "#36A2EB", "#FFCE56"]} />
+        </Grid2>
+        <Grid2 container size={{ md: 6 }}>
+          <LineChart data={purchaseData} labels={purchaseLabels} /> 
+
+        </Grid2>
+
       </Grid2>
+      <EventDashboard />
       
+
       <ProjectsTable rows={rows} />
     </Box>
   );
