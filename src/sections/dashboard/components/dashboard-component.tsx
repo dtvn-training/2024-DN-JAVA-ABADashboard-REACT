@@ -1,13 +1,14 @@
-// import React, { useState } from "react";
-import { Box, Grid } from "@mui/material";
+import React, { useState } from "react";
+import { Box } from "@mui/material";
+import Grid2 from '@mui/material/Grid2';
 import DashboardFilters from "./dashboard-filters/DashboardFilters";
-import MetricsCards from "./metrics-card/MetricsCards"
-import ActivityChart from "./ActivityChart"
-import TopicsCharts from "./TopicsCharts"; 
+import MetricsCards from "./metrics-card/MetricsCards";
+import ActivityChart from "./ActivityChart";
 import ProjectsTable from "./ProjectsTable";
-
+import LoadingSpinner from '../../../components/loading-spinner/loading-spinner';
 
 const DashboardComponent = () => {
+  const [loading, setLoading] = useState(false);
   // const [page, setPage] = useState(0);
   // const [rowsPerPage, setRowsPerPage] = useState(5);
 
@@ -33,26 +34,6 @@ const DashboardComponent = () => {
     ],
   };
 
-  const weakestTopicsData = {
-    labels: ["Total Project", "Total Engagement", "Customer Growth"],
-    datasets: [
-      {
-        data: [81, 62, 22],
-        backgroundColor: ["#ff6384", "#ff9f40", "#ffcd56"],
-      },
-    ],
-  };
-
-  const strongestTopicsData = {
-    labels: ["Russia", "Seychelles", "Vietnam"],
-    datasets: [
-      {
-        data: [54, 27, 19],
-        backgroundColor: ["#36a2eb", "#4bc0c0", "#9966ff"],
-      },
-    ],
-  };
-
   const rows = [
     {
       name: "Project A",
@@ -74,6 +55,10 @@ const DashboardComponent = () => {
     },
   ];
 
+  if (loading) {
+    return <LoadingSpinner />;
+  }
+
   return (
     <Box
       sx={{
@@ -84,21 +69,16 @@ const DashboardComponent = () => {
       }}
     >
       <DashboardFilters />
-      <Grid container >
-          <Grid container md={6}>
+      <Grid2 container >
+          <Grid2 container size={{ md: 6 }}>
             <MetricsCards />
-          </Grid>
-          <Grid container  md={6}>
+          </Grid2>
+          <Grid2 container  size={{ md: 6 }}>
             <ActivityChart data={activityData} />
-          </Grid>
+          </Grid2>
           
-      </Grid>
+      </Grid2>
       
-      
-      <TopicsCharts
-        weakestTopicsData={weakestTopicsData}
-        strongestTopicsData={strongestTopicsData}
-      />
       <ProjectsTable rows={rows} />
     </Box>
   );

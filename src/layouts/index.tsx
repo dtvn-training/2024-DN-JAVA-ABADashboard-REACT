@@ -44,6 +44,7 @@ export const ABADashboardLayout = (props: PropsStyles) => {
       <Box
         component="main"
         sx={{
+          overflow: "hidden",
           flexGrow: 1,
           transition: "margin-left 0.3s",
           marginLeft: isSidebarOpen ? -5 : -6,
