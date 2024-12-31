@@ -1,32 +1,36 @@
 import React, { useState, useEffect } from "react";
 import { Box } from "@mui/material";
-import Grid2 from '@mui/material/Grid2';
+import Grid2 from "@mui/material/Grid2";
+import classNames from "classnames/bind";
+import styled from "./dashboard-component.module.scss";
 import DashboardFilters from "./dashboard-filters/DashboardFilters";
 import MetricsCards from "./metrics-card/MetricsCards";
 import ActivityChart from "./ActivityChart";
 import ProjectsTable from "./ProjectsTable";
-import DonutChart from '../../../components/donut-chart/DonutChart';
 import LineChart from "../../../components/line-chart/LineChart";
-import LoadingSpinner from '../../../components/loading-spinner/loading-spinner';
+import SubmitFormChart from "./submit-form-chart/SubmitFormChart";
+import LoadingSpinner from "../../../components/loading-spinner/loading-spinner";
+import PurchasesChart from "./purchases-chart/PurchasesChart";
 import { fetchActiveUsers } from "../../../services/dashboard-services/active-users-services";
-import EventDashboard from "./EventDashboard";
+import EventDashboard from "./event-dashboard/EventDashboard";
+
+const cx = classNames.bind(styled);
 
 const DashboardComponent = () => {
   const [loading, setLoading] = useState(false);
-  const [dimension, setDimension] = useState('');
-  const [metric, setMetric] = useState('');
+  const [dimension, setDimension] = useState("");
+  const [metric, setMetric] = useState("");
   const [chartData, setChartData] = useState<number[]>([]);
   const [chartLabels, setChartLabels] = useState<string[]>([]);
   const [purchaseData, setPurchaseData] = useState<number[]>([]);
   const [purchaseLabels, setPurchaseLabels] = useState<string[]>([]);
-  const [dateRange, setDateRange] = useState<{ startDate: Date, endDate: Date }>({
+  const [dateRange, setDateRange] = useState<{
+    startDate: Date;
+    endDate: Date;
+  }>({
     startDate: new Date(),
     endDate: new Date(),
   });
-  // const handleFilterChange = (dimension: string, metric: string) => {
-  //   setDimension(dimension);
-  //   setMetric(metric);
-  // };
 
   useEffect(() => {
     const getActiveUsers = async () => {
@@ -34,14 +38,14 @@ const DashboardComponent = () => {
       try {
         // Fake data for active users
         const fakeData = [
-          { city: 'New York', activeUsers: 120 },
-          { city: 'Los Angeles', activeUsers: 80 },
-          { city: 'Chicago', activeUsers: 50 },
-          { city: 'Houston', activeUsers: 30 },
-          { city: 'Phoenix', activeUsers: 20 },
+          { city: "New York", activeUsers: 120 },
+          { city: "Los Angeles", activeUsers: 80 },
+          { city: "Chicago", activeUsers: 50 },
+          { city: "Houston", activeUsers: 30 },
+          { city: "Phoenix", activeUsers: 20 },
         ];
-        const labels = fakeData.map(user => user.city);
-        const values = fakeData.map(user => user.activeUsers);
+        const labels = fakeData.map((user) => user.city);
+        const values = fakeData.map((user) => user.activeUsers);
         setChartLabels(labels);
         setChartData(values);
       } catch (error) {
@@ -56,14 +60,14 @@ const DashboardComponent = () => {
       try {
         // Fake data for purchases
         const fakeData = [
-          { date: '2023-01-01', count: 10 },
-          { date: '2023-01-02', count: 15 },
-          { date: '2023-01-03', count: 20 },
-          { date: '2023-01-04', count: 25 },
-          { date: '2023-01-05', count: 30 },
+          { date: "2023-01-01", count: 10 },
+          { date: "2023-01-02", count: 15 },
+          { date: "2023-01-03", count: 20 },
+          { date: "2023-01-04", count: 25 },
+          { date: "2023-01-05", count: 30 },
         ];
-        const labels = fakeData.map(purchase => purchase.date);
-        const values = fakeData.map(purchase => purchase.count);
+        const labels = fakeData.map((purchase) => purchase.date);
+        const values = fakeData.map((purchase) => purchase.count);
         setPurchaseLabels(labels);
         setPurchaseData(values);
       } catch (error) {
@@ -77,10 +81,21 @@ const DashboardComponent = () => {
     getPurchaseData();
   }, [dimension, metric, dateRange]);
 
- 
-
   const activityData = {
-    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+    labels: [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ],
     datasets: [
       {
         label: "Activity",
@@ -118,33 +133,31 @@ const DashboardComponent = () => {
   }
 
   return (
-    <Box
-      sx={{
-        p: 3,
-        backgroundColor: "#f9f9f9",
-        minHeight: "100vh",
-        width: "1800px",
-      }}
-    >
+    <Box className={cx("container")}>
       <DashboardFilters />
       <Grid2 container >
-        <Grid2 container size={{ md: 6 }}>
+        <Grid2 size={{ md: 12 }}>
           <MetricsCards />
         </Grid2>
-        <Grid2 container size={{ md: 6 }}>
+        <Grid2  size={{ md: 6 }}>
           <ActivityChart data={activityData} />
         </Grid2>
-        <Grid2 container size={{ md: 6 }}>
-          <DonutChart data={chartData} labels={chartLabels} colors={["#FF6384", "#36A2EB", "#FFCE56"]} />
+        <Grid2 size={{ md: 6 }}>
+          <PurchasesChart /> 
         </Grid2>
-        <Grid2 container size={{ md: 6 }}>
-          <LineChart data={purchaseData} labels={purchaseLabels} /> 
-
-        </Grid2>
-
       </Grid2>
-      <EventDashboard />
-      
+      <Grid2 container>
+        <EventDashboard />
+        
+      </Grid2>
+      <Grid2 container>
+        <Grid2 size={{ md: 6 }}>
+          {/* <DonutChart data={chartData} labels={chartLabels} /> */}
+        </Grid2>
+        <Grid2 size={{ md: 6 }}>
+          <SubmitFormChart />
+        </Grid2>
+      </Grid2>
 
       <ProjectsTable rows={rows} />
     </Box>

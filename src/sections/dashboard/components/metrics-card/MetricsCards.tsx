@@ -5,6 +5,8 @@ import { fetchActiveUsers } from "../../../../services/dashboard-services/active
 import LoadingSpinner from "../../../../components/loading-spinner/loading-spinner";
 import styled from "./metrics-card.module.scss";
 import classNames from "classnames/bind";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUsers } from "@fortawesome/free-solid-svg-icons";
 
 const cx = classNames.bind(styled);
 
@@ -13,20 +15,20 @@ const MetricsCards = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const getActiveUsers = async () => {
-      try {
-        const data = await fetchActiveUsers();
-        const totalActiveUsers = data.reduce(
-          (total, user) => total + parseInt(user.activeUsers),
-          0
-        );
-        setActiveUsers(totalActiveUsers);
-      } catch (error) {
-        console.error("Error fetching active users:", error);
-      }
-    };
+    // const getActiveUsers = async () => {
+    //   try {
+    //     const data = await fetchActiveUsers();
+    //     const totalActiveUsers = data.reduce(
+    //       (total, user) => total + parseInt(user.activeUsers),
+    //       0
+    //     );
+    //     setActiveUsers(totalActiveUsers);
+    //   } catch (error) {
+    //     console.error("Error fetching active users:", error);
+    //   }
+    // };
 
-    getActiveUsers();
+    // getActiveUsers();
   }, []);
 
   if (loading) {
@@ -36,13 +38,17 @@ const MetricsCards = () => {
   return (
     <Grid2 container className={cx("metrics-cards")}>
       <Grid2 className={cx("metrics-card")} size={{ md: 4 }}>
-        <Card className={cx("custom-card")}>
+        <Card className={cx("custom-card")}>  
+          <div>
           <Typography className={cx("active-users-title")}>
             Active Users
           </Typography>
           <Typography className={cx("active-users-value")}>
-            {activeUsers !== null ? activeUsers : <LoadingSpinner />}
+            {/* {activeUsers !== null ? activeUsers : <LoadingSpinner />} */}
+            302
           </Typography>
+          </div>
+          <FontAwesomeIcon className={cx('icon')} icon={faUsers} />
         </Card>
       </Grid2>
       <Grid2 className={cx("metrics-card")} size={{ md: 4 }}>
@@ -50,26 +56,6 @@ const MetricsCards = () => {
           <Typography className={cx("active-users-title")}>
             Event Count
           </Typography>
-          <Typography className={cx("active-users-value")}>3,298</Typography>
-        </Card>
-      </Grid2>
-      <Grid2 className={cx("metrics-card")} size={{ md: 4 }}>
-        <Card className={cx("custom-card")}>
-          <Typography className={cx("active-users-title")}>View</Typography>
-          <Typography className={cx("active-users-value")}>700</Typography>
-        </Card>
-      </Grid2>
-      <Grid2 className={cx("metrics-card")} size={{ md: 4 }}>
-        <Card className={cx("custom-card")}>
-          <Typography className={cx("active-users-title")}>
-            Scroll page
-          </Typography>
-          <Typography className={cx("active-users-value")}>123</Typography>
-        </Card>
-      </Grid2>
-      <Grid2 className={cx("metrics-card")} size={{ md: 4 }}>
-        <Card className={cx("custom-card")}>
-          <Typography className={cx("active-users-title")}>Purchase</Typography>
           <Typography className={cx("active-users-value")}>3,298</Typography>
         </Card>
       </Grid2>

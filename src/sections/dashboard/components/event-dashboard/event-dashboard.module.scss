@@ -1,0 +1,15 @@
+.container{
+    width: 100%;
+    max-width: 500px !important;
+    margin: auto;
+    height: 350px;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    margin-bottom: 80px;
+    margin-top: 50px;
+
+    .table-container{
+        border: 1px solid #fff;
+    }
+}
