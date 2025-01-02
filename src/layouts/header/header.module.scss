@@ -1,22 +1,56 @@
 header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 2rem;
-    padding-bottom: 1rem;
-    margin-left: 40px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-    & > h1 {
-      margin: 0;
-      font-weight: 600;
-      font-size: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  margin-left: 40px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+
+  & > h1 {
+    margin: 0;
+    font-weight: 600;
+    font-size: 1.8rem;
+
+    @media (max-width: 1200px) {
+      font-size: 1.6rem;
     }
-    & > .download-report {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      cursor: pointer;
-      font-weight: 500;
-      font-size: 20px;
+
+    @media (max-width: 992px) {
+      font-size: 1.4rem;
+    }
+
+    @media (max-width: 768px) {
+      font-size: 1.2rem;
+    }
+
+    @media (max-width: 576px) {
+      font-size: 1rem;
     }
   }
+
+  & > .download-report {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 1.3rem;
+
+    @media (max-width: 1200px) {
+      font-size: 1.2rem;
+    }
+
+    @media (max-width: 992px) {
+      font-size: 1.1rem;
+    }
+
+    @media (max-width: 768px) {
+      font-size: 1rem;
+    }
+
+    @media (max-width: 576px) {
+      font-size: 0.9rem;
+    }
+  }
+}

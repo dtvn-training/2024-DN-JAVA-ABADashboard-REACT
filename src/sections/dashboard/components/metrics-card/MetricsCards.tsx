@@ -6,7 +6,7 @@ import LoadingSpinner from "../../../../components/loading-spinner/loading-spinn
 import styled from "./metrics-card.module.scss";
 import classNames from "classnames/bind";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUsers } from "@fortawesome/free-solid-svg-icons";
+import { faUsers, faChartLine, faHandPointer } from "@fortawesome/free-solid-svg-icons";
 
 const cx = classNames.bind(styled);
 
@@ -38,31 +38,40 @@ const MetricsCards = () => {
   return (
     <Grid2 container className={cx("metrics-cards")}>
       <Grid2 className={cx("metrics-card")} size={{ md: 4 }}>
-        <Card className={cx("custom-card")}>  
-          <div>
-          <Typography className={cx("active-users-title")}>
-            Active Users
-          </Typography>
-          <Typography className={cx("active-users-value")}>
-            {/* {activeUsers !== null ? activeUsers : <LoadingSpinner />} */}
-            302
-          </Typography>
+        <Card className={cx("custom-card")}>
+          <div className={cx("content")}>
+            <div className={cx("value")}>
+              <Typography className={cx("active-users-title")}>
+                Event Count
+              </Typography>
+              <Typography className={cx("active-users-value")}>3,298</Typography>
+            </div>
+            <FontAwesomeIcon className={cx('icon')} icon={faUsers} />
           </div>
-          <FontAwesomeIcon className={cx('icon')} icon={faUsers} />
         </Card>
       </Grid2>
       <Grid2 className={cx("metrics-card")} size={{ md: 4 }}>
         <Card className={cx("custom-card")}>
+        <div className={cx("content")}>
+        <div className={cx("value")}>
           <Typography className={cx("active-users-title")}>
             Event Count
           </Typography>
           <Typography className={cx("active-users-value")}>3,298</Typography>
+          </div>
+          <FontAwesomeIcon className={cx('icon')} icon={faChartLine} />
+          </div>
         </Card>
       </Grid2>
       <Grid2 className={cx("metrics-card")} size={{ md: 4 }}>
         <Card className={cx("custom-card")}>
+        <div className={cx("content")}>
+        <div className={cx("value")}>
           <Typography className={cx("active-users-title")}>Click</Typography>
           <Typography className={cx("active-users-value")}>700</Typography>
+          </div>
+          <FontAwesomeIcon className={cx('icon')} icon={faHandPointer} />
+          </div>
         </Card>
       </Grid2>
     </Grid2>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState , useEffect} from "react";
 import { Box, List, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 import { FaTachometerAlt, FaCog, FaChartBar } from "react-icons/fa";
 import Logo from "../../assets/logo.png";
@@ -6,10 +6,15 @@ import classNames from "classnames/bind";
 import styled from "./sidebar.module.scss";
 import useRouter from "../../hooks/useRouter";
 import { useLocation } from "react-router-dom";
+import { is } from "date-fns/locale";
 
 const cx = classNames.bind(styled);
 
-const SideBar = () => {
+type SideBarProps = {
+  isSidebarOpen: boolean;
+};
+
+const SideBar = ({ isSidebarOpen }: SideBarProps) => {
   const router= useRouter();
   const location= useLocation();
   const [selectedView, setSelectedView] = useState(location.pathname.replace("/", ""));
@@ -21,7 +26,7 @@ const SideBar = () => {
   return (
     <div className={cx("sidebar")}>
       <Box className={cx("container")}>
-        <div className={cx("logo")}>
+        <div className={cx("logo", { hidden: !isSidebarOpen })}>
           <img src={Logo} alt="ABA Logo" />
         </div>
         <List className={cx("list-item")}>
@@ -63,7 +68,7 @@ const SideBar = () => {
           </ListItemButton>
         </List>
       </Box>
-      <footer className={cx("footer")}>
+      <footer className={cx("footer",{ hidden: !isSidebarOpen })}>
         <h3>DTU Intern</h3>
         <p>dtu_intern@gmail.com</p>
       </footer>

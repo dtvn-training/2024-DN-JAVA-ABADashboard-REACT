@@ -1,3 +1,7 @@
+.sidebar{
+  background-color: var(--color-sidebar);
+}
+
 .container {
   margin-top: 0 !important;
   display: flex;
@@ -59,5 +63,37 @@
   &>p {
     color: #000000;
     margin: 0 0 0.5rem 1rem;
+  }
+}
+
+.hidden {
+  display: none;
+}
+
+@media (max-width: 1300px) {
+  .sidebar{
+    font-size: 0.8rem;
+  }
+
+  .container{
+    .icon{
+      font-size: 1.2rem;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar{
+    font-size: 0.6rem;
+  }
+
+  .container{
+    .icon{
+      font-size: 1.2rem;
+    }
+
+    .selected{
+      font-size: 0.6rem;
+    }
   }
 }

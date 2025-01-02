@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Box, Card, Typography } from '@mui/material';
 import LineChart from '../../../../components/line-chart/LineChart';
 import LoadingSpinner from '../../../../components/loading-spinner/loading-spinner';
 import styled from './purchases-chart.module.scss';
@@ -41,11 +42,14 @@ const PurchasesChart: React.FC = () => {
   }
 
   return (
-    <div className={cx('purchasesChartContainer')}>
-      <div className={cx('chart')}>
-        <LineChart data={purchaseData} labels={purchaseLabels} />
-      </div>
-    </div>
+    <Box className={cx('chart-container')}>
+      <Card className={cx('chart-card')}>
+        <Typography className={cx('chart-title')}>Purchases Chart</Typography>
+        <div className={cx('chart')}>
+          <LineChart data={purchaseData} labels={purchaseLabels} />
+        </div>
+      </Card>
+    </Box>
   );
 };
 

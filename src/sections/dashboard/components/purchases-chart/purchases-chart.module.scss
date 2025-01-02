@@ -1,13 +1,22 @@
-.purchasesChartContainer {
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 5px;
-    margin-top: 15px;
-    margin-left: 5px;
-  }
+.chart-container {
+  margin-top: 16px;
+}
 
-  .chart {
-    height: 240px;
-  }
+.chart-card {
+  padding: 24px;
+  background: linear-gradient(135deg, #f5f4f0 0%, #f7e8e3 100%);
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  height: 300px;
+}
+
+.chart-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #131111;
+  text-align: center;
+  margin-bottom: 16px;
+}
+.chart {
+  height: calc(100% - 32px);
+}
