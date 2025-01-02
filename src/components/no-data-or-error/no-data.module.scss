@@ -1,0 +1,14 @@
+.no-data-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    background-color: #f9f9f9;
+    border: 1px dashed #ccc;
+    border-radius: 8px;
+}
+
+.no-data-text {
+    font-size: 1.2rem;
+    color: #999;
+}

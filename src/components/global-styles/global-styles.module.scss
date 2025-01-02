@@ -1,24 +1,24 @@
 * {
-    max-width: 100% !important;
-    padding: 0;
-    box-sizing: border-box;
-    margin: 0;
-  }
-  
-  :root {
-    --font-family-master: "Inter", sans-serif;
-    --font-style: normal;
-    --font-optical-sizing: auto;
-    --color-sidebar: #ebf7fd;
-    --color-button-sidebar: #1b59f8;
-    --color-button-hover-sidebar: rgba(27, 89, 248, 0.1);
-    --background-main-color: #f9f9f9;
-  }
-  
-  body {
-    font-family: var(--font-family-master);
-    font-optical-sizing: var(--font-optical-sizing);
-    font-style: var(--font-style);
-    background-color: var(--background-main-color);
-    min-height: 100vh;
-  }
+  max-width: 100% !important;
+  padding: 0;
+  box-sizing: border-box;
+  margin: 0;
+}
+
+:root {
+  --font-family-master: "Inter", sans-serif;
+  --font-style: normal;
+  --font-optical-sizing: auto;
+  --color-sidebar: #ebf7fd;
+  --color-button-sidebar: #1b59f8;
+  --color-button-hover-sidebar: rgba(27, 89, 248, 0.1);
+  --background-main-color: #f9f9f9;
+}
+
+body {
+  font-family: var(--font-family-master);
+  font-optical-sizing: var(--font-optical-sizing);
+  font-style: var(--font-style);
+  background-color: var(--background-main-color);
+  min-height: 100vh;
+}

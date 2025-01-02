@@ -5,25 +5,23 @@ import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 import styled from "./dashboard-filters.module.scss";
 import classNames from 'classnames/bind';
+import { useAppDispatch, useAppSelector } from '../../../../redux/store';
+import { setDateRange } from '../../../../redux/dashboard-slice/filtersSlice';
 
 const cx = classNames.bind(styled);
 
 const DashboardFilters: React.FC = () => {
   const [medium, setMedium] = useState('Medium');
-  const [dimension, setDimension] = useState('');
+  const [eventName, setEventName] = useState('');
   const [campaign, setCampaign] = useState('');
 
   const mediums = ['Medium A', 'Medium B', 'Medium C'];
-  const dimensions = ['City', 'Country', 'Device'];
+  const eventNames = ['City', 'Country', 'Device'];
   const campaigns = ['Campaign A', 'Campaign B', 'Campaign C'];
 
-
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [dateRange, setDateRange] = useState({
-    startDate: new Date(),
-    endDate: new Date(),
-    key: 'selection',
-  });
+  const dispatch = useAppDispatch();
+  const dateRange = useAppSelector(state => state.filters.dateRange);
 
   const handleTimeClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -37,34 +35,31 @@ const DashboardFilters: React.FC = () => {
   const id = open ? 'time-picker-popover' : undefined;
 
   const today = new Date();
-  const thisYearStart = new Date(today.getFullYear(), 0, 1);
-  const thisYearEnd = new Date(today.getFullYear(), 11, 31);
-  const lastYearStart = new Date(today.getFullYear() - 1, 0, 1);
-  const lastYearEnd = new Date(today.getFullYear() - 1, 11, 31);
 
   const handleDateRangeChange = (ranges: any) => {
-    const { startDate, endDate } = ranges.selection;
-    setDateRange({
-      ...dateRange,
-      startDate,
-      endDate: endDate > today ? today : endDate,
-    });
+    const { selection } = ranges;
+    dispatch(setDateRange({
+      startDate: selection.startDate.toISOString(),
+      endDate: selection.endDate.toISOString(),
+    }));
   };
 
   const setThisYear = () => {
-    setDateRange({
-      startDate: thisYearStart,
-      endDate: thisYearEnd,
-      key: 'selection',
-    });
+    const startDate = new Date(new Date().getFullYear(), 0, 1);
+    const endDate = new Date();
+    dispatch(setDateRange({
+      startDate: startDate.toISOString(),
+      endDate: endDate.toISOString(),
+    }));
   };
 
   const setLastYear = () => {
-    setDateRange({
-      startDate: lastYearStart,
-      endDate: lastYearEnd,
-      key: 'selection',
-    });
+    const startDate = new Date(new Date().getFullYear() - 1, 0, 1);
+    const endDate = new Date(new Date().getFullYear() - 1, 11, 31);
+    dispatch(setDateRange({
+      startDate: startDate.toISOString(),
+      endDate: endDate.toISOString(),
+    }));
   };
 
   return (
@@ -76,15 +71,15 @@ const DashboardFilters: React.FC = () => {
         ))}
       </select>
 
-      <select className={cx("fill")} value={dimension} onChange={(e) => setDimension(e.target.value)}>
+      <select className={cx("fill")} value={eventName} onChange={(e) => setEventName(e.target.value)}>
         <option value="">EventName</option>
-        {dimensions.map((d) => (
+        {eventNames.map((d) => (
           <option key={d} value={d}>{d}</option>
         ))}
       </select>
 
       <Button className={cx("fill")} variant="outlined" onClick={handleTimeClick}>
-        {`${dateRange.startDate.toLocaleDateString()} - ${dateRange.endDate.toLocaleDateString()}`}
+        {`${new Date(dateRange.startDate).toLocaleDateString()} - ${new Date(dateRange.endDate).toLocaleDateString()}`}
       </Button>
 
       <select className={cx('fill')} value={campaign} onChange={(e) => setCampaign(e.target.value)}>
@@ -113,7 +108,11 @@ const DashboardFilters: React.FC = () => {
           </Button>
         </Box>
         <DateRangePicker
-          ranges={[dateRange]}
+          ranges={[{
+            startDate: new Date(dateRange.startDate),
+            endDate: new Date(dateRange.endDate),
+            key: 'selection',
+          }]}
           onChange={handleDateRangeChange}
           moveRangeOnFirstSelection={false}
           months={2}

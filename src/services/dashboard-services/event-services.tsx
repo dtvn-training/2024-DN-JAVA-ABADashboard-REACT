@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { format } from 'date-fns';
 
 interface ApiResponse {
   code: number;
@@ -21,13 +22,18 @@ interface Event {
 
 const baseUrl: string = import.meta.env.VITE_APP_URL_BACKEND;
 
-export const fetchEvents = async (pageNum: number, pageSize: number): Promise<ApiResponse['data']> => {
+export const fetchEvents = async  (pageNum: number, pageSize: number, startDate: string, endDate: string): Promise<ApiResponse['data']> => {
   try {
-    const response = await axios.get<ApiResponse>(`${baseUrl}/google-analytic/get-all-events`, {
+    const formattedStartDate = format(new Date(startDate), 'yyyy-MM-dd');
+    const formattedEndDate = format(new Date(endDate), 'yyyy-MM-dd');
+
+    const response = await axios.get<ApiResponse>(`${baseUrl}/google-analytic/get-all-events-by-time`, {
       params: {
         eventLabel: 'eventName',
         pageNum,
         pageSize,
+        startDate: formattedStartDate,
+        endDate: formattedEndDate,
       },
     });
     if (response.data.code === 200) {

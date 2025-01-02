@@ -42,7 +42,7 @@ const MetricsCards = () => {
           <div className={cx("content")}>
             <div className={cx("value")}>
               <Typography className={cx("active-users-title")}>
-                Event Count
+                Activiy User
               </Typography>
               <Typography className={cx("active-users-value")}>3,298</Typography>
             </div>

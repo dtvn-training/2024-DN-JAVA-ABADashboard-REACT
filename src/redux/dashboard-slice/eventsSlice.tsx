@@ -30,9 +30,9 @@ const initialState: EventsState = {
 
 export const fetchEventsThunk = createAsyncThunk(
   'events/fetchEvents',
-  async ({ pageNum, pageSize }: { pageNum: number; pageSize: number }) => {
-    const data = await fetchEvents(pageNum, pageSize);
-    return data;
+  async ({ pageNum, pageSize, startDate, endDate }: { pageNum: number, pageSize: number, startDate: string, endDate: string }) => {
+    const response = await fetchEvents(pageNum, pageSize, startDate, endDate);
+    return response;
   }
 );
 

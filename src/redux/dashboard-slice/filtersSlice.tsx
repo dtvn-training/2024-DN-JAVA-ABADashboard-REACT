@@ -3,8 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   dateRange: { startDate: new Date(), endDate: new Date() },
   campaign: '',
-  dimension: '',
-  metrics: '',
+  eventname: '',
   media: '',
 };
 
@@ -18,11 +17,8 @@ const filtersSlice = createSlice({
     setCampaign(state, action) {
       state.campaign = action.payload;
     },
-    setDimension(state, action) {
-      state.dimension = action.payload;
-    },
-    setMetrics(state, action) {
-      state.metrics = action.payload;
+    setEventName(state, action) {
+      state.eventname = action.payload;
     },
     setMedia(state, action) {
       state.media = action.payload;
@@ -30,5 +26,5 @@ const filtersSlice = createSlice({
   },
 });
 
-export const { setDateRange, setCampaign, setDimension, setMetrics, setMedia } = filtersSlice.actions;
+export const { setDateRange, setCampaign, setEventName, setMedia } = filtersSlice.actions;
 export default filtersSlice.reducer;

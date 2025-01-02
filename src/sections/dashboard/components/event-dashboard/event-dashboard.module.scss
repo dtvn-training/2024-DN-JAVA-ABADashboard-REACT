@@ -1,15 +1,37 @@
-.container{
+.container {
     width: 100%;
-    max-width: 500px !important;
+    min-width: 300px;
     margin: auto;
-    height: 350px;
+    min-height: 350px;
+    height: inherit;
     background-color: #fff;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     margin-bottom: 80px;
-    margin-top: 50px;
+    margin-top: 15px;
+    min-width: 300px;
 
-    .table-container{
+    .table-container {
+        flex: 1;
+        overflow: auto;
         border: 1px solid #fff;
+    }
+
+    .pagination-container {
+        flex-shrink: 0;
+    }
+
+    @media (max-width: 1200px) {
+        margin-bottom: 20px;
+    }
+
+    @media (max-width: 899px) {
+        margin-bottom: 15px;
+        min-width: 300px;
+    }
+
+    @media (max-width: 768px) {
+        margin-bottom: 10px;
+
     }
 }

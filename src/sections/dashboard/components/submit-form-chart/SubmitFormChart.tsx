@@ -1,14 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { Line } from 'react-chartjs-2';
 import { useAppSelector } from '../../../../redux/store';
+import { Box, Card, Typography } from '@mui/material';
+import styled from './submit-chart.module.scss';
+import classNames from 'classnames/bind';
+
+const cx = classNames.bind(styled);
+
+interface FormSubmission {
+  date: string;
+  submissions: number;
+}
 
 const SubmitFormChart = () => {
   const [chartData, setChartData] = useState({
-    labels: [],
+    labels: [] as string[],
     datasets: [
       {
         label: 'Form Submissions',
-        data: [],
+        data: [] as number[],
         fill: false,
         backgroundColor: 'rgba(75,192,192,0.4)',
         borderColor: 'rgba(75,192,192,1)',
@@ -20,7 +30,7 @@ const SubmitFormChart = () => {
   useEffect(() => {
     const getFakeFormSubmissions = () => {
       // Generate fake data
-      const fakeData = [
+      const fakeData: FormSubmission[] = [
         { date: '2024-01-01', submissions: 10 },
         { date: '2024-01-02', submissions: 15 },
         { date: '2024-01-03', submissions: 8 },
@@ -36,7 +46,7 @@ const SubmitFormChart = () => {
     getFakeFormSubmissions();
   }, [dateRange, campaign]);
 
-  const formatChartData = (data) => {
+  const formatChartData = (data: FormSubmission[]) => {
     return {
       labels: data.map((entry) => entry.date),
       datasets: [
@@ -52,9 +62,14 @@ const SubmitFormChart = () => {
   };
 
   return (
-    <div>
-      <Line data={chartData} />
-    </div>
+    <Box className={cx('chart-container')}>
+      <Card className={cx('chart-card')}>
+        <Typography className={cx('chart-title')}>Submit Chart</Typography>
+        <div className={cx('chart')}>
+          <Line data={chartData} />
+        </div>
+      </Card>
+    </Box>
   );
 };
 

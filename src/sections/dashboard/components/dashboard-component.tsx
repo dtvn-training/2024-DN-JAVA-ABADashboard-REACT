@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Box } from "@mui/material";
 import Grid2 from "@mui/material/Grid2";
 import classNames from "classnames/bind";
@@ -6,11 +6,12 @@ import styled from "./dashboard-component.module.scss";
 import DashboardFilters from "./dashboard-filters/DashboardFilters";
 import MetricsCards from "./metrics-card/MetricsCards";
 import ActivityChart from "./activity-chart/ActivityChart";
-import ProjectsTable from "./ProjectsTable";
+import ProjectsTable from "./table-dashboard/ProjectsTable";
 import SubmitFormChart from "./submit-form-chart/SubmitFormChart";
 import LoadingSpinner from "../../../components/loading-spinner/loading-spinner";
 import PurchasesChart from "./purchases-chart/PurchasesChart";
 import EventDashboard from "./event-dashboard/EventDashboard";
+import TableFillter from "./table-fillters/TableFillter";
 
 const cx = classNames.bind(styled);
 
@@ -64,12 +65,16 @@ const DashboardComponent = () => {
           <PurchasesChart /> 
         </Grid2>
       </Grid2>
+
       <Grid2 container spacing={2}>
-        <EventDashboard />
+       <Grid2 size={{ md: 6 }}>
+          <EventDashboard />
+        </Grid2>
         <Grid2 size={{ md: 6 }}>
           <SubmitFormChart />
         </Grid2>      
       </Grid2>
+      <TableFillter />
       <ProjectsTable rows={rows} />
     </Box>
   );
