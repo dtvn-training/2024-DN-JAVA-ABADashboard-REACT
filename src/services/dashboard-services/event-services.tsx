@@ -1,48 +1,55 @@
 import axios from 'axios';
-import { format } from 'date-fns';
 
 interface ApiResponse {
   code: number;
   message: string;
   data: {
-    currentPage: number;
-    totalPages: number;
-    pageSize: number;
-    totalElements: number;
-    data: Event[] | null;
+    numberOfEvent: { eventTitle: string; totalValue: number }[]  | null;
+    eventTable: {
+      links: { rel: string; href: string }[] | null;
+      content: { eventName: string; totalValue: number }[] | null;
+      page: { size: number; totalElements: number; totalPages: number; number: number } | null;
+    };
+    chartEvent: { time: string; eventTitle: string; eventValue: number }[] | null;
   };
-}
-
-interface Event {
-  eventId: number;
-  eventName: string;
-  eventLabel: string;
-  eventValue: string;
 }
 
 const baseUrl: string = import.meta.env.VITE_APP_URL_BACKEND;
 
-export const fetchEvents = async  (pageNum: number, pageSize: number, startDate: string, endDate: string): Promise<ApiResponse['data']> => {
+export const fetchEvents = async (
+  pageNum: number,
+  pageSize: number,
+  startDate: string,
+  endDate: string,
+  eventLabel: string
+): Promise<ApiResponse['data']> => {
   try {
-    const formattedStartDate = format(new Date(startDate), 'yyyy-MM-dd');
-    const formattedEndDate = format(new Date(endDate), 'yyyy-MM-dd');
 
+    console.log('fetchEvents', pageNum, pageSize, startDate, endDate, eventLabel);
+    // Gọi API
     const response = await axios.get<ApiResponse>(`${baseUrl}/google-analytic/get-all-events-by-time`, {
       params: {
-        eventLabel: 'eventName',
+        eventLabel: "eventName",
         pageNum,
         pageSize,
-        startDate: formattedStartDate,
-        endDate: formattedEndDate,
+        startDate,
+        endDate,
       },
     });
-    if (response.data.code === 200) {
-      return response.data.data;
-    } else {
-      throw new Error(response.data.message);
+
+    if (!response.data || response.data.code !== 200 || !response.data.data) {
+      throw new Error('Invalid API response');
     }
-  } catch (error) {
-    console.error('Error fetching events:', error);
-    throw error;
+    console.log('fetchEvents response:', response.data.data);
+    return response.data.data;
+
+  } catch (error: any) {
+    if (axios.isAxiosError(error)) {
+      console.error('API Error:', error.response?.data || error.message);
+      throw new Error(error.response?.data?.message || 'API call failed');
+    } else {
+      console.error('Unexpected Error:', error);
+      throw error;
+    }
   }
 };

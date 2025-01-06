@@ -1,39 +1,26 @@
 import { Card, Typography } from "@mui/material";
 import Grid2 from "@mui/material/Grid2";
-import React, { useEffect, useState } from "react";
-import { fetchActiveUsers } from "../../../../services/dashboard-services/active-users-services";
+import React, {  useEffect, useState } from "react";
 import LoadingSpinner from "../../../../components/loading-spinner/loading-spinner";
 import styled from "./metrics-card.module.scss";
 import classNames from "classnames/bind";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUsers, faChartLine, faHandPointer } from "@fortawesome/free-solid-svg-icons";
+import { useAppSelector } from "../../../../redux/store";
 
 const cx = classNames.bind(styled);
 
 const MetricsCards = () => {
-  const [activeUsers, setActiveUsers] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    // const getActiveUsers = async () => {
-    //   try {
-    //     const data = await fetchActiveUsers();
-    //     const totalActiveUsers = data.reduce(
-    //       (total, user) => total + parseInt(user.activeUsers),
-    //       0
-    //     );
-    //     setActiveUsers(totalActiveUsers);
-    //   } catch (error) {
-    //     console.error("Error fetching active users:", error);
-    //   }
-    // };
-
-    // getActiveUsers();
-  }, []);
+  const {events} = useAppSelector(state => state.events);
 
   if (loading) {
     return <LoadingSpinner />;
   }
+
+  useEffect(() => { 
+    console.log('Fetching events data...', events);
+  }, []);
 
   return (
     <Grid2 container className={cx("metrics-cards")}>
@@ -44,7 +31,7 @@ const MetricsCards = () => {
               <Typography className={cx("active-users-title")}>
                Active  User
               </Typography>
-              <Typography className={cx("active-users-value")}>3,298</Typography>
+              <Typography className={cx("active-users-value")}></Typography>
             </div>
             <FontAwesomeIcon className={cx('icon')} icon={faUsers} />
           </div>
@@ -57,7 +44,7 @@ const MetricsCards = () => {
               <Typography className={cx("active-users-title")}>
                 Event Count
               </Typography>
-              <Typography className={cx("active-users-value")}>3,298</Typography>
+              <Typography className={cx("active-users-value")}></Typography>
             </div>
             <FontAwesomeIcon className={cx('icon')} icon={faChartLine} />
           </div>
@@ -68,7 +55,7 @@ const MetricsCards = () => {
           <div className={cx("content")}>
             <div className={cx("value")}>
               <Typography className={cx("active-users-title")}>Click</Typography>
-              <Typography className={cx("active-users-value")}>700</Typography>
+              <Typography className={cx("active-users-value")}></Typography>
             </div>
             <FontAwesomeIcon className={cx('icon')} icon={faHandPointer} />
           </div>

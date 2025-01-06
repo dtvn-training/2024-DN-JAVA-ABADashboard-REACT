@@ -12,11 +12,11 @@ const cx = classNames.bind(styled);
 
 const DashboardFilters: React.FC = () => {
   const [medium, setMedium] = useState('Medium');
-  const [eventName, setEventName] = useState('');
+  const [eventName, setEventName] = useState('eventName');
   const [campaign, setCampaign] = useState('');
 
   const mediums = ['Medium A', 'Medium B', 'Medium C'];
-  const eventNames = ['City', 'Country', 'Device'];
+  const eventNames = ['eventName', 'city', 'source', 'pageTitle', 'pagePath', 'medium', 'date'];
   const campaigns = ['Campaign A', 'Campaign B', 'Campaign C'];
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -73,7 +73,6 @@ const DashboardFilters: React.FC = () => {
       </select>
 
       <select className={cx("fill")} value={eventName} onChange={(e) => setEventName(e.target.value)}>
-        <option value="">EventName</option>
         {eventNames.map((d) => (
           <option key={d} value={d}>{d}</option>
         ))}

@@ -3,8 +3,6 @@ import styled from "./event-dashboard.module.scss";
 import classNames from "classnames/bind";
 import { Box, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TablePagination } from "@mui/material";
 import NoDataPlaceholder from '../../../../components/no-data-or-error/NoDataPlaceholder';
-import { useAppDispatch, useAppSelector } from '../../../../redux/store';
-import { fetchEventsThunk } from '../../../../redux/dashboard-slice/eventsSlice';
 
 const cx = classNames.bind(styled);
 
@@ -16,23 +14,15 @@ interface Event {
 const EventDashboard = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(6);
-  const dispatch = useAppDispatch();
-  const { events, loading, error, totalElements } = useAppSelector(state => state.events);
-  const { startDate, endDate } = useAppSelector(state => state.filters.dateRange);
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
-    console.log('event', events);
   };
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-
-  useEffect(() => {
-    dispatch(fetchEventsThunk({ pageNum: page, pageSize: rowsPerPage, startDate, endDate }));
-  }, [dispatch, page, rowsPerPage, startDate, endDate]);
 
   return (
     <Box className={cx("container")}>

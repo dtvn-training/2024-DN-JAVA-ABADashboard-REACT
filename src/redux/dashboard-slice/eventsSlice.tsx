@@ -1,15 +1,50 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { fetchEvents } from '../../services/dashboard-services/event-services';
 
-interface Event {
-  eventId: number;
-  eventName: string;
-  eventLabel: string;
-  eventValue: string;
+interface Links {
+  rel: string;
+  href: string;
 }
 
+interface Content {
+  eventName: string;
+  totalValue: number;
+  link: [];
+}
+
+interface PageInfo {
+  size: number;
+  totalElements: number;
+  totalPages: number;
+  number: number;
+}
+
+interface EventTable {
+  links: Links[] | null;
+  content: Content[] | null;
+  page: PageInfo | null;
+}
+interface Event {
+    eventName: string;
+    totalValue: number;
+    eventValue: number;
+ 
+}
+
+type ChartEvent = Event[];
+
+interface NumberEvent {
+  eventTitle: string;
+  totalValue: number;
+}
+
+type NumberOfEvent = NumberEvent[];
+
+
 interface EventsState {
-  events: Event[];
+  numberOfEvent: NumberOfEvent | null;
+  eventTable: EventTable | null;
+  chartEvent: ChartEvent | null;
   currentPage: number;
   totalPages: number;
   pageSize: number;
@@ -19,7 +54,9 @@ interface EventsState {
 }
 
 const initialState: EventsState = {
-  events: [],
+  numberOfEvent: null,
+  eventTable: null,
+  chartEvent: null,
   currentPage: 0,
   totalPages: 0,
   pageSize: 6,
@@ -30,8 +67,11 @@ const initialState: EventsState = {
 
 export const fetchEventsThunk = createAsyncThunk(
   'events/fetchEvents',
-  async ({ pageNum, pageSize, startDate, endDate }: { pageNum: number, pageSize: number, startDate: string, endDate: string }) => {
-    const response = await fetchEvents(pageNum, pageSize, startDate, endDate);
+  async (
+    { pageNum, pageSize, startDate, endDate, eventLabel }: 
+    { pageNum: number; pageSize: number; startDate: string; endDate: string; eventLabel: string }
+  ) => {
+    const response = await fetchEvents(pageNum, pageSize, startDate, endDate, eventLabel);
     return response;
   }
 );
@@ -47,12 +87,24 @@ const eventsSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchEventsThunk.fulfilled, (state, action) => {
+        const { numberOfEvent, eventTable, chartEvent } = action.payload.data;
         state.loading = false;
-        state.events = action.payload.data;
-        state.currentPage = action.payload.currentPage;
-        state.totalPages = action.payload.totalPages;
-        state.pageSize = action.payload.pageSize;
-        state.totalElements = action.payload.totalElements;
+
+        state.numberOfEvent = numberOfEvent ?? [];
+        state.eventTable = eventTable ?? { links: null, content: null, page: null };
+        state.chartEvent = chartEvent ?? [];
+
+        if (eventTable?.page) {
+          state.currentPage = eventTable.page.number ?? 0;
+          state.totalPages = eventTable.page.totalPages ?? 0;
+          state.pageSize = eventTable.page.size ?? 0;
+          state.totalElements = eventTable.page.totalElements ?? 0;
+        } else {
+          state.currentPage = 0;
+          state.totalPages = 0;
+          state.pageSize = 0;
+          state.totalElements = 0;
+        }
       })
       .addCase(fetchEventsThunk.rejected, (state, action) => {
         state.loading = false;
@@ -62,3 +114,4 @@ const eventsSlice = createSlice({
 });
 
 export default eventsSlice.reducer;
+
