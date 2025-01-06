@@ -9,7 +9,7 @@ interface ApiResponse {
     totalPages: number;
     pageSize: number;
     totalElements: number;
-    data: Event[];
+    data: Event[] | null;
   };
 }
 

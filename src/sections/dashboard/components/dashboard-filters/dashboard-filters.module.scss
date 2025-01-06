@@ -10,21 +10,67 @@
   .fill {
     justify-items: left;
     appearance: none;
-    background-color: #fff;
-    border: 1px solid #ccc;
+    background-color: var(--color-secondary);
+    border: 1px solid var(--color-dark);
     border-radius: 10px;
     padding: 10px 15px;
     min-width: 240px;
     min-height: 50px;
     font-size: 16px;
-    color: #333;
+    color: var(--color-dark);
     cursor: pointer;
     outline: none;
-    transition: border-color 0.3s;
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 10 10"><polygon points="0,0 10,0 5,5" fill="%23333"/></svg>'); /* Mũi tên */
+    transition: border-color 0.3s, background-color 0.3s, color 0.3s;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 10 10"><polygon points="0,0 10,0 5,5" fill="%23333"/></svg>'); /* Arrow */
     background-repeat: no-repeat;
     background-position: right 10px center;
     background-size: 10px;
+
+    &:hover {
+      border-color: var(--color-primary);
+      background-color: var(--color-accent);
+      color: var(--color-primary);
+    }
+
+    &:active {
+      background-color: var(--color-primary);
+      color: var(--color-secondary);
+    }
+  }
+}
+
+.filter-dropdown {
+  margin: 0 10px;
+  min-width: 250px;
+  background-color: #fff;
+  font-size: 16px;
+
+  .MuiOutlinedInput-root {
+    border-radius: 30px;
+    background-color: #f9f9f9;
+
+    &.Mui-focused .MuiOutlinedInput-notchedOutline {
+      border-color: #ccc;
+    }
+
+    .MuiSelect-select {
+      padding: 10px 0;
+    }
+  }
+
+  .MuiInputLabel-root {
+    top: -5px;
+  }
+
+  .MuiPaper-root {
+    .MuiMenuItem-root {
+      transition: background-color 0.3s;
+
+      &:hover {
+        background-color: var(--color-accent);
+        color: var(--color-primary);
+      }
+    }
   }
 }
 

@@ -4,13 +4,13 @@ header {
   justify-content: space-between;
   margin-bottom: 2rem;
   padding-bottom: 1rem;
-  margin-left: 40px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid var(--color-dark);
 
   & > h1 {
     margin: 0;
     font-weight: 600;
     font-size: 1.8rem;
+    color: var(--color-primary);
 
     @media (max-width: 1200px) {
       font-size: 1.6rem;
@@ -36,6 +36,7 @@ header {
     cursor: pointer;
     font-weight: 500;
     font-size: 1.3rem;
+    color: var(--color-primary);
 
     @media (max-width: 1200px) {
       font-size: 1.2rem;
@@ -51,6 +52,10 @@ header {
 
     @media (max-width: 576px) {
       font-size: 0.9rem;
+    }
+
+    &:hover {
+      color: var(--color-accent);
     }
   }
 }

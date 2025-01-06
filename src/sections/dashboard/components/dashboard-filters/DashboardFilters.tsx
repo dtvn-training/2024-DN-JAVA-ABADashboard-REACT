@@ -38,9 +38,10 @@ const DashboardFilters: React.FC = () => {
 
   const handleDateRangeChange = (ranges: any) => {
     const { selection } = ranges;
+    const endDate = selection.endDate > today ? today : selection.endDate;
     dispatch(setDateRange({
       startDate: selection.startDate.toISOString(),
-      endDate: selection.endDate.toISOString(),
+      endDate: endDate.toISOString(),
     }));
   };
 

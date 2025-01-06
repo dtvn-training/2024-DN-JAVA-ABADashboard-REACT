@@ -22,29 +22,46 @@ ChartJS.register(
 interface BarChartProps {
   data: number[];
   labels: string[];
-  backgroundColor?: string | string[];
-  borderColor?: string | string[];
-  borderWidth?: number;
-  width?: number;
-  height?: number;
 }
 
-const BarChart: React.FC<BarChartProps> = ({
-  data,
-  labels,
-  backgroundColor = 'rgba(75, 192, 192, 0.2)',
-  borderColor = 'rgba(75, 192, 192, 1)',
-  borderWidth = 1,
-}) => {
+const BarChart: React.FC<BarChartProps> = ({ data, labels }) => {
   const chartData = {
-    labels,
+    labels: labels,
     datasets: [
       {
-        label: 'Dataset',
-        data,
-        backgroundColor,
-        borderColor,
-        borderWidth,
+        label: 'Activity',
+        data: data,
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.8)',
+          'rgba(54, 162, 235, 0.8)',
+          'rgba(255, 206, 86, 0.8)',
+          'rgba(75, 192, 192, 0.8)',
+          'rgba(153, 102, 255, 0.8)',
+          'rgba(255, 159, 64, 0.8)',
+          'rgba(255, 99, 132, 0.8)',
+          'rgba(54, 162, 235, 0.8)',
+          'rgba(255, 206, 86, 0.8)',
+          'rgba(75, 192, 192, 0.8)',
+          'rgba(153, 102, 255, 0.8)',
+          'rgba(255, 159, 64, 0.8)',
+        ],
+        borderColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)',
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)',
+        ],
+        borderWidth: 1,
+        hoverBackgroundColor: 'rgba(75, 192, 192, 1)',
+        hoverBorderColor: 'rgba(75, 192, 192, 1)',
       },
     ],
   };
@@ -56,6 +73,10 @@ const BarChart: React.FC<BarChartProps> = ({
         display: true,
         labels: {
           color: '#333',
+          font: {
+            size: 14,
+            weight: 'bold',
+          },
         },
       },
       tooltip: {
@@ -70,6 +91,10 @@ const BarChart: React.FC<BarChartProps> = ({
       x: {
         ticks: {
           color: '#333',
+          font: {
+            size: 14,
+            weight: 'bold',
+          },
         },
         grid: {
           color: 'rgba(0, 0, 0, 0.1)',
@@ -78,6 +103,10 @@ const BarChart: React.FC<BarChartProps> = ({
       y: {
         ticks: {
           color: '#333',
+          font: {
+            size: 14,
+            weight: 'bold',
+          },
         },
         grid: {
           color: 'rgba(0, 0, 0, 0.1)',

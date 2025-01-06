@@ -42,7 +42,7 @@ const MetricsCards = () => {
           <div className={cx("content")}>
             <div className={cx("value")}>
               <Typography className={cx("active-users-title")}>
-                Activiy User
+               Active  User
               </Typography>
               <Typography className={cx("active-users-value")}>3,298</Typography>
             </div>
@@ -52,25 +52,25 @@ const MetricsCards = () => {
       </Grid2>
       <Grid2 className={cx("metrics-card")} size={{ md: 4 }}>
         <Card className={cx("custom-card")}>
-        <div className={cx("content")}>
-        <div className={cx("value")}>
-          <Typography className={cx("active-users-title")}>
-            Event Count
-          </Typography>
-          <Typography className={cx("active-users-value")}>3,298</Typography>
-          </div>
-          <FontAwesomeIcon className={cx('icon')} icon={faChartLine} />
+          <div className={cx("content")}>
+            <div className={cx("value")}>
+              <Typography className={cx("active-users-title")}>
+                Event Count
+              </Typography>
+              <Typography className={cx("active-users-value")}>3,298</Typography>
+            </div>
+            <FontAwesomeIcon className={cx('icon')} icon={faChartLine} />
           </div>
         </Card>
       </Grid2>
       <Grid2 className={cx("metrics-card")} size={{ md: 4 }}>
         <Card className={cx("custom-card")}>
-        <div className={cx("content")}>
-        <div className={cx("value")}>
-          <Typography className={cx("active-users-title")}>Click</Typography>
-          <Typography className={cx("active-users-value")}>700</Typography>
-          </div>
-          <FontAwesomeIcon className={cx('icon')} icon={faHandPointer} />
+          <div className={cx("content")}>
+            <div className={cx("value")}>
+              <Typography className={cx("active-users-title")}>Click</Typography>
+              <Typography className={cx("active-users-value")}>700</Typography>
+            </div>
+            <FontAwesomeIcon className={cx('icon')} icon={faHandPointer} />
           </div>
         </Card>
       </Grid2>

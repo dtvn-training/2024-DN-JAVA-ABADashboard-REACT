@@ -9,10 +9,13 @@
   --font-family-master: "Inter", sans-serif;
   --font-style: normal;
   --font-optical-sizing: auto;
-  --color-sidebar: #ebf7fd;
-  --color-button-sidebar: #1b59f8;
-  --color-button-hover-sidebar: rgba(27, 89, 248, 0.1);
-  --background-main-color: #f9f9f9;
+  --color-primary: #0F4C81; /* Main color: dark blue */
+  --color-secondary: #EAF0F1; /* Secondary color: light white */
+  --color-accent: #19A7CE; /* Accent color: light turquoise */
+  --color-dark: #2C3E50; /* Dark gray */
+  --color-sidebar-bg: #EBF7FD; /* Sidebar background color */
+  --background-main-color: var(--color-secondary);
+  --color-chart-bg: #FFFFFF; /* Chart background color */
 }
 
 body {

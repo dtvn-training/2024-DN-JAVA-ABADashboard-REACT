@@ -43,18 +43,18 @@
   .active-users-title {
     font-size: 1.2rem;
     font-weight: 200;
-    color: rgba(0, 0, 0, 0.6);
+    color: var(--color-text);
   }
 
   .active-users-value {
-    font-size: 1.7rem;
+    font-size: 2rem;
     font-weight: 700;
-    color: red;;
+    color: var(--color-primary);
   }
 
   .icon {
     font-size: 2rem;
-    color: #007bff;
+    color: var(--color-icon);
   }
 
   &.custom-card {
