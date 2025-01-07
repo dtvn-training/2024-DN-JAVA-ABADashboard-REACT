@@ -1,19 +1,35 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styled from "./event-dashboard.module.scss";
 import classNames from "classnames/bind";
-import { Box, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TablePagination } from "@mui/material";
-import NoDataPlaceholder from '../../../../components/no-data-or-error/NoDataPlaceholder';
+import {
+  Box,
+  Typography,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  TablePagination,
+} from "@mui/material";
+import NoDataPlaceholder from "../../../../components/no-data-or-error/NoDataPlaceholder";
+import { useAppSelector } from "../../../../redux/store";
 
 const cx = classNames.bind(styled);
 
 interface Event {
   eventName: string;
-  eventValue: string;
+  eventValue: number; // Đổi từ string sang number nếu cần
 }
 
 const EventDashboard = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(6);
+
+  const { eventTable, error, loading, totalElements } = useAppSelector(
+    (state) => state.events
+  );
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -23,6 +39,12 @@ const EventDashboard = () => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+
+  const currentData =
+    eventTable?.content?.map((item) => ({
+      eventName: item.eventName,
+      eventValue: item.totalValue, 
+    })) || [];
 
   return (
     <Box className={cx("container")}>
@@ -43,19 +65,33 @@ const EventDashboard = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {loading || error || events.length === 0 ? (
+            {loading ? (
+              <TableRow>
+                <TableCell colSpan={2} align="center">
+                  <Typography>Loading...</Typography>
+                </TableCell>
+              </TableRow>
+            ) : error ? (
+              <TableRow>
+                <TableCell colSpan={2} align="center">
+                  <Typography color="error">Error loading data</Typography>
+                </TableCell>
+              </TableRow>
+            ) : currentData.length === 0 ? (
               <TableRow>
                 <TableCell colSpan={2}>
                   <NoDataPlaceholder />
                 </TableCell>
               </TableRow>
             ) : (
-              events.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row: Event, index: number) => (
-                <TableRow key={index}>
-                  <TableCell>{row.eventName}</TableCell>
-                  <TableCell align="right">{row.eventValue}</TableCell>
-                </TableRow>
-              ))
+              currentData
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((row: Event, index: number) => (
+                  <TableRow key={index}>
+                    <TableCell>{row.eventName}</TableCell>
+                    <TableCell align="right">{row.eventValue}</TableCell>
+                  </TableRow>
+                ))
             )}
           </TableBody>
         </Table>
@@ -64,7 +100,7 @@ const EventDashboard = () => {
         <TablePagination
           rowsPerPageOptions={[6]}
           component="div"
-          count={totalElements}
+          count={totalElements || 0}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}

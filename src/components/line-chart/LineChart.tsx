@@ -9,7 +9,9 @@ import {
   Title,
   Tooltip,
   Legend,
+  TimeScale,
 } from 'chart.js';
+import 'chartjs-adapter-date-fns';
 
 ChartJS.register(
   CategoryScale,
@@ -18,7 +20,8 @@ ChartJS.register(
   LineElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  TimeScale
 );
 
 interface LineChartProps {
@@ -27,15 +30,23 @@ interface LineChartProps {
 }
 
 const LineChart: React.FC<LineChartProps> = ({ data, labels }) => {
+  let modifiedData = data;
+  let modifiedLabels = labels;
+
+  if (data.length === 1 && labels.length === 1) {
+    modifiedData = [data[0], data[0]];
+    modifiedLabels = [labels[0], labels[0]];
+  }
+
   const chartData = {
-    labels: labels,
+    labels: modifiedLabels,
     datasets: [
       {
         label: 'Purchases',
-        data: data,
+        data: modifiedData,
         borderColor: 'rgba(75, 192, 192, 1)',
         backgroundColor: 'rgba(75, 192, 192, 0.2)',
-        fill: true,
+        fill: false,
         borderWidth: 2,
         pointBackgroundColor: 'rgba(75, 192, 192, 1)',
         pointBorderColor: '#fff',
@@ -46,6 +57,7 @@ const LineChart: React.FC<LineChartProps> = ({ data, labels }) => {
   };
 
   const options = {
+    responsive: true,
     maintainAspectRatio: false,
     plugins: {
       legend: {
@@ -68,6 +80,16 @@ const LineChart: React.FC<LineChartProps> = ({ data, labels }) => {
     },
     scales: {
       x: {
+        type: 'time',
+        time: {
+          unit: 'day',
+          tooltipFormat: 'MMM dd, yyyy',
+          displayFormats: {
+            day: 'MMM dd',
+            week: 'MMM dd',
+            month: 'MMM yyyy',
+          },
+        },
         ticks: {
           color: '#333',
           font: {
@@ -95,7 +117,7 @@ const LineChart: React.FC<LineChartProps> = ({ data, labels }) => {
   };
 
   return (
-      <Line data={chartData} options={options} />
+    <Line data={chartData} options={options} />
   );
 };
 

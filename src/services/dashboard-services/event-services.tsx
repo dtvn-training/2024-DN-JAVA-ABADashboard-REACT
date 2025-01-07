@@ -26,10 +26,10 @@ export const fetchEvents = async (
   try {
 
     console.log('fetchEvents', pageNum, pageSize, startDate, endDate, eventLabel);
-    // Gọi API
+
     const response = await axios.get<ApiResponse>(`${baseUrl}/google-analytic/get-all-events-by-time`, {
       params: {
-        eventLabel: "eventName",
+        eventLabel,
         pageNum,
         pageSize,
         startDate,

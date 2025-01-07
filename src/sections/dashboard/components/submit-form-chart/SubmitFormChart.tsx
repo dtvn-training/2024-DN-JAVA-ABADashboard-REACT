@@ -4,69 +4,42 @@ import { Box, Card, Typography } from '@mui/material';
 import styled from './submit-chart.module.scss';
 import classNames from 'classnames/bind';
 import LineChart from '../../../../components/line-chart/LineChart';
+import dayjs from 'dayjs';
 
 const cx = classNames.bind(styled);
 
-interface FormSubmission {
-  date: string;
-  submissions: number;
-}
-
 const SubmitFormChart = () => {
-  const [chartData, setChartData] = useState({
-    labels: [] as string[],
-    datasets: [
-      {
-        label: 'Form Submissions',
-        data: [] as number[],
-        fill: false,
-        backgroundColor: 'rgba(75,192,192,0.4)',
-        borderColor: 'rgba(75,192,192,1)',
-      },
-    ],
-  });
-  const { dateRange, campaign } = useAppSelector((state) => state.filters);
+  const [chartLabels, setChartLabels] = useState<string[]>([]);
+  const [chartData, setChartData] = useState<number[]>([]);
+  const { chartEvent } = useAppSelector((state) => state.events);
 
   useEffect(() => {
-    const getFakeFormSubmissions = () => {
-      // Generate fake data
-      const fakeData: FormSubmission[] = [
-        { date: '2024-01-01', submissions: 10 },
-        { date: '2024-01-02', submissions: 15 },
-        { date: '2024-01-03', submissions: 8 },
-        { date: '2024-01-04', submissions: 20 },
-        { date: '2024-01-05', submissions: 5 },
-        { date: '2024-01-06', submissions: 12 },
-        { date: '2024-01-07', submissions: 18 },
-      ];
-      const formattedData = formatChartData(fakeData);
-      setChartData(formattedData);
+    const getSubmitChartData = () => {
+      const filteredData = chartEvent?.filter(
+        (event) => event.eventTitle === 'form submission'
+      ) || [];
+
+      const labels = filteredData.map((event) => dayjs(event.time).format('YYYY-MM-DD'));
+      const data = filteredData.map((event) => event.eventValue);
+
+      if (labels.length === 1 && data.length === 1) {
+        labels.push(labels[0]);
+        data.push(data[0]);
+      }
+
+      setChartLabels(labels);
+      setChartData(data);
     };
 
-    getFakeFormSubmissions();
-  }, [dateRange, campaign]);
-
-  const formatChartData = (data: FormSubmission[]) => {
-    return {
-      labels: data.map((entry) => entry.date),
-      datasets: [
-        {
-          label: 'Form Submissions',
-          data: data.map((entry) => entry.submissions),
-          fill: false,
-          backgroundColor: 'rgba(75,192,192,0.4)',
-          borderColor: 'rgba(75,192,192,1)',
-        },
-      ],
-    };
-  };
+    getSubmitChartData();
+  }, [chartEvent]);
 
   return (
     <Box className={cx('chart-container')}>
       <Card className={cx('chart-card')}>
-        <Typography className={cx('chart-title')}>Submit Chart</Typography>
+        <Typography className={cx('chart-title')}>Submit Form</Typography>
         <div className={cx('chart')}>
-          <LineChart data={chartData.datasets[0].data} labels={chartData.labels} />
+          <LineChart data={chartData} labels={chartLabels} />
         </div>
       </Card>
     </Box>

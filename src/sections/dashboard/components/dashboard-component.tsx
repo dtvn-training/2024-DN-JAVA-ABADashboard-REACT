@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Box } from "@mui/material";
 import Grid2 from "@mui/material/Grid2";
 import classNames from "classnames/bind";
@@ -23,29 +23,34 @@ const DashboardComponent = () => {
   const [loading, setLoading] = useState(false);
   const dispatch = useAppDispatch();
   const eventsData = useAppSelector(state => state.events);
-  const eventLabel = useAppSelector((state) => state.filters.eventname);
-  const { startDate, endDate } = useAppSelector((state) => state.filters.dateRange);
+  const eventname = useAppSelector(state => state.filters.eventname);
+  const { startDate, endDate } = useAppSelector(state => state.filters.dateRange);
 
   const startDateTime = format(new Date(startDate), 'yyyy-MM-dd');
   const endDateTime = format(new Date(endDate), 'yyyy-MM-dd');
 
+  const fetchEvents = useCallback(async () => {
+    try {
+      await dispatch(
+        fetchEventsThunk({
+          pageNum: 0,
+          pageSize: 6,
+          startDate: startDateTime,
+          endDate: endDateTime,
+          eventLabel: eventname,
+        })
+      ).unwrap();
+    } catch (error) {
+      console.error("Error fetching events data:", error);
+    } finally {
+      setLoading(false);
+    }
+  }, [dispatch, startDateTime, endDateTime, eventname]);
+
   useEffect(() => {
-    console.log('Fetching events data...', startDate, endDate, eventLabel);
-    setLoading(true);
-    dispatch(fetchEventsThunk({ pageNum: 0, pageSize: 6, startDate: startDateTime, endDate: endDateTime, eventLabel }))
-      .unwrap()
-      .then((data) => {
-        // dispatch(set);
-        console.log('Fetched events data:', data.data);
-        console.log('Fetched events eventdata:', eventsData);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error('Error fetching events data:', error);
-        setLoading(false);
-      });
-    console.log('Fetched events data:', eventsData);
-  }, [dispatch, startDate, endDate, eventLabel]);
+    console.log("Fetching events data...", { eventname, startDateTime, endDateTime });
+    fetchEvents();
+  }, [fetchEvents]);
 
   const rows = [
     {
@@ -79,7 +84,7 @@ const DashboardComponent = () => {
         <Grid2 size={{ md: 12 }}>
           <MetricsCards/>
         </Grid2>
-        <Grid2  size={{ md: 6 }}>
+        <Grid2 size={{ md: 6 }}>
           <ActivityChart />
         </Grid2>
         <Grid2 size={{ md: 6 }}>
@@ -88,8 +93,8 @@ const DashboardComponent = () => {
       </Grid2>
 
       <Grid2 container spacing={2}>
-       <Grid2 size={{ md: 6 }}>
-          {/* <EventDashboard /> */}
+        <Grid2 size={{ md: 6 }}>
+          <EventDashboard />
         </Grid2>
         <Grid2 size={{ md: 6 }}>
           <SubmitFormChart />

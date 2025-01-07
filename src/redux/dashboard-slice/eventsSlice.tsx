@@ -1,50 +1,33 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { fetchEvents } from '../../services/dashboard-services/event-services';
 
-interface Links {
-  rel: string;
-  href: string;
-}
-
-interface Content {
-  eventName: string;
-  totalValue: number;
-  link: [];
-}
-
-interface PageInfo {
-  size: number;
-  totalElements: number;
-  totalPages: number;
-  number: number;
-}
-
-interface EventTable {
-  links: Links[] | null;
-  content: Content[] | null;
-  page: PageInfo | null;
-}
-interface Event {
-    eventName: string;
-    totalValue: number;
-    eventValue: number;
- 
-}
-
-type ChartEvent = Event[];
-
-interface NumberEvent {
+interface NumberOfEvent {
   eventTitle: string;
   totalValue: number;
 }
 
-type NumberOfEvent = NumberEvent[];
+interface EventTable {
+  links: { rel: string; href: string }[] | null;
+  content: { eventName: string; totalValue: number }[] | null;
+  page: { size: number; totalElements: number; totalPages: number; number: number } | null;
+}
 
+interface ChartEvent {
+  time: string;
+  eventTitle: string;
+  eventValue: number;
+}
+
+interface ApiResponse {
+  numberOfEvent: NumberOfEvent[] | null;
+  eventTable: EventTable | null;
+  chartEvent: ChartEvent[] | null;
+}
 
 interface EventsState {
-  numberOfEvent: NumberOfEvent | null;
+  numberOfEvent: NumberOfEvent[] | null;
   eventTable: EventTable | null;
-  chartEvent: ChartEvent | null;
+  chartEvent: ChartEvent[] | null;
   currentPage: number;
   totalPages: number;
   pageSize: number;
@@ -65,14 +48,11 @@ const initialState: EventsState = {
   error: null,
 };
 
-export const fetchEventsThunk = createAsyncThunk(
+export const fetchEventsThunk = createAsyncThunk<ApiResponse, { pageNum: number; pageSize: number; startDate: string; endDate: string; eventLabel: string }>(
   'events/fetchEvents',
-  async (
-    { pageNum, pageSize, startDate, endDate, eventLabel }: 
-    { pageNum: number; pageSize: number; startDate: string; endDate: string; eventLabel: string }
-  ) => {
+  async ({ pageNum, pageSize, startDate, endDate, eventLabel }) => {
     const response = await fetchEvents(pageNum, pageSize, startDate, endDate, eventLabel);
-    return response;
+    return response; 
   }
 );
 
@@ -87,7 +67,7 @@ const eventsSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchEventsThunk.fulfilled, (state, action) => {
-        const { numberOfEvent, eventTable, chartEvent } = action.payload.data;
+        const { numberOfEvent, eventTable, chartEvent } = action.payload;
         state.loading = false;
 
         state.numberOfEvent = numberOfEvent ?? [];
@@ -114,4 +94,3 @@ const eventsSlice = createSlice({
 });
 
 export default eventsSlice.reducer;
-

@@ -4,27 +4,46 @@ import LineChart from '../../../../components/line-chart/LineChart';
 import LoadingSpinner from '../../../../components/loading-spinner/loading-spinner';
 import styled from './purchases-chart.module.scss';
 import classNames from 'classnames/bind';
+import { useAppSelector } from "../../../../redux/store";
+import dayjs from 'dayjs';
+
 const cx = classNames.bind(styled);
 
 const PurchasesChart: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [purchaseData, setPurchaseData] = useState<number[]>([]);
   const [purchaseLabels, setPurchaseLabels] = useState<string[]>([]);
+  const { chartEvent } = useAppSelector((state) => state.events);
 
   useEffect(() => {
-    const getPurchaseData = async () => {
+    const groupDataByInterval = (data: any[], interval: 'day' | 'week' | 'month') => {
+      const grouped: { [key: string]: number } = {};
+      data.forEach((event) => {
+        const key = dayjs(event.time).startOf(interval).format('YYYY-MM-DD');
+        if (!grouped[key]) {
+          grouped[key] = 0;
+        }
+        grouped[key] += event.eventValue;
+      });
+      return Object.entries(grouped).map(([key, value]) => ({ label: key, value }));
+    };
+
+    const getPurchaseData = () => {
       setLoading(true);
       try {
-        // Fake data for purchases
-        const fakeData = [
-          { date: "2023-01-01", count: 10 },
-          { date: "2023-01-02", count: 15 },
-          { date: "2023-01-03", count: 20 },
-          { date: "2023-01-04", count: 25 },
-          { date: "2023-01-05", count: 30 },
-        ];
-        const labels = fakeData.map((purchase) => purchase.date);
-        const values = fakeData.map((purchase) => purchase.count);
+        const filteredData = chartEvent?.filter((event) => event.eventTitle === "purchase") || [];
+        const interval =
+          filteredData.length <= 15
+            ? 'day'
+            : filteredData.length <= 90
+            ? 'week'
+            : 'month';
+
+        const groupedData = groupDataByInterval(filteredData, interval);
+
+        const labels = groupedData.map((item) => item.label);
+        const values = groupedData.map((item) => item.value);
+
         setPurchaseLabels(labels);
         setPurchaseData(values);
       } catch (error) {
@@ -35,7 +54,7 @@ const PurchasesChart: React.FC = () => {
     };
 
     getPurchaseData();
-  }, []);
+  }, [chartEvent]);
 
   if (loading) {
     return <LoadingSpinner />;
@@ -44,7 +63,7 @@ const PurchasesChart: React.FC = () => {
   return (
     <Box className={cx('chart-container')}>
       <Card className={cx('chart-card')}>
-        <Typography className={cx('chart-title')}>Purchases Chart</Typography>
+        <Typography className={cx('chart-title')}>Purchases</Typography>
         <div className={cx('chart')}>
           <LineChart data={purchaseData} labels={purchaseLabels} />
         </div>

@@ -12,14 +12,14 @@ const cx = classNames.bind(styled);
 
 const MetricsCards = () => {
   const [loading, setLoading] = useState(false);
-  const {events} = useAppSelector(state => state.events);
+  const {numberOfEvent} = useAppSelector(state => state.events);
 
   if (loading) {
     return <LoadingSpinner />;
   }
 
   useEffect(() => { 
-    console.log('Fetching events data...', events);
+    console.log('Fetching events data hahahahahahha...', numberOfEvent);
   }, []);
 
   return (
@@ -31,7 +31,9 @@ const MetricsCards = () => {
               <Typography className={cx("active-users-title")}>
                Active  User
               </Typography>
-              <Typography className={cx("active-users-value")}></Typography>
+              <Typography className={cx("active-users-value")}>
+               {numberOfEvent?.find((item) => item.eventTitle === "Active Users")?.totalValue || 0}
+              </Typography>
             </div>
             <FontAwesomeIcon className={cx('icon')} icon={faUsers} />
           </div>
@@ -44,7 +46,9 @@ const MetricsCards = () => {
               <Typography className={cx("active-users-title")}>
                 Event Count
               </Typography>
-              <Typography className={cx("active-users-value")}></Typography>
+              <Typography className={cx("active-users-value")}>
+                {numberOfEvent?.find((item) => item.eventTitle === "Event Count")?.totalValue || 0}
+              </Typography>
             </div>
             <FontAwesomeIcon className={cx('icon')} icon={faChartLine} />
           </div>
@@ -55,7 +59,9 @@ const MetricsCards = () => {
           <div className={cx("content")}>
             <div className={cx("value")}>
               <Typography className={cx("active-users-title")}>Click</Typography>
-              <Typography className={cx("active-users-value")}></Typography>
+              <Typography className={cx("active-users-value")}>
+               {numberOfEvent?.find((item) => item.eventTitle === "purchase")?.totalValue || 0}
+              </Typography>
             </div>
             <FontAwesomeIcon className={cx('icon')} icon={faHandPointer} />
           </div>
