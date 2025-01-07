@@ -4,6 +4,7 @@ interface ApiResponse {
   code: number;
   message: string;
   data: {
+    data: { numberOfEvent: any; eventTable: any; chartEvent: any; };
     numberOfEvent: { eventTitle: string; totalValue: number }[]  | null;
     eventTable: {
       links: { rel: string; href: string }[] | null;
@@ -24,9 +25,6 @@ export const fetchEvents = async (
   eventLabel: string
 ): Promise<ApiResponse['data']> => {
   try {
-
-    console.log('fetchEvents', pageNum, pageSize, startDate, endDate, eventLabel);
-
     const response = await axios.get<ApiResponse>(`${baseUrl}/google-analytic/get-all-events-by-time`, {
       params: {
         eventLabel,
@@ -40,7 +38,6 @@ export const fetchEvents = async (
     if (!response.data || response.data.code !== 200 || !response.data.data) {
       throw new Error('Invalid API response');
     }
-    console.log('fetchEvents response:', response.data.data);
     return response.data.data;
 
   } catch (error: any) {

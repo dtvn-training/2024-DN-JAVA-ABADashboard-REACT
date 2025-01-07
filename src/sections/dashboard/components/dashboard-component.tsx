@@ -15,7 +15,6 @@ import TableFillter from "./table-fillters/TableFillter";
 import { useAppDispatch, useAppSelector } from "../../../redux/store";
 import { fetchEventsThunk } from "../../../redux/dashboard-slice/eventsSlice";
 import { format } from 'date-fns';
-import { setEventName } from "../../../redux/dashboard-slice/filtersSlice";
 
 const cx = classNames.bind(styled); 
 
@@ -23,8 +22,9 @@ const DashboardComponent = () => {
   const [loading, setLoading] = useState(false);
   const dispatch = useAppDispatch();
   const eventsData = useAppSelector(state => state.events);
-  const eventname = useAppSelector(state => state.filters.eventname);
+  const eventname  = useAppSelector(state => state.filters.eventname);
   const { startDate, endDate } = useAppSelector(state => state.filters.dateRange);
+  const {currentPage, pageSize} = useAppSelector(state => state.events);
 
   const startDateTime = format(new Date(startDate), 'yyyy-MM-dd');
   const endDateTime = format(new Date(endDate), 'yyyy-MM-dd');
@@ -33,8 +33,8 @@ const DashboardComponent = () => {
     try {
       await dispatch(
         fetchEventsThunk({
-          pageNum: 0,
-          pageSize: 6,
+          pageNum: currentPage,
+          pageSize: pageSize,
           startDate: startDateTime,
           endDate: endDateTime,
           eventLabel: eventname,
@@ -45,10 +45,9 @@ const DashboardComponent = () => {
     } finally {
       setLoading(false);
     }
-  }, [dispatch, startDateTime, endDateTime, eventname]);
+  }, [dispatch, startDateTime, endDateTime, eventname, currentPage]);
 
   useEffect(() => {
-    console.log("Fetching events data...", { eventname, startDateTime, endDateTime });
     fetchEvents();
   }, [fetchEvents]);
 

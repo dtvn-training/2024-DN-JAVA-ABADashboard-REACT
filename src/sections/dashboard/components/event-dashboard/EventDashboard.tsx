@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "./event-dashboard.module.scss";
 import classNames from "classnames/bind";
 import {
@@ -14,37 +14,54 @@ import {
   TablePagination,
 } from "@mui/material";
 import NoDataPlaceholder from "../../../../components/no-data-or-error/NoDataPlaceholder";
-import { useAppSelector } from "../../../../redux/store";
+import {useAppDispatch, useAppSelector } from "../../../../redux/store";
+import {setCurrentPage} from "../../../../redux/dashboard-slice/eventsSlice";
+import LoadingSpinner from "../../../../components/loading-spinner/loading-spinner";
 
 const cx = classNames.bind(styled);
 
 interface Event {
   eventName: string;
-  eventValue: number; // Đổi từ string sang number nếu cần
+  eventValue: number;
 }
 
 const EventDashboard = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(6);
-
   const { eventTable, error, loading, totalElements } = useAppSelector(
     (state) => state.events
   );
+  const [currentData, setCurrentData] = useState<Event[]>(eventTable?.content?.map((item) => ({
+    eventName: item.eventName,
+    eventValue: item.totalValue,
+  })) || []);
+  const dispatch = useAppDispatch();
 
-  const handleChangePage = (event: unknown, newPage: number) => {
-    setPage(newPage);
-  };
+  
 
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
+    const handleChangePage = (event: unknown, newPage: number) => {
+      setPage(newPage);
+      console.log('newPage', newPage);
+      dispatch(setCurrentPage(newPage));
+    };
 
-  const currentData =
-    eventTable?.content?.map((item) => ({
-      eventName: item.eventName,
-      eventValue: item.totalValue, 
-    })) || [];
+    const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+      const newRowsPerPage = parseInt(event.target.value, 10);
+      setRowsPerPage(newRowsPerPage);
+      setPage(0);
+      dispatch(setCurrentPage(0));
+    };
+    useEffect(()=>{
+      if(eventTable && eventTable.content){
+        setCurrentData(eventTable.content.map((item) => ({
+          eventName: item.eventName,
+          eventValue: item.totalValue,
+        }))
+        );
+      }
+    },[eventTable, eventTable?.content]);
+    console.log(currentData);
+    
 
   return (
     <Box className={cx("container")}>
@@ -68,7 +85,7 @@ const EventDashboard = () => {
             {loading ? (
               <TableRow>
                 <TableCell colSpan={2} align="center">
-                  <Typography>Loading...</Typography>
+                  <Typography><LoadingSpinner/></Typography>
                 </TableCell>
               </TableRow>
             ) : error ? (
@@ -84,9 +101,7 @@ const EventDashboard = () => {
                 </TableCell>
               </TableRow>
             ) : (
-              currentData
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row: Event, index: number) => (
+              currentData.map((row: Event, index: number) => (
                   <TableRow key={index}>
                     <TableCell>{row.eventName}</TableCell>
                     <TableCell align="right">{row.eventValue}</TableCell>
@@ -98,7 +113,7 @@ const EventDashboard = () => {
       </TableContainer>
       <Box className={cx("pagination-container")}>
         <TablePagination
-          rowsPerPageOptions={[6]}
+          rowsPerPageOptions={[6, 10, 15]}
           component="div"
           count={totalElements || 0}
           rowsPerPage={rowsPerPage}

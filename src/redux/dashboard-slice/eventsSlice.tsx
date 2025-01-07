@@ -59,7 +59,11 @@ export const fetchEventsThunk = createAsyncThunk<ApiResponse, { pageNum: number;
 const eventsSlice = createSlice({
   name: 'events',
   initialState,
-  reducers: {},
+  reducers: {
+    setCurrentPage (state, action) {
+      state.currentPage = action.payload;
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchEventsThunk.pending, (state) => {
@@ -93,4 +97,5 @@ const eventsSlice = createSlice({
   },
 });
 
+export const { setCurrentPage } = eventsSlice.actions;
 export default eventsSlice.reducer;

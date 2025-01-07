@@ -5,7 +5,7 @@ import LoadingSpinner from "../../../../components/loading-spinner/loading-spinn
 import styled from "./metrics-card.module.scss";
 import classNames from "classnames/bind";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUsers, faChartLine, faHandPointer } from "@fortawesome/free-solid-svg-icons";
+import { faUsers, faChartLine, faSackDollar } from "@fortawesome/free-solid-svg-icons";
 import { useAppSelector } from "../../../../redux/store";
 
 const cx = classNames.bind(styled);
@@ -17,11 +17,7 @@ const MetricsCards = () => {
   if (loading) {
     return <LoadingSpinner />;
   }
-
-  useEffect(() => { 
-    console.log('Fetching events data hahahahahahha...', numberOfEvent);
-  }, []);
-
+  
   return (
     <Grid2 container className={cx("metrics-cards")}>
       <Grid2 className={cx("metrics-card")} size={{ md: 4 }}>
@@ -58,12 +54,13 @@ const MetricsCards = () => {
         <Card className={cx("custom-card")}>
           <div className={cx("content")}>
             <div className={cx("value")}>
-              <Typography className={cx("active-users-title")}>Click</Typography>
+              <Typography className={cx("active-users-title")}>Purchases</Typography>
               <Typography className={cx("active-users-value")}>
                {numberOfEvent?.find((item) => item.eventTitle === "purchase")?.totalValue || 0}
               </Typography>
             </div>
-            <FontAwesomeIcon className={cx('icon')} icon={faHandPointer} />
+            <FontAwesomeIcon className={cx('icon')} icon={faSackDollar} />
+
           </div>
         </Card>
       </Grid2>

@@ -1,12 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { Box, Card, Typography } from '@mui/material';
-import LineChart from '../../../../components/line-chart/LineChart';
-import LoadingSpinner from '../../../../components/loading-spinner/loading-spinner';
-import styled from './purchases-chart.module.scss';
-import classNames from 'classnames/bind';
+import React, { useState, useEffect } from "react";
+import { Box, Card, Typography } from "@mui/material";
+import LineChart from "../../../../components/line-chart/LineChart";
+import LoadingSpinner from "../../../../components/loading-spinner/loading-spinner";
+import styled from "./purchases-chart.module.scss";
+import classNames from "classnames/bind";
 import { useAppSelector } from "../../../../redux/store";
-import dayjs from 'dayjs';
+import dayjs from "dayjs";
+import isBetween from "dayjs/plugin/isBetween";
+import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 
+dayjs.extend(isBetween);
+dayjs.extend(isSameOrBefore);
 const cx = classNames.bind(styled);
 
 const PurchasesChart: React.FC = () => {
@@ -14,32 +18,78 @@ const PurchasesChart: React.FC = () => {
   const [purchaseData, setPurchaseData] = useState<number[]>([]);
   const [purchaseLabels, setPurchaseLabels] = useState<string[]>([]);
   const { chartEvent } = useAppSelector((state) => state.events);
+  const { startDate, endDate } = useAppSelector(
+    (state) => state.filters.dateRange
+  );
 
   useEffect(() => {
-    const groupDataByInterval = (data: any[], interval: 'day' | 'week' | 'month') => {
+    const generateDateRange = (start: string, end: string) => {
+      const dates = [];
+      let current = dayjs(start);
+      const last = dayjs(end);
+
+      while (current.isSameOrBefore(last)) {
+        dates.push(current.format("YYYY-MM-DD"));
+        current = current.add(1, "day");
+      }
+
+      return dates;
+    };
+
+    const groupDataByInterval = (
+      data: any[],
+      interval: "day" | "week" | "month",
+      dateRange: string[]
+    ) => {
       const grouped: { [key: string]: number } = {};
-      data.forEach((event) => {
-        const key = dayjs(event.time).startOf(interval).format('YYYY-MM-DD');
-        if (!grouped[key]) {
-          grouped[key] = 0;
-        }
-        grouped[key] += event.eventValue;
+
+      dateRange.forEach((date) => {
+        grouped[date] = 0;
       });
-      return Object.entries(grouped).map(([key, value]) => ({ label: key, value }));
+
+      data.forEach((event) => {
+        const key = dayjs(event.time).startOf(interval).format("YYYY-MM-DD");
+        if (grouped[key] !== undefined) {
+          grouped[key] += event.eventValue;
+        }
+      });
+
+      return Object.entries(grouped).map(([key, value]) => ({
+        label: key,
+        value,
+      }));
     };
 
     const getPurchaseData = () => {
       setLoading(true);
       try {
-        const filteredData = chartEvent?.filter((event) => event.eventTitle === "purchase") || [];
-        const interval =
-          filteredData.length <= 15
-            ? 'day'
-            : filteredData.length <= 90
-            ? 'week'
-            : 'month';
+        const filteredData =
+          chartEvent?.filter(
+            (event) =>
+              event.eventTitle === "purchase" &&
+              dayjs(event.time).isBetween(startDate, endDate, null, "[]")
+          ) || [];
 
-        const groupedData = groupDataByInterval(filteredData, interval);
+        const formattedStartDate = dayjs(startDate).format("YYYY-MM-DD");
+        const formattedEndDate = dayjs(endDate).format("YYYY-MM-DD");
+
+        const dateRange = generateDateRange(
+          formattedStartDate,
+          formattedEndDate
+        );
+
+        const interval =
+          dateRange.length <= 15
+            ? "day"
+            : dateRange.length <= 90
+            ? "week"
+            : "month";
+
+        const groupedData = groupDataByInterval(
+          filteredData,
+          interval,
+          dateRange
+        );
 
         const labels = groupedData.map((item) => item.label);
         const values = groupedData.map((item) => item.value);
@@ -61,10 +111,10 @@ const PurchasesChart: React.FC = () => {
   }
 
   return (
-    <Box className={cx('chart-container')}>
-      <Card className={cx('chart-card')}>
-        <Typography className={cx('chart-title')}>Purchases</Typography>
-        <div className={cx('chart')}>
+    <Box className={cx("chart-container")}>
+      <Card className={cx("chart-card")}>
+        <Typography className={cx("chart-title")}>Purchases</Typography>
+        <div className={cx("chart")}>
           <LineChart data={purchaseData} labels={purchaseLabels} />
         </div>
       </Card>
