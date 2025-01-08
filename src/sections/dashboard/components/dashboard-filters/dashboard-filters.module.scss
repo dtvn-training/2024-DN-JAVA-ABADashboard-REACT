@@ -20,6 +20,7 @@
     color: var(--color-dark);
     cursor: pointer;
     outline: none;
+    color: black !important;
     transition: border-color 0.3s, background-color 0.3s, color 0.3s;
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 10 10"><polygon points="0,0 10,0 5,5" fill="%23333"/></svg>'); /* Arrow */
     background-repeat: no-repeat;

@@ -4,6 +4,37 @@
     padding: 16px;
     background-color: #f5f5f5;
 
+    .fill {
+        justify-items: left;
+        appearance: none;
+        background-color: var(--color-secondary);
+        border: 1px solid var(--color-dark);
+        border-radius: 10px;
+        padding: 10px 15px;
+        min-width: 240px;
+        min-height: 50px;
+        font-size: 16px;
+        color: var(--color-dark);
+        cursor: pointer;
+        outline: none;
+        transition: border-color 0.3s, background-color 0.3s, color 0.3s;
+        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 10 10"><polygon points="0,0 10,0 5,5" fill="%23333"/></svg>'); /* Arrow */
+        background-repeat: no-repeat;
+        background-position: right 10px center;
+        background-size: 10px;
+    
+        &:hover {
+          border-color: var(--color-primary);
+          background-color: var(--color-accent);
+          color: var(--color-primary);
+        }
+    
+        &:active {
+          background-color: var(--color-primary);
+          color: var(--color-secondary);
+        }
+      }
+
     @media (max-width: 1200px) {
         gap: 14px;
         padding: 14px;
@@ -27,6 +58,12 @@
         padding: 8px;
         font-size: 0.6rem;
     }
+}
+
+.boxCustom{
+    color: black;
+    box-shadow: none !important;
+    outline: none !important;
 }
 
 .filter-button {

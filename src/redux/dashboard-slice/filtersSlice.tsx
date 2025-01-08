@@ -1,5 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
-// import {fetchMedias}  from '../../services/dashboard-services/media-services';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import {fetchMedias}  from '../../services/dashboard-services/media-services';
 
 const initialState = {
   dateRange: { startDate: new Date(), endDate: new Date() },
@@ -10,10 +10,10 @@ const initialState = {
   loading : false,
 };
 
-// export const fetchMediaThunk = createAsyncThunk('mediums/fetchMediums', async () => {
-//   const response = await fetchMedias();
-//   return response;
-// });
+export const fetchMediaThunk = createAsyncThunk('mediums/fetchMediums', async () => {
+  const response = await fetchMedias();
+  return response;
+});
 
 const filtersSlice = createSlice({
   name: 'filters',
@@ -32,16 +32,16 @@ const filtersSlice = createSlice({
       state.media = action.payload;
     },
   },
-  // extraReducers: (builder) => {
-  //   builder
-  //     .addCase(fetchMediumsThunk.pending, (state) => {
-  //       state.loading = true;
-  //     })
-  //     .addCase(fetchMediumsThunk.fulfilled, (state, action) => {
-  //       state.loading = false;
-  //       state.media = action.payload;
-  //     });
-  // },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchMediaThunk.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchMediaThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.medias = action.payload;
+      });
+  },
 });
 
 export const { setDateRange, setCampaign, setEventName, setMedia } = filtersSlice.actions;

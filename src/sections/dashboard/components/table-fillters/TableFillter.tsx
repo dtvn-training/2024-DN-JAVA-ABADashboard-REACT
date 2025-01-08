@@ -13,6 +13,9 @@ import {
 } from "@mui/material";
 import styles from "./table-fillter.module.scss";
 import classNames from "classnames/bind";
+import DateRangePickerComponent from "../../../../components/date-time-picker/DateRangePickerComponent";
+import { useAppDispatch,useAppSelector } from "../../../../redux/store";
+import { setDateRange } from "../../../../redux/dashboard-slice/tableFilterSlice";
 
 const cx = classNames.bind(styles);
 
@@ -26,6 +29,8 @@ const TableFillter = () => {
   const [budget, setBudget] = useState<number[]>([100000, 1000000]);
   const [tempBudget, setTempBudget] = useState<number[]>([100000, 1000000]);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const {dateRange} = useAppSelector((state) => state.tableFilter);
+  const dispatch = useAppDispatch();
 
   const handleChange = (type: string) => (event: SelectChangeEvent<string>) => {
     setSelectedFilter((prev) => ({ ...prev, [type]: event.target.value }));
@@ -37,11 +42,20 @@ const TableFillter = () => {
 
   const handleBudgetClose = () => {
     setAnchorEl(null);
-    setBudget(tempBudget); // Cập nhật giá trị chính thức khi đóng Popover
+    setBudget(tempBudget);
   };
 
   const handleBudgetChange = (event: Event, newValue: number | number[]) => {
-    setTempBudget(newValue as number[]); // Chỉ cập nhật giá trị tạm thời khi kéo Slider
+    setTempBudget(newValue as number[]);
+  };
+
+  const handleDateRangeChange = (range: { startDate: Date; endDate: Date }) => {
+      dispatch(
+        setDateRange({
+          startDate: range.startDate.toISOString(),
+          endDate: range.endDate.toISOString(),
+        })
+      );
   };
 
   const open = Boolean(anchorEl);
@@ -49,8 +63,7 @@ const TableFillter = () => {
 
   return (
     <Box className={cx("filter-container")}>
-      <FormControl variant="outlined" size="medium" className={cx("filter-control")}>
-        <InputLabel>Status</InputLabel>
+      <FormControl  size="medium" className={cx("fill")}>
         <Select value={selectedFilter.status} onChange={handleChange("status")} label="Status">
           <MenuItem value="All Status">All Status</MenuItem>
           <MenuItem value="Active">Active</MenuItem>
@@ -58,9 +71,8 @@ const TableFillter = () => {
         </Select>
       </FormControl>
 
-      <Box className={cx("filter-control")}>
+      <Box className={cx("fill")}>
         <Button
-          variant="outlined"
           onClick={handleBudgetClick}
           fullWidth
         >
@@ -94,14 +106,15 @@ const TableFillter = () => {
         </Popover>
       </Box>
 
-      <FormControl variant="outlined" size="medium" className={cx("filter-control")}>
-        <InputLabel>Date</InputLabel>
-        <Select value={selectedFilter.date} onChange={handleChange("date")} label="Date">
-          <MenuItem value="Today">Today</MenuItem>
-          <MenuItem value="This Week">This Week</MenuItem>
-          <MenuItem value="This Month">This Month</MenuItem>
-        </Select>
-      </FormControl>
+      <div className={cx("fill")}>
+        <DateRangePickerComponent
+          initialRange={{
+            startDate: new Date(dateRange.startDate),
+            endDate: new Date(dateRange.endDate),
+          }}
+          onDateChange={handleDateRangeChange}
+        />
+      </div>
     </Box>
   );
 };

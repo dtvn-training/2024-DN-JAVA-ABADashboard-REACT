@@ -16,30 +16,42 @@ interface ApiResponse {
 }
 
 const baseUrl: string = import.meta.env.VITE_APP_URL_BACKEND;
-
 export const fetchEvents = async (
   pageNum: number,
   pageSize: number,
   startDate: string,
   endDate: string,
-  eventLabel: string
+  eventLabel: string,
+  mediumName: string | null,
+  campaignName: string | null
 ): Promise<ApiResponse['data']> => {
   try {
-    const response = await axios.get<ApiResponse>(`${baseUrl}/google-analytic/get-all-events-by-time`, {
-      params: {
-        eventLabel,
-        pageNum,
-        pageSize,
-        startDate,
-        endDate,
-      },
+    const params: { [key: string]: any } = {
+      pageNum,
+      pageSize,
+      startDate,
+      endDate,
+      eventLabel,
+      mediumName,
+    };
+
+    if (mediumName) {
+      params.mediumName = mediumName;
+    }
+
+    if (campaignName) {
+      params.campaignName = campaignName;
+    }
+
+    const response = await axios.get<ApiResponse>(`${baseUrl}/google-analytic/get-all-events-by-filter`, {
+      params,
     });
 
     if (!response.data || response.data.code !== 200 || !response.data.data) {
       throw new Error('Invalid API response');
     }
-    return response.data.data;
 
+    return response.data.data;
   } catch (error: any) {
     if (axios.isAxiosError(error)) {
       console.error('API Error:', error.response?.data || error.message);
@@ -50,3 +62,4 @@ export const fetchEvents = async (
     }
   }
 };
+

@@ -14,20 +14,37 @@ import EventDashboard from "./event-dashboard/EventDashboard";
 import TableFillter from "./table-fillters/TableFillter";
 import { useAppDispatch, useAppSelector } from "../../../redux/store";
 import { fetchEventsThunk } from "../../../redux/dashboard-slice/eventsSlice";
-import { format } from 'date-fns';
+import { format } from "date-fns";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { fetchMediaThunk } from "../../../redux/dashboard-slice/filtersSlice";
 
-const cx = classNames.bind(styled); 
+const theme = createTheme({
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 960,
+      lg: 1000,
+      xl: 1200,
+    },
+  },
+});
+
+const cx = classNames.bind(styled);
 
 const DashboardComponent = () => {
   const [loading, setLoading] = useState(false);
   const dispatch = useAppDispatch();
-  const eventsData = useAppSelector(state => state.events);
-  const eventname  = useAppSelector(state => state.filters.eventname);
-  const { startDate, endDate } = useAppSelector(state => state.filters.dateRange);
-  const {currentPage, pageSize} = useAppSelector(state => state.events);
+  const eventsData = useAppSelector((state) => state.events);
+  const eventname = useAppSelector((state) => state.filters.eventname);
+  const { startDate, endDate } = useAppSelector(
+    (state) => state.filters.dateRange
+  );
+  const {campaign, media} = useAppSelector((state) => state.filters )
+  const { currentPage, pageSize } = useAppSelector((state) => state.events);
 
-  const startDateTime = format(new Date(startDate), 'yyyy-MM-dd');
-  const endDateTime = format(new Date(endDate), 'yyyy-MM-dd');
+  const startDateTime = format(new Date(startDate), "yyyy-MM-dd");
+  const endDateTime = format(new Date(endDate), "yyyy-MM-dd");
 
   const fetchEvents = useCallback(async () => {
     try {
@@ -38,6 +55,8 @@ const DashboardComponent = () => {
           startDate: startDateTime,
           endDate: endDateTime,
           eventLabel: eventname,
+          campaignName: campaign,
+          mediumName: media
         })
       ).unwrap();
     } catch (error) {
@@ -45,9 +64,15 @@ const DashboardComponent = () => {
     } finally {
       setLoading(false);
     }
-  }, [dispatch, startDate, endDate, eventname, currentPage]);
+  }, [dispatch, startDate, endDate, eventname, currentPage, campaign, media]);
+
+  const fetchMedia = useCallback(async () => {
+      await dispatch(fetchMediaThunk()).unwrap();
+
+  },[]);
 
   useEffect(() => {
+    fetchMedia();
     fetchEvents();
   }, [fetchEvents]);
 
@@ -77,31 +102,33 @@ const DashboardComponent = () => {
   }
 
   return (
-    <Box className={cx("container")}>
-      <DashboardFilters />
-      <Grid2 container spacing={2}> 
-        <Grid2 size={{ md: 12 }}>
-          <MetricsCards/>
+    <ThemeProvider theme={theme}>
+      <Box className={cx("container")}>
+        <DashboardFilters />
+        <Grid2 container spacing={2}>
+          <Grid2 size={{xs: 12}}>
+            <MetricsCards />
+          </Grid2>
+          <Grid2 size={{xs: 12, lg: 6}}>
+            <ActivityChart />
+          </Grid2>
+          <Grid2 size={{xs: 12, lg: 6}}>
+            <PurchasesChart />
+          </Grid2>
         </Grid2>
-        <Grid2 size={{ md: 6 }}>
-          <ActivityChart />
-        </Grid2>
-        <Grid2 size={{ md: 6 }}>
-          <PurchasesChart /> 
-        </Grid2>
-      </Grid2>
 
-      <Grid2 container spacing={2}>
-        <Grid2 size={{ md: 6 }}>
-          <EventDashboard />
+        <Grid2 container spacing={2}>
+          <Grid2 size={{xs: 12, lg: 6}}>
+            <EventDashboard />
+          </Grid2>
+          <Grid2 size={{xs: 12, lg: 6}}>
+            <SubmitFormChart />
+          </Grid2>
         </Grid2>
-        <Grid2 size={{ md: 6 }}>
-          <SubmitFormChart />
-        </Grid2>      
-      </Grid2>
-      <TableFillter />
-      <ProjectsTable rows={rows} />
-    </Box>
+        <TableFillter />
+        <ProjectsTable rows={rows} />
+      </Box>
+    </ThemeProvider>
   );
 };
 

@@ -26,7 +26,7 @@ export const ABADashboardLayout = (props: PropsStyles) => {
         component="main"
         className={cx("mainContent", { shifted: !isSidebarOpen })}
       >
-        <Header isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+        <Header />
         <Main>{props.children}</Main>
       </Box>
     </>

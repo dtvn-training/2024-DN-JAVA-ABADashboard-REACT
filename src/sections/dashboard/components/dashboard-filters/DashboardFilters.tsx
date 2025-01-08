@@ -9,7 +9,7 @@ import {
   setMedia,
   setCampaign,
 } from "../../../../redux/dashboard-slice/filtersSlice";
-import DateRangePickerComponent from "./../../../../components/DateRangePickerComponent";
+import DateRangePickerComponent from "../../../../components/date-time-picker/DateRangePickerComponent";
 
 const cx = classNames.bind(styles);
 
@@ -19,8 +19,9 @@ const DashboardFilters: React.FC = () => {
   const [media, setMediaState] = React.useState<string>("");
   const [eventName, setEventNameState] = React.useState<string>("");
   const [campaign, setCampaignState] = React.useState<string>("");
+  const {medias} = useAppSelector(state => state.filters);
+  console.log("media nânnanananan", medias);
 
-  const mediums = ["(None)", "Zalo"];
   const eventNames = [
     "eventName",
     "city",
@@ -30,7 +31,7 @@ const DashboardFilters: React.FC = () => {
     "medium",
     "date",
   ];
-  const campaigns = ["Campaign A", "Campaign B", "Campaign C"];
+  const campaigns = ["abalightacademy.com"];
 
   useEffect(() => {
     const today = new Date();
@@ -48,7 +49,10 @@ const DashboardFilters: React.FC = () => {
   const handleMediaChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
     setMediaState(value);
-    dispatch(setMedia(value));
+    if(value==="All")
+      dispatch(setMedia(null))
+    else
+      dispatch(setMedia(value));
   };
 
   const handleEventNameChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -76,12 +80,13 @@ const DashboardFilters: React.FC = () => {
     <Box className={cx("filters")}>
       <select
         className={cx("fill")}
-        value={media || "Mediums"}
+        value={media || ""}
         onChange={handleMediaChange}
       >
-        {mediums.map((m) => (
-          <option key={m} value={m}>
-            {m}
+        <option value="">All</option>
+        {medias.map((m) => (
+          <option key={m.mediumId} value={m.mediumName}>
+            {m.mediumName}
           </option>
         ))}
       </select>
@@ -97,14 +102,17 @@ const DashboardFilters: React.FC = () => {
           </option>
         ))}
       </select>
-
-      <DateRangePickerComponent
-        initialRange={{
-          startDate: new Date(dateRange.startDate),
-          endDate: new Date(dateRange.endDate),
-        }}
-        onDateChange={handleDateRangeChange}
-      />
+      
+      <div className={cx("fill")}>
+        <DateRangePickerComponent
+          initialRange={{
+            startDate: new Date(dateRange.startDate),
+            endDate: new Date(dateRange.endDate),
+          }}
+          onDateChange={handleDateRangeChange}
+        />
+      </div>
+      
 
       <select
         className={cx("fill")}

@@ -48,10 +48,10 @@ const initialState: EventsState = {
   error: null,
 };
 
-export const fetchEventsThunk = createAsyncThunk<ApiResponse, { pageNum: number; pageSize: number; startDate: string; endDate: string; eventLabel: string }>(
+export const fetchEventsThunk = createAsyncThunk<ApiResponse, { pageNum: number; pageSize: number; startDate: string; endDate: string; eventLabel: string, campaignName: string, mediumName: string }>(
   'events/fetchEvents',
-  async ({ pageNum, pageSize, startDate, endDate, eventLabel }) => {
-    const response = await fetchEvents(pageNum, pageSize, startDate, endDate, eventLabel);
+  async ({ pageNum, pageSize, startDate, endDate, eventLabel, campaignName, mediumName }) => {
+    const response = await fetchEvents(pageNum, pageSize, startDate, endDate, eventLabel, mediumName, campaignName  );
     return response; 
   }
 );
