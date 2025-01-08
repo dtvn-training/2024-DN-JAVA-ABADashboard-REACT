@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import {  Button, Popover } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Button, Popover } from "@mui/material";
 import { DateRangePicker } from "react-date-range";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
@@ -16,6 +16,10 @@ const DateRangePickerComponent: React.FC<DateRangePickerComponentProps> = ({
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [range, setRange] = useState(initialRange);
 
+  useEffect(() => {
+    setRange(initialRange);
+  }, [initialRange]);
+
   const handleTimeClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -29,12 +33,14 @@ const DateRangePickerComponent: React.FC<DateRangePickerComponentProps> = ({
     const today = new Date();
     const newEndDate = selection.endDate > today ? today : selection.endDate;
     const newRange = { startDate: selection.startDate, endDate: newEndDate };
+    console.log("thời gian ", newRange);
     setRange(newRange);
     onDateChange(newRange);
   };
 
   const open = Boolean(anchorEl);
   const id = open ? "date-picker-popover" : undefined;
+  console.log("range", range);
 
   return (
     <>

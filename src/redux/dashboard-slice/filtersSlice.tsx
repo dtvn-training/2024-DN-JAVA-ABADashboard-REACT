@@ -1,11 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit';
+// import {fetchMedias}  from '../../services/dashboard-services/media-services';
 
 const initialState = {
   dateRange: { startDate: new Date(), endDate: new Date() },
   campaign: '',
   eventname: '',
   media: '',
+  medias : [] as { mediumId: string; mediumName: string }[],
+  loading : false,
 };
+
+// export const fetchMediaThunk = createAsyncThunk('mediums/fetchMediums', async () => {
+//   const response = await fetchMedias();
+//   return response;
+// });
 
 const filtersSlice = createSlice({
   name: 'filters',
@@ -24,6 +32,16 @@ const filtersSlice = createSlice({
       state.media = action.payload;
     },
   },
+  // extraReducers: (builder) => {
+  //   builder
+  //     .addCase(fetchMediumsThunk.pending, (state) => {
+  //       state.loading = true;
+  //     })
+  //     .addCase(fetchMediumsThunk.fulfilled, (state, action) => {
+  //       state.loading = false;
+  //       state.media = action.payload;
+  //     });
+  // },
 });
 
 export const { setDateRange, setCampaign, setEventName, setMedia } = filtersSlice.actions;

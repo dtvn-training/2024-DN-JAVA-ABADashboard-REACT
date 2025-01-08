@@ -29,7 +29,7 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
     variant="permanent"
     sx={{
       '& .MuiDrawer-paper': {
-        width: isSidebarOpen ? '230px' : '50px',
+        width: isSidebarOpen ? '260px' : '80px',
         transition: 'width 0.3s',
       },
     }}

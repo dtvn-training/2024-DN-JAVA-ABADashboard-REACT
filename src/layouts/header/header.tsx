@@ -12,6 +12,12 @@ type SwitchHeaderStyles = {
   path: string;
 };
 
+type Props = {
+  isSidebarOpen : boolean;
+  toggleSidebar: ()=> void
+}
+
+
 const switcherHeader: SwitchHeaderStyles[] = [
   {
     id: 1,
@@ -29,7 +35,7 @@ const switcherHeader: SwitchHeaderStyles[] = [
     path: "/gtm-view",
   },
 ];
-const Header = () => {
+const Header = ({isSidebarOpen,toggleSidebar}:Props) => {
   const location = useLocation();
   const [viewTitle, setViewTitle] = useState("Report");
 
@@ -42,7 +48,7 @@ const Header = () => {
     }
   }, [location.pathname]);
   return (
-    <header>
+    <header className={cx({ shifted: !isSidebarOpen })}>
       <h1>{viewTitle}</h1>
       {viewTitle === "Report" && (
         <div className={cx("download-report")}>

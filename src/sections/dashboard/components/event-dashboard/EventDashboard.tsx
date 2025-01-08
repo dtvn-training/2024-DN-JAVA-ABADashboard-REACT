@@ -60,9 +60,7 @@ const EventDashboard = () => {
         );
       }
     },[eventTable, eventTable?.content]);
-    console.log(currentData);
     
-
   return (
     <Box className={cx("container")}>
       <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>

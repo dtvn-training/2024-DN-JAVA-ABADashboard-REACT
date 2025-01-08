@@ -20,9 +20,8 @@ const DashboardFilters: React.FC = () => {
   const [eventName, setEventNameState] = React.useState<string>("");
   const [campaign, setCampaignState] = React.useState<string>("");
 
-  const mediums = ["Medium A", "Medium B", "Medium C"];
+  const mediums = ["(None)", "Zalo"];
   const eventNames = [
-    "Metrics",
     "eventName",
     "city",
     "source",
@@ -34,7 +33,6 @@ const DashboardFilters: React.FC = () => {
   const campaigns = ["Campaign A", "Campaign B", "Campaign C"];
 
   useEffect(() => {
-    // Set mặc định là 7 ngày trước
     const today = new Date();
     const sevenDaysAgo = new Date();
     sevenDaysAgo.setDate(today.getDate() - 6);
@@ -78,10 +76,9 @@ const DashboardFilters: React.FC = () => {
     <Box className={cx("filters")}>
       <select
         className={cx("fill")}
-        value={media}
+        value={media || "Mediums"}
         onChange={handleMediaChange}
       >
-        <option value="">Medium</option>
         {mediums.map((m) => (
           <option key={m} value={m}>
             {m}
@@ -91,10 +88,9 @@ const DashboardFilters: React.FC = () => {
 
       <select
         className={cx("fill")}
-        value={eventName}
+        value={eventName || "Metrics"}
         onChange={handleEventNameChange}
       >
-        <option value="">Event Name</option>
         {eventNames.map((name) => (
           <option key={name} value={name}>
             {name}
@@ -112,7 +108,7 @@ const DashboardFilters: React.FC = () => {
 
       <select
         className={cx("fill")}
-        value={campaign}
+        value={campaign || "Campaign"}
         onChange={handleCampaignChange}
       >
         <option value="">Campaign</option>

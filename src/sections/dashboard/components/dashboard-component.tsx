@@ -45,7 +45,7 @@ const DashboardComponent = () => {
     } finally {
       setLoading(false);
     }
-  }, [dispatch, startDateTime, endDateTime, eventname, currentPage]);
+  }, [dispatch, startDate, endDate, eventname, currentPage]);
 
   useEffect(() => {
     fetchEvents();
