@@ -1,0 +1,15 @@
+.button-submit {
+  margin-top: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  transition: all 0.1s ease-in-out;
+  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.5);
+  border: none;
+  text-transform: uppercase;
+  &:active {
+    transform: translate(4px, 4px);
+    box-shadow: none;
+  }
+}
