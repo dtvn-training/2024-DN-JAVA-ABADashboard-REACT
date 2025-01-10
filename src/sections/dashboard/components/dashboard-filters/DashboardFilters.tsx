@@ -10,6 +10,7 @@ import {
   setCampaign,
 } from "../../../../redux/dashboard-slice/filtersSlice";
 import DateRangePickerComponent from "../../../../components/date-time-picker/DateRangePickerComponent";
+import LoadingSpinner from "../../../../components/loading-spinner/loading-spinner";
 
 const cx = classNames.bind(styles);
 
@@ -20,7 +21,6 @@ const DashboardFilters: React.FC = () => {
   const [eventName, setEventNameState] = React.useState<string>("");
   const [campaign, setCampaignState] = React.useState<string>("");
   const {medias} = useAppSelector(state => state.filters);
-  console.log("media nânnanananan", medias);
 
   const eventNames = [
     "eventName",
@@ -34,17 +34,18 @@ const DashboardFilters: React.FC = () => {
   const campaigns = ["abalightacademy.com"];
 
   useEffect(() => {
-    const today = new Date();
-    const sevenDaysAgo = new Date();
-    sevenDaysAgo.setDate(today.getDate() - 6);
+  const today = new Date();
+  const sevenDaysAgo = new Date();
+  sevenDaysAgo.setDate(today.getDate() - 6);
 
-    dispatch(
-      setDateRange({
-        startDate: sevenDaysAgo.toISOString(),
-        endDate: today.toISOString(),
-      })
-    );
-  }, [dispatch]);
+  // Cập nhật giá trị `dateRange` trong Redux
+  dispatch(
+    setDateRange({
+      startDate: sevenDaysAgo.toISOString(),
+      endDate: today.toISOString(),
+    })
+  );
+}, [dispatch])
 
   const handleMediaChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
@@ -75,6 +76,10 @@ const DashboardFilters: React.FC = () => {
       })
     );
   };
+
+  if (!dateRange.startDate || !dateRange.endDate) {
+    return <LoadingSpinner/>;
+  }
 
   return (
     <Box className={cx("filters")}>

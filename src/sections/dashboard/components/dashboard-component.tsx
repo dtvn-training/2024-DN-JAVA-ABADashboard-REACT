@@ -46,9 +46,18 @@ const DashboardComponent = () => {
   const startDateTime = format(new Date(startDate), "yyyy-MM-dd");
   const endDateTime = format(new Date(endDate), "yyyy-MM-dd");
 
-  const fetchEvents = useCallback(async () => {
-    try {
-      await dispatch(
+  const fetchMedia = useCallback(async () => {
+      await dispatch(fetchMediaThunk()).unwrap();
+
+  },[]);
+
+  useEffect(() => {
+    fetchMedia();
+  }, []);
+
+  useEffect( () => {
+    try {  
+        dispatch(
         fetchEventsThunk({
           pageNum: currentPage,
           pageSize: pageSize,
@@ -65,16 +74,6 @@ const DashboardComponent = () => {
       setLoading(false);
     }
   }, [dispatch, startDate, endDate, eventname, currentPage, campaign, media]);
-
-  const fetchMedia = useCallback(async () => {
-      await dispatch(fetchMediaThunk()).unwrap();
-
-  },[]);
-
-  useEffect(() => {
-    fetchMedia();
-    fetchEvents();
-  }, [fetchEvents]);
 
   const rows = [
     {
@@ -100,7 +99,6 @@ const DashboardComponent = () => {
   if (loading) {
     return <LoadingSpinner />;
   }
-
   return (
     <ThemeProvider theme={theme}>
       <Box className={cx("container")}>
@@ -125,8 +123,6 @@ const DashboardComponent = () => {
             <SubmitFormChart />
           </Grid2>
         </Grid2>
-        <TableFillter />
-        <ProjectsTable rows={rows} />
       </Box>
     </ThemeProvider>
   );
