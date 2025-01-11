@@ -8,6 +8,10 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import { InputStyles } from "../../../components/input";
 import { ButtonStyles } from "../../../components/button";
+import useRouter from "../../../hooks/useRouter";
+import { useAppDispatch } from "../../../redux/store";
+import { RegisterAction } from "../../../redux/authentication-slice/authentication-slice";
+import { toast } from "react-toastify";
 
 const registerValidateSchema = yup.object({
   email: yup
@@ -36,16 +40,25 @@ const registerValidateSchema = yup.object({
 
 const cx = classNames.bind(styles);
 const LoginComponent = () => {
+  const router= useRouter();
+  const dispatch= useAppDispatch();
   const [togglePassword, setTogglePassword] = useState(false);
   const [toggleConfirmPassword, setToggleConfirmPassword] = useState(false);
   const registerFormik = useFormik({
     initialValues: { email: "", password: "", confirmPassword: "" },
     validationSchema: registerValidateSchema,
-    onSubmit: (values, { setSubmitting }) => {
-      setTimeout(() => {
-        alert(JSON.stringify(values, null, 2));
-        setSubmitting(false);
-      }, 1000);
+    onSubmit: async (values) => {
+      const data= {
+        email: values.email,
+        password: values.password,
+      }
+      const res= await dispatch(RegisterAction(data));
+      if(res.payload){
+        toast.success("Đăng ký thành công!");
+        setTimeout(()=>{
+          router.push("/login");
+        },2000);
+      }
     },
   });
 

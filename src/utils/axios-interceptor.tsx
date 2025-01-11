@@ -1,38 +1,39 @@
 import axios from "axios";
 import JsCookies from "js-cookie";
-import {store} from "../redux/store";
+import { store } from "../redux/store";
+import { LogoutAction } from "../redux/authentication-slice/authentication-slice";
 export const baseUrl = import.meta.env.VITE_APP_API_URL;
 
 export const axiosInstance = axios.create({
-    baseURL: baseUrl,
-    headers: {
-        "Content-Type": "application/json",
-    },
-    withCredentials: true,
+  baseURL: baseUrl,
+  headers: {
+    "Content-Type": "application/json",
+  },
+  withCredentials: true,
 });
 let refreshTokePromise: Promise<unknown> | null = null;
 let isRefreshingToken = false;
 const callRefreshToken = async (): Promise<void> => {
   if (!isRefreshingToken) {
     isRefreshingToken = true;
-    await axiosInstance.get<void, any>("/auth/refresh-token");
+    await axiosInstance.get<void, string>("/auth/refresh-token");
     isRefreshingToken = false;
   }
 };
 axiosInstance.interceptors.request.use(
-    (config) => {
-        const accessToken: string | undefined = JsCookies.get("accessToken");
-        if (accessToken === undefined || accessToken.length === 0) {
-            config.headers.Authorization = null;
-        } else {
-            config.headers.Authorization = `Bearer ${accessToken}`;
-        }
-        return config;
-    },
-    (error) => {
-        console.log(error);
-        return Promise.reject(error);
+  (config) => {
+    const accessToken: string | undefined = JsCookies.get("accessToken");
+    if (accessToken === undefined || accessToken.length === 0) {
+      config.headers.Authorization = null;
+    } else {
+      config.headers.Authorization = `Bearer ${accessToken}`;
     }
+    return config;
+  },
+  (error) => {
+    console.log(error);
+    return Promise.reject(error);
+  }
 );
 axiosInstance.interceptors.response.use(
   (res) => res.data,
@@ -57,10 +58,11 @@ axiosInstance.interceptors.response.use(
       if (accessToken) {
         // call logout function or handle accordingly
         err.response.message = "Vui lòng đăng nhập lại";
+        await store.dispatch(LogoutAction());
       }
-      setTimeout(()=>{
-        window.location.href="/login";
-      },3000);
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 3000);
       err.response.message = "Phiên đăng nhập hết hạn, vui lòng đăng nhập lại";
       return Promise.reject(err.response);
     }

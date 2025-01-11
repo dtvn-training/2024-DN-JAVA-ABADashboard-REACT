@@ -8,6 +8,10 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import { InputStyles } from "../../../components/input";
 import { ButtonStyles } from "../../../components/button";
+import useRouter from "../../../hooks/useRouter";
+import { useAppDispatch } from "../../../redux/store";
+import { LoginAction } from "../../../redux/authentication-slice/authentication-slice";
+import { toast } from "react-toastify";
 
 const loginValidateSchema = yup.object({
   email: yup
@@ -23,15 +27,20 @@ const loginValidateSchema = yup.object({
 
 const cx = classNames.bind(styles);
 const LoginComponent = () => {
+  const router= useRouter();
+  const dispatch= useAppDispatch();
   const [togglePassword, setTogglePassword] = useState(false);
   const loginFormik = useFormik({
     initialValues: { email: "", password: "" },
     validationSchema: loginValidateSchema,
-    onSubmit: (values, { setSubmitting }) => {
-      setTimeout(() => {
-        alert(JSON.stringify(values, null, 2));
-        setSubmitting(false);
-      }, 1000);
+    onSubmit: async (values) => {
+      const res= await dispatch(LoginAction(values));
+      if(res.payload){
+        toast.success("Đăng nhập thành công!");
+        setTimeout(()=>{
+          router.push("/dashboard");
+        },2000);
+      }
     },
   });
 
