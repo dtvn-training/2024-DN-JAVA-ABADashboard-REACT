@@ -1,0 +1,16 @@
+.report-item{
+    flex-basis: calc(100%/3 - 1rem);
+    height: max-content;
+}
+
+@media screen and (max-width: 1024px){
+    .report-item{
+        flex-basis: calc(100%/2 - 1rem);
+    }
+}
+
+@media screen and (max-width: 768px){
+    .report-item{
+        flex-basis: 100%;
+    }
+}

@@ -1,0 +1,58 @@
+.header{
+    background-color: rgba(244,247,252,0.75);
+    padding: 1rem 30px;
+    box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
+    &>.box-left{
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        &>.input{
+            width: 400px;
+        }
+    }
+    &>.box-right{
+        display: flex; 
+        gap: 2rem; 
+        align-items: center;
+        &>button{
+            font-size: 16px;
+        }
+        &>.back-btn{
+            border-radius: 20px;
+        }
+        &>.download-btn{
+            color: #000000;
+            &>svg{
+                margin-right: 0.5rem;
+                font-size: 1em;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 1024px){
+    .header{
+        &>.box-left{
+            &>.btn-filter{
+                &>svg{
+                    font-size: 18px;
+                }
+            }
+            &>.input{
+                width: 200px;
+                &>div>input{
+                    font-size: 12px;
+                }
+            }
+        }
+        &>.box-right{
+            gap: 1rem;
+            &>button{
+                font-size: 12px;
+                &>svg{
+                    font-size: 1em;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,27 @@
+* {
+  padding: 0;
+  box-sizing: border-box;
+  margin: 0;
+}
+
+:root {
+  --font-family-master: "Inter", sans-serif;
+  --font-style: normal;
+  --font-optical-sizing: auto;
+  --color-primary: #0f4c81; /* Main color: dark blue */
+  --color-secondary: #eaf0f1; /* Secondary color: light white */
+  --color-accent: #19a7ce; /* Accent color: light turquoise */
+  --color-dark: #2c3e50; /* Dark gray */
+  --color-sidebar-bg: #ebf7fd; /* Sidebar background color */
+  --background-main-color: var(--color-secondary);
+  --color-chart-bg: #ffffff; /* Chart background color */
+  --color-icon: var(--color-primary);
+}
+
+body {
+  font-family: var(--font-family-master);
+  font-optical-sizing: var(--font-optical-sizing);
+  font-style: var(--font-style);
+  background-color: var(--background-main-color);
+  min-height: 100vh;
+}
