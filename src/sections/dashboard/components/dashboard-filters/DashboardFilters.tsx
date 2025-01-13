@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Box, Button } from "@mui/material";
+import { Box, Select, SelectChangeEvent } from "@mui/material";
 import styles from "./dashboard-filters.module.scss";
 import classNames from "classnames/bind";
 import { useAppDispatch, useAppSelector } from "../../../../redux/store";
@@ -20,7 +20,8 @@ const DashboardFilters: React.FC = () => {
   const [media, setMediaState] = React.useState<string>("");
   const [eventName, setEventNameState] = React.useState<string>("");
   const [campaign, setCampaignState] = React.useState<string>("");
-  const {medias} = useAppSelector(state => state.filters);
+  const { medias } = useAppSelector((state) => state.filters);
+  const { campaigns } = useAppSelector((state) => state.filters);
 
   const eventNames = [
     "eventName",
@@ -31,29 +32,29 @@ const DashboardFilters: React.FC = () => {
     "medium",
     "date",
   ];
-  const campaigns = ["abalightacademy.com"];
 
   useEffect(() => {
-  const today = new Date();
-  const sevenDaysAgo = new Date();
-  sevenDaysAgo.setDate(today.getDate() - 6);
-
-  // Cập nhật giá trị `dateRange` trong Redux
-  dispatch(
-    setDateRange({
-      startDate: sevenDaysAgo.toISOString(),
-      endDate: today.toISOString(),
-    })
-  );
-}, [dispatch])
+    const today = new Date();
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(today.getDate() - 6);
+  
+    const timer = setTimeout(() => {
+      dispatch(
+        setDateRange({
+          startDate: sevenDaysAgo.toISOString(),
+          endDate: today.toISOString(),
+        })
+      );
+    }, 1000); 
+  
+    return () => clearTimeout(timer);
+  }, [dispatch]);
 
   const handleMediaChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
     setMediaState(value);
-    if(value==="All")
-      dispatch(setMedia(null))
-    else
-      dispatch(setMedia(value));
+    if (value === "All") dispatch(setMedia(null));
+    else dispatch(setMedia(value));
   };
 
   const handleEventNameChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -78,59 +79,66 @@ const DashboardFilters: React.FC = () => {
   };
 
   if (!dateRange.startDate || !dateRange.endDate) {
-    return <LoadingSpinner/>;
+    return <LoadingSpinner />;
   }
 
   return (
     <Box className={cx("filters")}>
-      <select
-        className={cx("fill")}
-        value={media || ""}
-        onChange={handleMediaChange}
-      >
-        <option value="">All</option>
-        {medias.map((m) => (
-          <option key={m.mediumId} value={m.mediumName}>
-            {m.mediumName}
-          </option>
-        ))}
-      </select>
-
-      <select
-        className={cx("fill")}
-        value={eventName || "Metrics"}
-        onChange={handleEventNameChange}
-      >
-        {eventNames.map((name) => (
-          <option key={name} value={name}>
-            {name}
-          </option>
-        ))}
-      </select>
-      
-      <div className={cx("fill")}>
-        <DateRangePickerComponent
-          initialRange={{
-            startDate: new Date(dateRange.startDate),
-            endDate: new Date(dateRange.endDate),
-          }}
-          onDateChange={handleDateRangeChange}
-        />
+      <div className={cx("select-wrapper")} data-label="Media">
+        <select
+          className={cx("fill")}
+          value={media || ""}
+          onChange={(e) => handleMediaChange(e)}
+        >
+          <option value="">All</option>
+          {medias.map((m) => (
+            <option key={m.mediumId} value={m.mediumName}>
+              {m.mediumName}
+            </option>
+          ))}
+        </select>
       </div>
-      
 
-      <select
-        className={cx("fill")}
-        value={campaign || "Campaign"}
-        onChange={handleCampaignChange}
-      >
-        <option value="">Campaign</option>
-        {campaigns.map((c) => (
-          <option key={c} value={c}>
-            {c}
-          </option>
-        ))}
-      </select>
+      <div className={cx("select-wrapper")} data-label="Metrics">
+        <select
+          className={cx("fill")}
+          value={eventName || "Metrics"}
+          onChange={(e) => handleEventNameChange(e)}
+        >
+          {eventNames.map((name) => (
+            <option key={name} value={name}>
+              {name}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <div className={cx("select-wrapper")} data-label="Date Range">
+        <div className={cx("fill")}>
+          <DateRangePickerComponent
+            initialRange={{
+              startDate: new Date(dateRange.startDate),
+              endDate: new Date(dateRange.endDate),
+            }}
+            onDateChange={handleDateRangeChange}
+          />
+        </div>
+      </div>
+
+      <div className={cx("select-wrapper")} data-label="Campaign">
+        <select
+          className={cx("fill")}
+          value={campaign || "Campaign"}
+          onChange={handleCampaignChange}
+        >
+          <option value="">Campaign</option>
+          {campaigns.map((c) => (
+            <option key={c.campaignId} value={c.campaignName}>
+              {c.campaignName}
+            </option>
+          ))}
+        </select>
+      </div>
     </Box>
   );
 };

@@ -6,17 +6,15 @@ import styled from "./dashboard-component.module.scss";
 import DashboardFilters from "./dashboard-filters/DashboardFilters";
 import MetricsCards from "./metrics-card/MetricsCards";
 import ActivityChart from "./activity-chart/ActivityChart";
-import ProjectsTable from "./table-dashboard/ProjectsTable";
 import SubmitFormChart from "./submit-form-chart/SubmitFormChart";
 import LoadingSpinner from "../../../components/loading-spinner/loading-spinner";
 import PurchasesChart from "./purchases-chart/PurchasesChart";
 import EventDashboard from "./event-dashboard/EventDashboard";
-import TableFillter from "./table-fillters/TableFillter";
 import { useAppDispatch, useAppSelector } from "../../../redux/store";
 import { fetchEventsThunk } from "../../../redux/dashboard-slice/eventsSlice";
 import { format } from "date-fns";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { fetchMediaThunk } from "../../../redux/dashboard-slice/filtersSlice";
+import { fetchMediaThunk, fetchCampaignsThunk } from "../../../redux/dashboard-slice/filtersSlice";
 
 const theme = createTheme({
   breakpoints: {
@@ -35,7 +33,6 @@ const cx = classNames.bind(styled);
 const DashboardComponent = () => {
   const [loading, setLoading] = useState(false);
   const dispatch = useAppDispatch();
-  const eventsData = useAppSelector((state) => state.events);
   const eventname = useAppSelector((state) => state.filters.eventname);
   const { startDate, endDate } = useAppSelector(
     (state) => state.filters.dateRange
@@ -51,8 +48,13 @@ const DashboardComponent = () => {
 
   },[]);
 
+  const fetchCampaigns = useCallback(async () => {
+    await dispatch(fetchCampaignsThunk()).unwrap();
+  }, []);
+
   useEffect(() => {
     fetchMedia();
+    fetchCampaigns();
   }, []);
 
   useEffect( () => {
@@ -74,27 +76,6 @@ const DashboardComponent = () => {
       setLoading(false);
     }
   }, [dispatch, startDate, endDate, eventname, currentPage, campaign, media]);
-
-  const rows = [
-    {
-      name: "Project A",
-      status: "Active",
-      totalBudget: "$10,000",
-      budgetLeft: "$5,000",
-      location: "New York",
-      startDate: "01/01/2023",
-      endDate: "12/31/2023",
-    },
-    {
-      name: "Project B",
-      status: "Completed",
-      totalBudget: "$20,000",
-      budgetLeft: "$0",
-      location: "London",
-      startDate: "01/01/2022",
-      endDate: "12/31/2022",
-    },
-  ];
 
   if (loading) {
     return <LoadingSpinner />;
