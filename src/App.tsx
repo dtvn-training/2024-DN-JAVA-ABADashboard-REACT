@@ -1,4 +1,4 @@
-import './App.css'
+// import './App.css'
 import GlobalStyles from './components/global-styles/global-styles'
 import Router from './routers/section'
 
