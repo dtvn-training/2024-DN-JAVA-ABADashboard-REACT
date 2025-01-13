@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Box, Button, Grid2, TextField, IconButton, Menu } from "@mui/material";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import styles from "./preview-component.module.scss";
 import classNames from "classnames/bind";
-import SearchIcon from "@mui/icons-material/Search";
 import {
   activeUserStats,
   countryStats,

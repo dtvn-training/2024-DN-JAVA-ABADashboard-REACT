@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from "react";
 import { Box, Button } from "@mui/material";
 import { DateRangePicker } from "react-date-range";
@@ -20,6 +21,7 @@ const DateTimePicker: React.FC<DateRangePickerComponentProps> = ({
   onClose,
 }) => {
   const [range, setRange] = useState(initialRange);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     setRange(initialRange);
@@ -34,6 +36,15 @@ const DateTimePicker: React.FC<DateRangePickerComponentProps> = ({
     onDateChange(newRange);
   };
 
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 768px)");
+    const handleResize = () => setIsMobile(mediaQuery.matches);
+    mediaQuery.addEventListener("change", handleResize);
+    handleResize();
+
+    return () => mediaQuery.removeEventListener("change", handleResize);
+  }, []);
   return (
     <Box
       className={cx("boxCustom")}
@@ -49,9 +60,11 @@ const DateTimePicker: React.FC<DateRangePickerComponentProps> = ({
         ]}
         onChange={handleRangeChange}
         moveRangeOnFirstSelection={false}
-        months={2}
-        direction="horizontal"
+        months={isMobile ? 1 : 2}
+        direction={isMobile ? "vertical" : "horizontal"}
         maxDate={new Date()}
+        showDateDisplay={false}
+        className={cx("date-range-picker")}
       />
       <Box component="div" className={cx("submit-btn")}>
         <Button

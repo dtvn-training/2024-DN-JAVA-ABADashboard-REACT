@@ -56,3 +56,35 @@
         }
     }
 }
+
+@media screen and (max-width: 768px){
+    .header{
+        padding: 12px 20px;
+        &>.box-left{
+            gap: 0.5rem;;
+            &>.btn-filter{
+                &>svg{
+                    font-size: 15px;
+                }
+            }
+            &>.input{
+                width: 100px;
+                &>div>input{
+                    font-size: 10px;
+                }
+            }
+        }
+        &>.box-right{
+            gap: 0.5rem;
+            &>.back-btn{
+                padding: 5px 12px;
+            }
+            &>button{
+                font-size: 10px;
+                &>svg{
+                    font-size: 1em;
+                }
+            }
+        }
+    }
+}

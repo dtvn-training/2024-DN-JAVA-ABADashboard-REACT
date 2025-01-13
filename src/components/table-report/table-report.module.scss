@@ -6,6 +6,25 @@
 @media screen and (max-width: 1024px){
     .report-item{
         flex-basis: calc(100%/2 - 1rem);
+        &>div{
+            &>h6{
+                font-size: 15px;
+            }
+            &>div{
+                &>table{
+                    &>thead{
+                        &>tr>th{
+                            font-size: 12px;
+                        }
+                    }
+                    &>tbody{
+                        &>tr>td{
+                            font-size: 10px;
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 
