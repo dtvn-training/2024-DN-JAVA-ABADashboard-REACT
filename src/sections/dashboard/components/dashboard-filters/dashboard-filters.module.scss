@@ -10,9 +10,8 @@
   .fill {
     position: relative;
     justify-items: left;
-    appearance: none;
-    background-color: var(--color-secondary);
-    border: 1px solid var(--color-dark);
+    background-color: #fff;
+    border: 1px solid #879699;
     border-radius: 10px;
     padding: 10px 15px;
     min-width: 240px;
@@ -23,21 +22,9 @@
     outline: none;
     color: black !important;
     transition: border-color 0.3s, background-color 0.3s, color 0.3s;
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 10 10"><polygon points="0,0 10,0 5,5" fill="%23333"/></svg>'); /* Arrow */
-    background-repeat: no-repeat;
     background-position: right 10px center;
     background-size: 10px;
 
-    &:hover {
-      border-color: var(--color-primary);
-      background-color: var(--color-accent);
-      color: var(--color-primary);
-    }
-
-    &:active {
-      background-color: var(--color-primary);
-      color: var(--color-secondary);
-    }
   }
   .select-wrapper {
     position: relative;
@@ -46,13 +33,12 @@
   .select-wrapper::after {
     content: attr(data-label);
     position: absolute;
-    top: -8px;
-    left: 15px;
+    top: -20px;
+    left: -5px;
     font-size: 12px;
-    font-weight: bold;
-    color: black;
-    background-color: var(--color-secondary);
-    padding: 0 5px;
+    font-weight: 200;
+    color: var(--color-primary);
+    padding: 0 10px;
     pointer-events: none;
   }
 }
@@ -131,7 +117,7 @@
     .fill {
       min-width: 100%;
       font-size: 13px;
-      margin-bottom: 10px;
+      margin-bottom: 30px;
     }
   }
 }

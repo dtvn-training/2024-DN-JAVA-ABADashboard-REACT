@@ -63,7 +63,7 @@ const EventDashboard = () => {
     
   return (
     <Box className={cx("container")}>
-      <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
+      <Box display="flex" justifyContent="space-between" alignItems="center" margin= "15px" mb={2}>
         <Typography variant="subtitle1" fontWeight="bold">
           Key events by Event name
         </Typography>

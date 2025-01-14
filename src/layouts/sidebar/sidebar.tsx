@@ -34,10 +34,11 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
       },
     }}
   >
-      <IconButton onClick={toggleSidebar} className={cx("toggleButton", { centered: !isSidebarOpen })}>
-        <MenuIcon />
-      </IconButton>
+      
       <div className={cx("sidebar")}>
+        <IconButton onClick={toggleSidebar} className={cx("toggleButton", { centered: !isSidebarOpen })}>
+          <MenuIcon />
+        </IconButton>
         <Box className={cx("container")}>
           <div className={cx("logo", { hidden: !isSidebarOpen })}>
             <img src={Logo} alt="ABA Logo" />
