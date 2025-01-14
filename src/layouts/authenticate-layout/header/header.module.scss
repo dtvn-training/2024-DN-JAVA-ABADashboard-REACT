@@ -1,25 +1,25 @@
-.header-auth{
-    margin-top: 1rem;
-    padding: 0 2rem;
-    width: 100%;
-    border-bottom: none;
+.header-auth {
+  margin-top: 1rem;
+  padding: 0 2rem;
+  width: 100%;
+  border-bottom: none;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  & > .back-button {
     display: flex;
     align-items: center;
-    justify-content: flex-end;
-    &>.back-button{
-        display: flex;
-        align-items: center;
-        gap: .5rem;
-        cursor: pointer;
-        transition: all 0.25s ease-in-out;
-        color: #8692a6;
-        font-weight: 700;
-        font-size: 18px;
-        &>.icon{
-            font-size: 13px;
-        }
-        &:hover{
-            color: var(--color-primary);
-        }
+    gap: 0.5rem;
+    cursor: pointer;
+    transition: all 0.25s ease-in-out;
+    color: #8692a6;
+    font-weight: 700;
+    font-size: 18px;
+    & > .icon {
+      font-size: 13px;
     }
+    &:hover {
+      color: var(--color-primary);
+    }
+  }
 }

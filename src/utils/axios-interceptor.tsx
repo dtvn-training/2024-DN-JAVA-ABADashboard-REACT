@@ -2,6 +2,7 @@ import axios from "axios";
 import JsCookies from "js-cookie";
 import { store } from "../redux/store";
 import { LogoutAction } from "../redux/authentication-slice/authentication-slice";
+import { updateStateLoading } from "../redux/authentication-slice/authentication-slice";
 export const baseUrl = import.meta.env.VITE_APP_API_URL;
 
 export const axiosInstance = axios.create({
@@ -54,6 +55,7 @@ axiosInstance.interceptors.response.use(
       }
     }
     if (err.response.status === 403) {
+      store.dispatch(updateStateLoading(true));
       const accessToken = JsCookies.get("accessToken");
       if (accessToken) {
         // call logout function or handle accordingly
@@ -61,7 +63,8 @@ axiosInstance.interceptors.response.use(
         await store.dispatch(LogoutAction());
       }
       setTimeout(() => {
-        window.location.href = "/login";
+        store.dispatch(updateStateLoading(false));
+        window.location.href = "/auth/sign-in";
       }, 3000);
       err.response.message = "Phiên đăng nhập hết hạn, vui lòng đăng nhập lại";
       return Promise.reject(err.response);

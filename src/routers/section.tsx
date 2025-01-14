@@ -1,28 +1,30 @@
 import { Suspense, lazy } from "react";
 import { Navigate, Outlet, useRoutes } from "react-router-dom";
 import { ABADashboardLayout } from "../layouts/dashboard-layout";
-import {AuthenticationLayout} from "../layouts/authenticate-layout";
+import { AuthenticationLayout } from "../layouts/authenticate-layout";
+import ProtectedRouter from "./protected-router";
 export const DashboardPage = lazy(() => import("../pages/dashboard"));
 export const LoginPage = lazy(() => import("../pages/login"));
 export const RegisterPage = lazy(() => import("../pages/register"));
 
-
 export default function Router() {
   const routers = useRoutes([
     {
-      path:"/",
+      path: "/",
       element: (
-        <ABADashboardLayout>
-          <Suspense fallback={<div>Loading...</div>}>
-            <Outlet />
-          </Suspense>
-        </ABADashboardLayout>
+        <ProtectedRouter>
+          <ABADashboardLayout>
+            <Suspense fallback={<div>Loading...</div>}>
+              <Outlet />
+            </Suspense>
+          </ABADashboardLayout>
+        </ProtectedRouter>
       ),
       children: [
         {
-            path: "",
-            element: <Navigate to="/dashboard" />,
-            index: true,
+          path: "",
+          element: <Navigate to="/dashboard" />,
+          index: true,
         },
         {
           path: "dashboard",
@@ -32,8 +34,8 @@ export default function Router() {
         {
           path: "/*",
           element: <Navigate to="/dashboard" />,
-        }
-      ]
+        },
+      ],
     },
     {
       path: "/auth",
@@ -54,8 +56,8 @@ export default function Router() {
           path: "register",
           element: <RegisterPage />,
           index: true,
-        }
-      ]
+        },
+      ],
     },
   ]);
   return routers;

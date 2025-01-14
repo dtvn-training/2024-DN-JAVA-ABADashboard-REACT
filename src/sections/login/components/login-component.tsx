@@ -11,7 +11,6 @@ import { ButtonStyles } from "../../../components/button";
 import useRouter from "../../../hooks/useRouter";
 import { useAppDispatch } from "../../../redux/store";
 import { LoginAction } from "../../../redux/authentication-slice/authentication-slice";
-import { toast } from "react-toastify";
 
 const loginValidateSchema = yup.object({
   email: yup
@@ -20,26 +19,25 @@ const loginValidateSchema = yup.object({
     .required("Email is required."),
   password: yup
     .string()
-    .min(6, "Password must be at least 6 characters long.")
+    .min(8, "Password must be at least 8 characters long.")
     .max(20, "Password must not exceed 20 characters.")
     .required("Password is required."),
 });
 
 const cx = classNames.bind(styles);
 const LoginComponent = () => {
-  const router= useRouter();
-  const dispatch= useAppDispatch();
+  const router = useRouter();
+  const dispatch = useAppDispatch();
   const [togglePassword, setTogglePassword] = useState(false);
   const loginFormik = useFormik({
     initialValues: { email: "", password: "" },
     validationSchema: loginValidateSchema,
     onSubmit: async (values) => {
-      const res= await dispatch(LoginAction(values));
-      if(res.payload){
-        toast.success("Đăng nhập thành công!");
-        setTimeout(()=>{
+      const res = await dispatch(LoginAction(values));
+      if (res.payload) {
+        setTimeout(() => {
           router.push("/dashboard");
-        },2000);
+        }, 2000);
       }
     },
   });
@@ -71,8 +69,9 @@ const LoginComponent = () => {
               type="email"
               error={loginFormik.touched.email}
               errorMessage={loginFormik.errors.email}
-              children={undefined}
-            />
+            >
+              {undefined}
+            </InputStyles>
             <InputStyles
               id="password"
               name="password"
@@ -84,22 +83,21 @@ const LoginComponent = () => {
               type={togglePassword ? "text" : "password"}
               error={loginFormik.touched.password}
               errorMessage={loginFormik.errors.password}
-              children={
-                togglePassword ? (
-                  <FontAwesomeIcon
-                    className={cx("icon")}
-                    onClick={handleTogglePassword}
-                    icon={faEye}
-                  />
-                ) : (
-                  <FontAwesomeIcon
-                    className={cx("icon")}
-                    onClick={handleTogglePassword}
-                    icon={faEyeSlash}
-                  />
-                )
-              }
-            />
+            >
+              {togglePassword ? (
+                <FontAwesomeIcon
+                  className={cx("icon")}
+                  onClick={handleTogglePassword}
+                  icon={faEye}
+                />
+              ) : (
+                <FontAwesomeIcon
+                  className={cx("icon")}
+                  onClick={handleTogglePassword}
+                  icon={faEyeSlash}
+                />
+              )}
+            </InputStyles>
           </div>
           <div className={cx("button-remember-me")}>
             <div className={cx("checkbox-wrapper-28")}>

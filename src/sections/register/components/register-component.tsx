@@ -11,7 +11,6 @@ import { ButtonStyles } from "../../../components/button";
 import useRouter from "../../../hooks/useRouter";
 import { useAppDispatch } from "../../../redux/store";
 import { RegisterAction } from "../../../redux/authentication-slice/authentication-slice";
-import { toast } from "react-toastify";
 
 const registerValidateSchema = yup.object({
   email: yup
@@ -40,24 +39,23 @@ const registerValidateSchema = yup.object({
 
 const cx = classNames.bind(styles);
 const LoginComponent = () => {
-  const router= useRouter();
-  const dispatch= useAppDispatch();
+  const router = useRouter();
+  const dispatch = useAppDispatch();
   const [togglePassword, setTogglePassword] = useState(false);
   const [toggleConfirmPassword, setToggleConfirmPassword] = useState(false);
   const registerFormik = useFormik({
     initialValues: { email: "", password: "", confirmPassword: "" },
     validationSchema: registerValidateSchema,
     onSubmit: async (values) => {
-      const data= {
+      const data = {
         email: values.email,
         password: values.password,
-      }
-      const res= await dispatch(RegisterAction(data));
-      if(res.payload){
-        toast.success("Đăng ký thành công!");
-        setTimeout(()=>{
+      };
+      const res = await dispatch(RegisterAction(data));
+      if (res.payload) {
+        setTimeout(() => {
           router.push("/login");
-        },2000);
+        }, 2000);
       }
     },
   });
@@ -89,8 +87,9 @@ const LoginComponent = () => {
               type="email"
               error={registerFormik.touched.email}
               errorMessage={registerFormik.errors.email}
-              children={undefined}
-            />
+            >
+              {undefined}
+            </InputStyles>
             <InputStyles
               id="password"
               name="password"
@@ -102,22 +101,21 @@ const LoginComponent = () => {
               type={togglePassword ? "text" : "password"}
               error={registerFormik.touched.password}
               errorMessage={registerFormik.errors.password}
-              children={
-                togglePassword ? (
-                  <FontAwesomeIcon
-                    className={cx("icon")}
-                    onClick={handleTogglePassword}
-                    icon={faEye}
-                  />
-                ) : (
-                  <FontAwesomeIcon
-                    className={cx("icon")}
-                    onClick={handleTogglePassword}
-                    icon={faEyeSlash}
-                  />
-                )
-              }
-            />
+            >
+              {togglePassword ? (
+                <FontAwesomeIcon
+                  className={cx("icon")}
+                  onClick={handleTogglePassword}
+                  icon={faEye}
+                />
+              ) : (
+                <FontAwesomeIcon
+                  className={cx("icon")}
+                  onClick={handleTogglePassword}
+                  icon={faEyeSlash}
+                />
+              )}
+            </InputStyles>
             <InputStyles
               id="confirmPassword"
               name="confirmPassword"
@@ -129,22 +127,21 @@ const LoginComponent = () => {
               type={toggleConfirmPassword ? "text" : "password"}
               error={registerFormik.touched.confirmPassword}
               errorMessage={registerFormik.errors.confirmPassword}
-              children={
-                toggleConfirmPassword ? (
-                  <FontAwesomeIcon
-                    className={cx("icon")}
-                    onClick={handleToggleConfirmPassword}
-                    icon={faEye}
-                  />
-                ) : (
-                  <FontAwesomeIcon
-                    className={cx("icon")}
-                    onClick={handleToggleConfirmPassword}
-                    icon={faEyeSlash}
-                  />
-                )
-              }
-            />
+            >
+              {toggleConfirmPassword ? (
+                <FontAwesomeIcon
+                  className={cx("icon")}
+                  onClick={handleToggleConfirmPassword}
+                  icon={faEye}
+                />
+              ) : (
+                <FontAwesomeIcon
+                  className={cx("icon")}
+                  onClick={handleToggleConfirmPassword}
+                  icon={faEyeSlash}
+                />
+              )}
+            </InputStyles>
           </div>
           <ButtonStyles
             fullWidth

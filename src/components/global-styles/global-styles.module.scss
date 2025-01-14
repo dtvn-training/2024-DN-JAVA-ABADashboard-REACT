@@ -8,14 +8,14 @@
   --font-family-master: "Inter", sans-serif;
   --font-style: normal;
   --font-optical-sizing: auto;
-  --color-primary: #0F4C81; /* Main color: dark blue */
-  --color-secondary: #EAF0F1; /* Secondary color: light white */
-  --color-accent: #19A7CE; /* Accent color: light turquoise */
-  --color-dark: #2C3E50; /* Dark gray */
-  --color-sidebar-bg: #EBF7FD; /* Sidebar background color */
+  --color-primary: #0f4c81; /* Main color: dark blue */
+  --color-secondary: #eaf0f1; /* Secondary color: light white */
+  --color-accent: #19a7ce; /* Accent color: light turquoise */
+  --color-dark: #2c3e50; /* Dark gray */
+  --color-sidebar-bg: #ebf7fd; /* Sidebar background color */
   --background-main-color: var(--color-secondary);
-  --color-chart-bg: #FFFFFF; /* Chart background color */
-  --color-icon:var(--color-primary)
+  --color-chart-bg: #ffffff; /* Chart background color */
+  --color-icon: var(--color-primary);
 }
 
 body {

@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import { Header } from "./header";
 import { Main } from "./main";
 import { SideBar } from "./sidebar";
-import { Box} from "@mui/material";
+import { Box } from "@mui/material";
 import classNames from "classnames/bind";
 import styles from "./index.module.scss";
 import styled from "styled-components";
+import { useAppSelector } from "../../redux/store";
+import { Loader } from "../../components/loader";
 
 const DashboardLayoutWrapper = styled.div`
   padding: 2rem;
@@ -13,13 +15,13 @@ const DashboardLayoutWrapper = styled.div`
 
 const cx = classNames.bind(styles);
 
-
 type PropsStyles = {
   children: React.ReactNode;
 };
 
 export const ABADashboardLayout = (props: PropsStyles) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const { isLogined } = useAppSelector((state) => state.authentication);
 
   const toggleSidebar = () => {
     setIsSidebarOpen((prevState) => !prevState);
@@ -33,7 +35,8 @@ export const ABADashboardLayout = (props: PropsStyles) => {
         className={cx("mainContent", { shifted: !isSidebarOpen })}
       >
         <Header />
-        <Main>{props.children}</Main>
+
+        {isLogined ? <Loader width={100} /> : <Main>{props.children}</Main>}
       </Box>
     </DashboardLayoutWrapper>
   );

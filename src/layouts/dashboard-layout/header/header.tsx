@@ -41,6 +41,7 @@ const Header = () => {
       setViewTitle(currentHeader.title);
     }
   }, [location.pathname]);
+
   return (
     <header>
       <h1>{viewTitle}</h1>

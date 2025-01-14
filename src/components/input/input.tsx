@@ -3,7 +3,7 @@ import classNames from "classnames/bind";
 
 const cx = classNames.bind(styles);
 
-type InputStyles = {
+type InputProps = {
   placeHolder: string;
   type: string;
   value: string;
@@ -13,10 +13,10 @@ type InputStyles = {
   id: string;
   title: string;
   error: boolean | undefined;
-  errorMessage: string |undefined;
-  children: React.ReactNode | undefined
+  errorMessage: string | undefined;
+  children: React.ReactNode | undefined;
 };
-const Input = (props: InputStyles) => {
+const Input = (props: InputProps) => {
   return (
     <div className={cx("input-box")}>
       <div className={cx("input")}>

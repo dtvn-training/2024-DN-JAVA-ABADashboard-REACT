@@ -16,14 +16,14 @@
   overflow-x: hidden;
   overflow-y: hidden;
   width: 240px;
-  &.show{
+  &.show {
     width: max-content;
   }
 
   & > .logo {
     width: 180px;
     margin-bottom: 10px;
-    &>img{
+    & > img {
       width: 100%;
     }
   }
@@ -53,9 +53,9 @@
       transition: all 0.25s ease-in-out;
       margin: 0;
       border-radius: 10px;
-      &.show{
+      &.show {
         width: max-content;
-        &>.icon{
+        & > .icon {
           min-width: 0;
         }
       }
@@ -88,13 +88,53 @@
 .footer {
   border-top: 1px solid #e5e5e5;
   text-align: start;
-  padding: 1rem;
+  padding: 1rem 0;
   margin-top: auto;
 
   & > h3,
   & > p {
     color: #000000;
     margin: 0 0 0.5rem 1rem;
+  }
+  & > .item {
+    color: var(--color-dark);
+    border: none;
+    outline: none;
+    width: 230px;
+    display: flex;
+    align-items: center;
+    text-align: start;
+    transition: all 0.25s ease-in-out;
+    margin: 0 0 1rem;
+    border-radius: 10px;
+    &.show {
+      width: max-content;
+      & > .icon {
+        min-width: 0;
+      }
+    }
+    & > .icon > svg {
+      color: var(--color-primary);
+      transition: color 0.3s;
+    }
+
+    &:hover {
+      background-color: var(--color-accent);
+      color: var(--color-primary);
+
+      & > .icon > svg {
+        color: var(--color-primary);
+      }
+    }
+
+    &.selected {
+      background-color: var(--color-accent);
+      color: var(--color-primary);
+
+      & > .icon > svg {
+        color: var(--color-primary);
+      }
+    }
   }
 }
 
