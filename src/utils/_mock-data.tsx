@@ -1,12 +1,13 @@
 export const activeUserStats = {
     data: [
-        { title: 1, value: 0 },
-        { title: 2, value: 0 },
-        { title: 3, value: 5 },
-        { title: 4, value: 10 },
+        {dateEventOccurred: new Date(), title: 1, value: 0 },
+        { dateEventOccurred: new Date(),title: 2, value: 0 },
+        { dateEventOccurred: new Date(),title: 3, value: 5 },
+        { dateEventOccurred: new Date(),title: 4, value: 10 },
     ],
     header: "Active User Statistics",
     categories: [
+        "Date the event occurred",
         "Day N",
         "Number of Active Users"
     ]
@@ -14,13 +15,14 @@ export const activeUserStats = {
 
 export const eventStats = {
     data: [
-        { title: "PAGE_VIEW", value: 25 },
-        { title: "SCROLL", value: 21 },
-        { title: "FIRST_VISIT", value: 21 },
-        { title: "SESSION_START", value: 10 },
+        { dateEventOccurred: new Date(),title: "PAGE_VIEW", value: 25 },
+        { dateEventOccurred: new Date(),title: "SCROLL", value: 21 },
+        { dateEventOccurred: new Date(),title: "FIRST_VISIT", value: 21 },
+        { dateEventOccurred: new Date(),title: "SESSION_START", value: 10 },
     ],
     header: "Event Statistics",
     categories: [
+        "Date the event occurred",
         "Event Name",
         "Number of Events"
     ]
@@ -28,13 +30,14 @@ export const eventStats = {
 
 export const countryStats = {
     data:[
-        { title: "RU", value: 5 },
-        { title: "SC", value: 4 },
-        { title: "VN", value: 2 },
-        { title: "DE", value: 1 },
+        { dateEventOccurred: new Date(),title: "RU", value: 5 },
+        { dateEventOccurred: new Date(),title: "SC", value: 4 },
+        { dateEventOccurred: new Date(),title: "VN", value: 2 },
+        { dateEventOccurred: new Date(),title: "DE", value: 1 },
     ],
     header: "Statistics of Users from Countries",
     categories: [
+        "Date the event occurred",
         "Country",
         "Active Users"
     ]
@@ -42,11 +45,12 @@ export const countryStats = {
 
 export const referralStats = {
     data: [
-        { title: "DIRECT", value: 25 },
-        { title: "REFERRAL", value: 21 },
+        { dateEventOccurred: new Date(),title: "DIRECT", value: 25 },
+        { dateEventOccurred: new Date(),title: "REFERRAL", value: 21 },
     ],
     header: "Where Do Your New Users Come From",
     categories: [
+        "Date the event occurred",
         "Session Primary Channel Group",
         "Number of Events"
     ]

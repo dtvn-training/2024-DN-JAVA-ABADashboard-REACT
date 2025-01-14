@@ -11,19 +11,12 @@ import {
 } from "@mui/material";
 import styles from "./table-report.module.scss";
 import classNames from "classnames/bind";
+import { PreviewInterface } from "../interface/interface";
+import { format } from 'date-fns';
 
-type DataReportStyles= {
-    title: string | number;
-    value: string |number;
-}
-type PropsStyles= {
-    data: DataReportStyles[],
-    header: string;
-    categories: string[];
-}
 
 const cx = classNames.bind(styles);
-const TableReport = (props: PropsStyles) => {
+const TableReport = (props: PreviewInterface) => {
   return (
     <Grid2 component="div" className={cx("report-item")}>
       <Paper elevation={3} sx={{ padding: 2 }}>
@@ -35,13 +28,14 @@ const TableReport = (props: PropsStyles) => {
             <TableHead>
               <TableRow>
                 {props.categories.map((row,index)=>{
-                    return <TableCell align={index===1?'right':'left'} key={index}>{row}</TableCell>
+                    return <TableCell align={index===2?'right':'left'} key={index}>{row}</TableCell>
                 })}
               </TableRow>
             </TableHead>
             <TableBody>
               {props.data.map((row,index) => (
                 <TableRow key={index}>
+                  <TableCell>{format(row.dateEventOccurred,"yyyy-MM-dd")}</TableCell>
                   <TableCell>{row.title}</TableCell>
                   <TableCell align="right">{row.value}</TableCell>
                 </TableRow>
