@@ -39,7 +39,7 @@ const EventDashboard = () => {
 
   
 
-    const handleChangePage = (event: unknown, newPage: number) => {
+    const handleChangePage = (_event: unknown, newPage: number) => {
       setPage(newPage);
       console.log('newPage', newPage);
       dispatch(setCurrentPage(newPage));
