@@ -3,35 +3,33 @@ import FilterListIcon from "@mui/icons-material/FilterList";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import styles from "./preview-component.module.scss";
 import classNames from "classnames/bind";
-import {
-  activeUserStats,
-  countryStats,
-  eventStats,
-  referralStats,
-} from "../../../utils/_mock-data";
 import { TableReport } from "../../../components/table-report";
 import { ChangeEvent, useEffect, useState } from "react";
 import { DateTimePicker } from "../../../components/date-time-picker";
 import useRouter from "../../../hooks/useRouter";
 import { CreateFileExcel } from "../../../utils/_create-file-excel";
-import { useAppDispatch } from "../../../redux/store";
-import { GetReportForPreviewByTimestampBetween } from "../../../services/preview-services/preview-services";
-import { format } from 'date-fns';
-import { PreviewDataRequest } from "../../../services/preview-services/preview-type";
+import { useAppDispatch, useAppSelector } from "../../../redux/store";
+import { format } from "date-fns";
+import {
+  PreviewDataRequest,
+  PreviewInterface,
+} from "../../../services/preview-services/preview-type";
+import { getPreviewDataAction } from "../../../redux/preview-slice/preview-slice";
+import { Loader } from "../../../components/loader";
 
 const cx = classNames.bind(styles);
 const PreviewComponent = () => {
-  const dispatch= useAppDispatch();
+  const dispatch = useAppDispatch();
   const router = useRouter();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [fileName, setFileName]= useState("Report today");
+  const [fileName, setFileName] = useState("");
   const [rangePicker, setRangePicker] = useState<{
     startDate: Date;
     endDate: Date;
-  }>(
-    {startDate: new Date(), endDate: new Date()}
-  );
+  }>({ startDate: new Date(), endDate: new Date() });
+  const { previewData, loading } = useAppSelector((state) => state.preview);
   const open = Boolean(anchorEl);
+
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -39,41 +37,33 @@ const PreviewComponent = () => {
     setAnchorEl(null);
   };
 
-  const handleDateRangeChange = (range: {
-    startDate: Date;
-    endDate: Date;
-  }) => {
+  const handleDateRangeChange = (range: { startDate: Date; endDate: Date }) => {
     setRangePicker(range);
   };
 
-  const handleChangeInputFileName= (event:ChangeEvent<HTMLInputElement>)=>{
+  const handleChangeInputFileName = (event: ChangeEvent<HTMLInputElement>) => {
     setFileName(event.target.value);
-  }
-  
-  const handleClickDownload= ()=>{
-    const data= [];
-    data.push(activeUserStats);
-    data.push(countryStats);
-    data.push(eventStats);
-    data.push(referralStats);
-    const valueDownloaded= {
-      data: data,
-      fileName,
+  };
+
+  const handleClickDownload = () => {
+    const valueDownloaded = {
+      data: previewData,
+      fileName: fileName === "" ? "Report" : fileName,
       startDate: rangePicker.startDate,
-      endDate: rangePicker.endDate
-    }
+      endDate: rangePicker.endDate,
+    };
     CreateFileExcel(valueDownloaded);
-  }
-  
-  useEffect(()=>{
-    if(rangePicker){
-      const data : PreviewDataRequest= {
-        startDate: format(rangePicker.startDate, 'yyyy-MM-dd'),
-        endDate: format(rangePicker.endDate, 'yyyy-MM-dd')
-      }
-      dispatch(GetReportForPreviewByTimestampBetween(data))
+  };
+
+  useEffect(() => {
+    if (rangePicker) {
+      const data: PreviewDataRequest = {
+        startDate: format(rangePicker.startDate, "yyyy-MM-dd"),
+        endDate: format(rangePicker.endDate, "yyyy-MM-dd"),
+      };
+      dispatch(getPreviewDataAction(data));
     }
-  },[]);
+  }, []);
 
   return (
     <Box sx={{ height: "100vh", backgroundColor: "#ffffff" }}>
@@ -112,10 +102,7 @@ const PreviewComponent = () => {
             }}
           >
             <DateTimePicker
-              initialRange={{
-                startDate: new Date(),
-                endDate: new Date(),
-              }}
+              initialRange={rangePicker}
               onDateChange={handleDateRangeChange}
               onClose={handleClose}
             />
@@ -145,31 +132,37 @@ const PreviewComponent = () => {
           </Button>
         </Box>
       </Grid2>
+      <Box component="div" className={cx("title")}>
+        {rangePicker.startDate.toLocaleDateString() ===
+        rangePicker.endDate.toLocaleDateString() ? (
+          <h1>Report for {format(rangePicker.startDate, "yyyy-MM-dd")}</h1>
+        ) : (
+          <h1>
+            Report from {format(rangePicker.startDate, "yyyy-MM-dd")} to{" "}
+            {format(rangePicker.endDate, "yyyy-MM-dd")}
+          </h1>
+        )}
+      </Box>
       <Grid2
         container
         spacing={3}
         sx={{ padding: 4, backgroundColor: "#ffffff" }}
       >
-        <TableReport
-          data={activeUserStats.data}
-          header={activeUserStats.header}
-          categories={activeUserStats.categories}
-        />
-        <TableReport
-          data={countryStats.data}
-          header={countryStats.header}
-          categories={countryStats.categories}
-        />
-        <TableReport
-          data={eventStats.data}
-          header={eventStats.header}
-          categories={eventStats.categories}
-        />
-        <TableReport
-          data={referralStats.data}
-          header={referralStats.header}
-          categories={referralStats.categories}
-        />
+        {loading ? (
+          <Loader width={100} />
+        ) : (
+          previewData.length > 0 &&
+          previewData.map((item: PreviewInterface, index: number) => {
+            return (
+              <TableReport
+                key={index}
+                data={item.data.slice(0, 8)}
+                header={item.header}
+                categories={item.categories}
+              />
+            );
+          })
+        )}
       </Grid2>
     </Box>
   );

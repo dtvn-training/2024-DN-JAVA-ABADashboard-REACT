@@ -6,6 +6,10 @@ import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import classNames from "classnames/bind";
 import styled from "./date-time-picker.module.scss";
+import { PreviewDataRequest } from "../../services/preview-services/preview-type";
+import { format } from "date-fns";
+import { useAppDispatch } from "../../redux/store";
+import { getPreviewDataAction } from "../../redux/preview-slice/preview-slice";
 
 const cx = classNames.bind(styled);
 
@@ -20,6 +24,7 @@ const DateTimePicker: React.FC<DateRangePickerComponentProps> = ({
   onDateChange,
   onClose,
 }) => {
+  const dispatch = useAppDispatch();
   const [range, setRange] = useState(initialRange);
   const [isMobile, setIsMobile] = useState(false);
 
@@ -36,6 +41,15 @@ const DateTimePicker: React.FC<DateRangePickerComponentProps> = ({
     onDateChange(newRange);
   };
 
+  const handleClickApply = () => {
+    onClose();
+    const data: PreviewDataRequest = {
+      startDate: format(range.startDate, "yyyy-MM-dd"),
+      endDate: format(range.endDate, "yyyy-MM-dd"),
+    };
+    dispatch(getPreviewDataAction(data));
+    handleRangeChange({ startDate: range.startDate, endDate: range.endDate });
+  };
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 768px)");
@@ -77,7 +91,7 @@ const DateTimePicker: React.FC<DateRangePickerComponentProps> = ({
         <Button
           variant="contained"
           className={cx("apply-btn")}
-          onClick={onClose}
+          onClick={handleClickApply}
         >
           apply
         </Button>

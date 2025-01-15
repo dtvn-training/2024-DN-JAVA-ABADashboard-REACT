@@ -1,5 +1,5 @@
 import ExcelJS from "exceljs";
-import { PreviewInterface } from "../components/interface/interface";
+import { PreviewInterface } from "../services/preview-services/preview-type";
 import { format } from "date-fns";
 
 type FileExcelTypes = {
@@ -69,15 +69,17 @@ export const CreateFileExcel = async (value: FileExcelTypes) => {
 
     // Thêm tiêu đề "Title" và "Value" ở hàng thứ 4
     const headerRow = sheet.getRow(4);
-    headerRow.values = ["", ...item.categories]; // Thêm khoảng trống ở cột A
+    headerRow.values =
+      item.categories.length === 2
+        ? ["", "STT", ...item.categories]
+        : ["", ...item.categories]; // Thêm khoảng trống ở cột A
     headerRow.font = { bold: true };
     headerRow.alignment = { horizontal: "center", vertical: "middle" };
     console.log(headerRow);
 
     // Style riêng cho "Title" và "Value"
     headerRow.eachCell((cell, colNumber) => {
-      if (colNumber === 2||colNumber === 3 || colNumber === 4) {
-        
+      if (colNumber === 2 || colNumber === 3 || colNumber === 4) {
         cell.fill = {
           type: "pattern",
           pattern: "solid",
@@ -94,11 +96,20 @@ export const CreateFileExcel = async (value: FileExcelTypes) => {
     });
 
     // 3. Thêm dữ liệu (chỉ vào cột nội dung chính)
-
+    let count=1;
     item.data.forEach((item, index) => {
-      const row = sheet.addRow(["", item.dateEventOccurred, item.title, item.value, ""]); // Thêm cột trống
+      const row = sheet.addRow([
+        "",
+        item.field1 === null?count:item.field1,
+        item.field2,
+        item.field3,
+        "",
+      ]); // Thêm cột trống
+      if(!item.field1){
+        count++;
+      }
       row.eachCell((cell, colNumber) => {
-        if (colNumber === 2 ||colNumber === 3 || colNumber === 4) {
+        if (colNumber === 2 || colNumber === 3 || colNumber === 4) {
           // Style chỉ cho dữ liệu chính
           cell.fill = {
             type: "pattern",

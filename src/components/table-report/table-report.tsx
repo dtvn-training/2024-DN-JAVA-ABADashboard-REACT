@@ -17,6 +17,14 @@ import { format } from 'date-fns';
 
 const cx = classNames.bind(styles);
 const TableReport = (props: PreviewInterface) => {
+
+  const checkIsTime= (value: string | Date) =>{
+    if(typeof value === "object"){
+      return format(new Date(value),"yyyy-MM-dd");
+    }
+    return value;
+  }
+
   return (
     <Grid2 component="div" className={cx("report-item")}>
       <Paper elevation={3} sx={{ padding: 2 }}>
@@ -35,9 +43,9 @@ const TableReport = (props: PreviewInterface) => {
             <TableBody>
               {props.data.map((row,index) => (
                 <TableRow key={index}>
-                  <TableCell>{format(row.dateEventOccurred,"yyyy-MM-dd")}</TableCell>
-                  <TableCell>{row.title}</TableCell>
-                  <TableCell align="right">{row.value}</TableCell>
+                  <TableCell>{checkIsTime(row.field1)}</TableCell>
+                  <TableCell>{row.field2}</TableCell>
+                  <TableCell align="right">{row.field3}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
