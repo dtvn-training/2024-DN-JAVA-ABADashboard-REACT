@@ -1,1 +1,1 @@
-export {default as DateTimePicker} from "./date-time-picker";
+export { default as DateTimePicker } from "./date-time-picker";

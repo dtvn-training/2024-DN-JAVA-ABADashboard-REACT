@@ -15,15 +15,14 @@ const checkStartDateAndEndDate = (startDate: Date, endDate: Date) => {
 
 export const createFileExcel = async (value: FileExcelTypes) => {
   const workbook = new ExcelJS.Workbook();
+  const formattedStartDate = format(value.startDate, "yyyy-MM-dd");
+  const formattedEndDate = format(value.endDate, "yyyy-MM-dd");
   value.data.forEach((item) => {
     const sheet = workbook.addWorksheet(
       `${item.header} ${
         checkStartDateAndEndDate(value.startDate, value.endDate)
-          ? format(value.startDate, "yyyy-MM-dd")
-          : format(value.startDate, "yyyy-MM-dd").concat(
-              "_",
-              format(value.endDate, "yyyy-MM-dd")
-            )
+          ? formattedStartDate
+          : formattedStartDate.concat("_", formattedEndDate)
       }`
     );
     // 1. Thêm hàng trống (cách lề trên)
@@ -36,11 +35,8 @@ export const createFileExcel = async (value: FileExcelTypes) => {
       "",
       `Report summary for ${item.header} ${
         checkStartDateAndEndDate(value.startDate, value.endDate)
-          ? format(value.startDate, "yyyy-MM-dd")
-          : format(value.startDate, "yyyy-MM-dd").concat(
-              " to ",
-              format(value.endDate, "yyyy-MM-dd")
-            )
+          ? formattedStartDate
+          : formattedStartDate.concat("_", formattedEndDate)
       }`,
     ]; // Thêm tiêu đề ở cột B
     sheet.mergeCells("B3:D3"); // Merge từ B3 đến D3
@@ -144,11 +140,8 @@ export const createFileExcel = async (value: FileExcelTypes) => {
   a.href = url;
   a.download = `${value.fileName.replace(" ", "_")}_${
     checkStartDateAndEndDate(value.startDate, value.endDate)
-      ? format(value.startDate, "yyyy-MM-dd")
-      : format(value.startDate, "yyyy-MM-dd").concat(
-          "_to_",
-          format(value.endDate, "yyyy-MM-dd")
-        )
+      ? formattedStartDate
+      : formattedStartDate.concat("_", formattedEndDate)
   }.xlsx`;
   a.click();
   window.URL.revokeObjectURL(url);

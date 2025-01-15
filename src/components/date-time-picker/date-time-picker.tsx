@@ -29,6 +29,15 @@ const DateTimePicker: React.FC<DateRangePickerComponentProps> = ({
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 768px)");
+    const handleResize = () => setIsMobile(mediaQuery.matches);
+    mediaQuery.addEventListener("change", handleResize);
+    handleResize();
+
+    return () => mediaQuery.removeEventListener("change", handleResize);
+  }, []);
+  
+  useEffect(() => {
     setRange(initialRange);
   }, [initialRange]);
 
@@ -51,14 +60,7 @@ const DateTimePicker: React.FC<DateRangePickerComponentProps> = ({
     handleRangeChange({ startDate: range.startDate, endDate: range.endDate });
   };
 
-  useEffect(() => {
-    const mediaQuery = window.matchMedia("(max-width: 768px)");
-    const handleResize = () => setIsMobile(mediaQuery.matches);
-    mediaQuery.addEventListener("change", handleResize);
-    handleResize();
-
-    return () => mediaQuery.removeEventListener("change", handleResize);
-  }, []);
+  
   return (
     <Box
       className={cx("boxCustom")}

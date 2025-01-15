@@ -70,8 +70,8 @@ const PreviewComponent = () => {
   useEffect(() => {
     if (rangePicker) {
       const data: PreviewDataRequest = {
-        startDate: format(rangePicker.startDate, "yyyy-MM-dd"),
-        endDate: format(rangePicker.endDate, "yyyy-MM-dd"),
+        startDate: formattedStartDate,
+        endDate: formattedEndDate,
       };
       dispatch(getPreviewDataAction(data));
     }
