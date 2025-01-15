@@ -18,7 +18,10 @@ const DateRangePickerComponent: React.FC<DateRangePickerComponentProps> = ({
   onDateChange,
 }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [range, setRange] = useState(initialRange);
+  const [range, setRange] = useState<{
+    startDate: Date | null;
+    endDate: Date | null;
+  }>({ startDate: initialRange.startDate, endDate: initialRange.endDate });
 
   useEffect(() => {
     setRange(initialRange);
@@ -60,8 +63,14 @@ const DateRangePickerComponent: React.FC<DateRangePickerComponentProps> = ({
 
   return (
     <>
-      <Button className={cx("boxCustom")} onClick={handleTimeClick} type="button">
-        {`${range.startDate.toLocaleDateString()} - ${range.endDate.toLocaleDateString()}`}
+      <Button
+        className={cx("boxCustom")}
+        onClick={handleTimeClick}
+        type="button"
+      >
+        {range.startDate && range.endDate
+          ? `${range.startDate.toLocaleDateString()} - ${range.endDate.toLocaleDateString()}`
+          : "Select Date Range"}
       </Button>
       <Popover
         id={id}
@@ -73,12 +82,15 @@ const DateRangePickerComponent: React.FC<DateRangePickerComponentProps> = ({
           horizontal: "left",
         }}
       >
-        <Box className={cx("boxCustom")} sx={{ p: 2, display: "flex", flexDirection: "column", gap: 2 }}>
+        <Box
+          className={cx("boxCustom")}
+          sx={{ p: 2, display: "flex", flexDirection: "column", gap: 2 }}
+        >
           <DateRangePicker
             ranges={[
               {
-                startDate: range.startDate,
-                endDate: range.endDate,
+                startDate: range.startDate || new Date(),
+                endDate: range.endDate || new Date(),
                 key: "selection",
               },
             ]}
@@ -87,24 +99,29 @@ const DateRangePickerComponent: React.FC<DateRangePickerComponentProps> = ({
             months={2}
             direction="horizontal"
             maxDate={new Date()}
-            
           />
           <TextField
             label="Start Date"
             type="date"
-            value={range.startDate.toISOString().split("T")[0]}
-            onChange={handleStartDateChange}   
+            value={
+              range.startDate
+                ? range.startDate.toISOString().split("T")[0]
+                : ""
+            }
+            onChange={handleStartDateChange}
             inputProps={{
-              max: new Date().toISOString().split("T")[0], 
-            }} 
+              max: new Date().toISOString().split("T")[0],
+            }}
           />
           <TextField
             label="End Date"
             type="date"
-            value={range.endDate.toISOString().split("T")[0]}
+            value={
+              range.endDate ? range.endDate.toISOString().split("T")[0] : ""
+            }
             onChange={handleEndDateChange}
             inputProps={{
-              max: new Date().toISOString().split("T")[0], 
+              max: new Date().toISOString().split("T")[0],
             }}
           />
         </Box>

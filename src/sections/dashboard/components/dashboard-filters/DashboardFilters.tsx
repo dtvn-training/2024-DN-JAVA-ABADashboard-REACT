@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Box, Select, SelectChangeEvent } from "@mui/material";
+import { Box } from "@mui/material";
 import styles from "./dashboard-filters.module.scss";
 import classNames from "classnames/bind";
 import { useAppDispatch, useAppSelector } from "../../../../redux/store";
@@ -131,7 +131,6 @@ const DashboardFilters: React.FC = () => {
           value={campaign || "Campaign"}
           onChange={handleCampaignChange}
         >
-          <option value="">Campaign</option>
           {campaigns.map((c) => (
             <option key={c.campaignId} value={c.campaignName}>
               {c.campaignName}

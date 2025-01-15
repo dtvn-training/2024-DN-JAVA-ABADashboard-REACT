@@ -22,6 +22,7 @@ export const fetchCampaignsThunk = createAsyncThunk('campaigns/fetchCampaigns', 
   return response;
 });
 
+
 const filtersSlice = createSlice({
   name: 'filters',
   initialState,
@@ -48,10 +49,10 @@ const filtersSlice = createSlice({
         state.loading = false;
         state.medias = action.payload;
       })
-      // .addCase(fetchCampaignsThunk.fulfilled, (state, action) => {
-      //   state.loading = false;
-      //   state.campaigns = action.payload;
-      // });
+      .addCase(fetchCampaignsThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.campaigns = action.payload
+      });
   },
 });
 

@@ -46,16 +46,16 @@ const DashboardComponent = () => {
   const fetchMedia = useCallback(async () => {
       await dispatch(fetchMediaThunk()).unwrap();
 
-  },[]);
+  },[dispatch]);
 
   const fetchCampaigns = useCallback(async () => {
     await dispatch(fetchCampaignsThunk()).unwrap();
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     fetchMedia();
     fetchCampaigns();
-  }, []);
+  }, [fetchMedia, fetchCampaigns]);
 
   useEffect( () => {
     try {  
