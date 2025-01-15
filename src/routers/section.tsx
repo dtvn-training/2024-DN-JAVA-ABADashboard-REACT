@@ -1,8 +1,8 @@
 import { Suspense, lazy } from "react";
-import { Navigate, Outlet, useRoutes } from "react-router-dom";
+import { Outlet, useRoutes } from "react-router-dom";
 import { ABADashboardLayout } from "../layouts";
 export const DashboardPage = lazy(() => import("../pages/dashboard"));
-
+export const PreviewPage = lazy(() => import("../pages/preview"));
 
 export default function Router() {
   const routers = useRoutes([
@@ -16,11 +16,15 @@ export default function Router() {
       ),
       children: [
         {
-            path: "/",
-            element: <DashboardPage />,
-            index: true,
-        }
-      ]
+          path: "/",
+          element: <DashboardPage />,
+          index: true,
+        },
+      ],
+    },
+    {
+      path: "/preview",
+      element: <PreviewPage />,
     },
   ]);
   return routers;
