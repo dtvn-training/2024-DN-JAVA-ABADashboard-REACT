@@ -12,7 +12,7 @@ export const GetReportForPreviewByTimestampBetween = async (
         endDate: data.endDate,
       },
     });
-    return res.data as unknown as PreviewInterface[];
+    return res.data as PreviewInterface[];
   } catch (error: any) {
     throw new Error(error.message);
   }

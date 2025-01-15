@@ -9,19 +9,16 @@ type FileExcelTypes = {
   endDate: Date;
 };
 
-const CheckStartDateAndEndDate = (startDate: Date, endDate: Date) => {
-  if (startDate.toLocaleDateString() === endDate.toLocaleDateString()) {
-    return true;
-  }
-  return false;
+const checkStartDateAndEndDate = (startDate: Date, endDate: Date) => {
+  return startDate.toLocaleDateString() === endDate.toLocaleDateString();
 };
 
-export const CreateFileExcel = async (value: FileExcelTypes) => {
+export const createFileExcel = async (value: FileExcelTypes) => {
   const workbook = new ExcelJS.Workbook();
   value.data.forEach((item) => {
     const sheet = workbook.addWorksheet(
       `${item.header} ${
-        CheckStartDateAndEndDate(value.startDate, value.endDate)
+        checkStartDateAndEndDate(value.startDate, value.endDate)
           ? format(value.startDate, "yyyy-MM-dd")
           : format(value.startDate, "yyyy-MM-dd").concat(
               "_",
@@ -38,7 +35,7 @@ export const CreateFileExcel = async (value: FileExcelTypes) => {
     headingRow.values = [
       "",
       `Report summary for ${item.header} ${
-        CheckStartDateAndEndDate(value.startDate, value.endDate)
+        checkStartDateAndEndDate(value.startDate, value.endDate)
           ? format(value.startDate, "yyyy-MM-dd")
           : format(value.startDate, "yyyy-MM-dd").concat(
               " to ",
@@ -100,7 +97,7 @@ export const CreateFileExcel = async (value: FileExcelTypes) => {
     item.data.forEach((item, index) => {
       const row = sheet.addRow([
         "",
-        item.field1 === null ? count : item.field1,
+        item.field1 ? item.field1 : count,
         item.field2,
         item.field3,
         "",
@@ -146,7 +143,7 @@ export const CreateFileExcel = async (value: FileExcelTypes) => {
   const a = document.createElement("a");
   a.href = url;
   a.download = `${value.fileName.replace(" ", "_")}_${
-    CheckStartDateAndEndDate(value.startDate, value.endDate)
+    checkStartDateAndEndDate(value.startDate, value.endDate)
       ? format(value.startDate, "yyyy-MM-dd")
       : format(value.startDate, "yyyy-MM-dd").concat(
           "_to_",

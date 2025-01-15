@@ -7,7 +7,7 @@ import { TableReport } from "../../../components/table-report";
 import { ChangeEvent, useEffect, useState } from "react";
 import { DateTimePicker } from "../../../components/date-time-picker";
 import useRouter from "../../../hooks/useRouter";
-import { CreateFileExcel } from "../../../utils/_create-file-excel";
+import { createFileExcel } from "../../../utils/_create-file-excel";
 import { useAppDispatch, useAppSelector } from "../../../redux/store";
 import { format } from "date-fns";
 import {
@@ -29,6 +29,8 @@ const PreviewComponent = () => {
   }>({ startDate: new Date(), endDate: new Date() });
   const { previewData, loading } = useAppSelector((state) => state.preview);
   const open = Boolean(anchorEl);
+  const formattedStartDate = format(rangePicker.startDate, "yyyy-MM-dd");
+  const formattedEndDate = format(rangePicker.endDate, "yyyy-MM-dd");
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -48,11 +50,21 @@ const PreviewComponent = () => {
   const handleClickDownload = () => {
     const valueDownloaded = {
       data: previewData,
-      fileName: fileName === "" ? "Report" : fileName,
+      fileName: fileName || "Report",
       startDate: rangePicker.startDate,
       endDate: rangePicker.endDate,
     };
-    CreateFileExcel(valueDownloaded);
+    createFileExcel(valueDownloaded);
+  };
+
+  const renderReportTitle = () => {
+    if (
+      rangePicker.startDate.toLocaleDateString() ===
+      rangePicker.endDate.toLocaleDateString()
+    ) {
+      return `Report for ${formattedStartDate}`;
+    }
+    return `Report from ${formattedStartDate} to ${formattedEndDate}`;
   };
 
   useEffect(() => {
@@ -133,15 +145,7 @@ const PreviewComponent = () => {
         </Box>
       </Grid2>
       <Box component="div" className={cx("title")}>
-        {rangePicker.startDate.toLocaleDateString() ===
-        rangePicker.endDate.toLocaleDateString() ? (
-          <h1>Report for {format(rangePicker.startDate, "yyyy-MM-dd")}</h1>
-        ) : (
-          <h1>
-            Report from {format(rangePicker.startDate, "yyyy-MM-dd")} to{" "}
-            {format(rangePicker.endDate, "yyyy-MM-dd")}
-          </h1>
-        )}
+        <h1>{renderReportTitle()}</h1>
       </Box>
       <Grid2
         container
