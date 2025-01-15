@@ -1,1 +1,1 @@
-export {default as PreviewComponent} from "./preview-component";
+export { default as PreviewComponent } from "./preview-component";

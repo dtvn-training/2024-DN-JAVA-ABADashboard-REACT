@@ -1,1 +1,1 @@
-export {default as TableReport} from "./table-report";
+export { default as TableReport } from "./table-report";

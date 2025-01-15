@@ -4,7 +4,6 @@ import { ABADashboardLayout } from "../layouts";
 export const DashboardPage = lazy(() => import("../pages/dashboard"));
 export const PreviewPage = lazy(() => import("../pages/preview"));
 
-
 export default function Router() {
   const routers = useRoutes([
     {
@@ -17,16 +16,16 @@ export default function Router() {
       ),
       children: [
         {
-            path: "/",
-            element: <DashboardPage />,
-            index: true,
-        }
-      ]
+          path: "/",
+          element: <DashboardPage />,
+          index: true,
+        },
+      ],
     },
     {
       path: "/preview",
-      element: <PreviewPage />
-    }
+      element: <PreviewPage />,
+    },
   ]);
   return routers;
 }

@@ -96,16 +96,16 @@ export const CreateFileExcel = async (value: FileExcelTypes) => {
     });
 
     // 3. Thêm dữ liệu (chỉ vào cột nội dung chính)
-    let count=1;
+    let count = 1;
     item.data.forEach((item, index) => {
       const row = sheet.addRow([
         "",
-        item.field1 === null?count:item.field1,
+        item.field1 === null ? count : item.field1,
         item.field2,
         item.field3,
         "",
       ]); // Thêm cột trống
-      if(!item.field1){
+      if (!item.field1) {
         count++;
       }
       row.eachCell((cell, colNumber) => {

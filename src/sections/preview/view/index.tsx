@@ -1,1 +1,1 @@
-export {default as PreviewView} from "./preview-view";
+export { default as PreviewView } from "./preview-view";

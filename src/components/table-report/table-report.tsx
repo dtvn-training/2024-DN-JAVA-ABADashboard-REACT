@@ -12,18 +12,16 @@ import {
 import styles from "./table-report.module.scss";
 import classNames from "classnames/bind";
 import { PreviewInterface } from "../../services/preview-services/preview-type";
-import { format } from 'date-fns';
-
+import { format } from "date-fns";
 
 const cx = classNames.bind(styles);
 const TableReport = (props: PreviewInterface) => {
-
-  const checkIsTime= (value: string | Date) =>{
-    if(typeof value === "object"){
-      return format(new Date(value),"yyyy-MM-dd");
+  const checkIsTime = (value: string | Date) => {
+    if (typeof value === "object") {
+      return format(new Date(value), "yyyy-MM-dd");
     }
     return value;
-  }
+  };
 
   return (
     <Grid2 component="div" className={cx("report-item")}>
@@ -35,13 +33,20 @@ const TableReport = (props: PreviewInterface) => {
           <Table size="small">
             <TableHead>
               <TableRow>
-                {props.categories.map((row,index)=>{
-                    return <TableCell align={index===2?'right':'left'} key={index}>{row}</TableCell>
+                {props.categories.map((row, index) => {
+                  return (
+                    <TableCell
+                      align={index === 2 ? "right" : "left"}
+                      key={index}
+                    >
+                      {row}
+                    </TableCell>
+                  );
                 })}
               </TableRow>
             </TableHead>
             <TableBody>
-              {props.data.map((row,index) => (
+              {props.data.map((row, index) => (
                 <TableRow key={index}>
                   <TableCell>{checkIsTime(row.field1)}</TableCell>
                   <TableCell>{row.field2}</TableCell>
