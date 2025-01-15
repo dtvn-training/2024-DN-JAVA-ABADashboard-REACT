@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Popover, TextField, Box } from "@mui/material";
+import { Button, Popover, Box } from "@mui/material";
 import { DateRangePicker } from "react-date-range";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
@@ -39,24 +39,14 @@ const DateRangePickerComponent: React.FC<DateRangePickerComponentProps> = ({
     const { selection } = ranges;
     const today = new Date();
     const newEndDate = selection.endDate > today ? today : selection.endDate;
-    const newRange = { startDate: selection.startDate, endDate: newEndDate };
+    const newRange = {
+      startDate: selection.startDate || today,
+      endDate: newEndDate || today,
+    };
     setRange(newRange);
-    onDateChange(newRange);
+    onDateChange(newRange as { startDate: Date; endDate: Date });
   };
 
-  const handleStartDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newStartDate = new Date(event.target.value);
-    const newRange = { ...range, startDate: newStartDate };
-    setRange(newRange);
-    onDateChange(newRange);
-  };
-
-  const handleEndDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newEndDate = new Date(event.target.value);
-    const newRange = { ...range, endDate: newEndDate };
-    setRange(newRange);
-    onDateChange(newRange);
-  };
 
   const open = Boolean(anchorEl);
   const id = open ? "date-picker-popover" : undefined;
@@ -100,30 +90,7 @@ const DateRangePickerComponent: React.FC<DateRangePickerComponentProps> = ({
             direction="horizontal"
             maxDate={new Date()}
           />
-          <TextField
-            label="Start Date"
-            type="date"
-            value={
-              range.startDate
-                ? range.startDate.toISOString().split("T")[0]
-                : ""
-            }
-            onChange={handleStartDateChange}
-            inputProps={{
-              max: new Date().toISOString().split("T")[0],
-            }}
-          />
-          <TextField
-            label="End Date"
-            type="date"
-            value={
-              range.endDate ? range.endDate.toISOString().split("T")[0] : ""
-            }
-            onChange={handleEndDateChange}
-            inputProps={{
-              max: new Date().toISOString().split("T")[0],
-            }}
-          />
+
         </Box>
       </Popover>
     </>

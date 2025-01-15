@@ -2,4 +2,9 @@
     color: black;
     box-shadow: none !important;
     outline: none !important;
+    width: 100%; /* Take the full width of the container */
+    height: 100%; /* Take the full height of the container */
+    border: none; /* Remove any borders for seamless integration */
+    background: transparent; /* Ensure background blends with parent */
+
 }
