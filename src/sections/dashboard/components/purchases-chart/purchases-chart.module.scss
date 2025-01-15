@@ -1,0 +1,64 @@
+.chart-container {
+  margin-top: 16px;
+}
+
+.chart-card {
+  padding: 24px;
+  background-color: var(--color-chart-bg);
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  min-height: 300px;
+  max-height: fit-content;
+  height: 100%;
+  box-sizing: border-box;
+  min-width: 300px;
+
+  @media (max-width: 1200px) {
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+}
+
+.chart-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #131111;
+  text-align: center;
+  margin-bottom: 16px;
+
+  @media (max-width: 1200px) {
+    font-size: 1.4rem;
+  }
+
+  @media (max-width: 992px) {
+    font-size: 1.3rem;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 1.2rem;
+  }
+
+  @media (max-width: 576px) {
+    font-size: 1.1rem;
+  }
+}
+
+.chart {
+  height: calc(100% - 32px);
+
+  @media (max-width: 1200px) {
+    height: calc(100% - 28px);
+  }
+
+  @media (max-width: 992px) {
+    height: calc(100% - 24px);
+  }
+
+  @media (max-width: 768px) {
+    height: calc(100% - 20px);
+  }
+
+  @media (max-width: 576px) {
+    height: calc(100% - 16px);
+  }
+}

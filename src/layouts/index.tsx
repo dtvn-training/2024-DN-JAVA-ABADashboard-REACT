@@ -1,17 +1,34 @@
-import { Header } from "./header"
-import { Main } from "./main"
-import { SideBar } from "./sidebar"
+import React, { useState } from "react";
+import { Header } from "./header";
+import { Main } from "./main";
+import { SideBar } from "./sidebar";
+import { Box} from "@mui/material";
+import classNames from "classnames/bind";
+import styles from "./index.module.scss"; // Import CSS module
 
-type PropsStyles={
-    children: React.ReactNode
-}
+const cx = classNames.bind(styles);
 
-export const ABADashboardLayout= (props: PropsStyles)=>{
-    return (
-        <>
-            <Header />
-            <SideBar/>
-            <Main>{props.children}</Main>
-        </>
-    )
-}
+type PropsStyles = {
+  children: React.ReactNode;
+};
+
+export const ABADashboardLayout = (props: PropsStyles) => {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen((prevState) => !prevState);
+  };
+
+  return (
+    <>
+      <SideBar isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+      <Box
+        component="main"
+        className={cx("mainContent", { shifted: !isSidebarOpen })}
+      >
+        <Header />
+        <Main>{props.children}</Main>
+      </Box>
+    </>
+  );
+};

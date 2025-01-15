@@ -1,0 +1,157 @@
+.metrics-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 5px;
+}
+
+.metrics-card {
+  flex: 1 1 calc(33.333% - 16px);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1), 
+              0px 1px 3px rgba(0, 0, 0, 0.08);
+  height: 100px;
+  transition: transform 0.3s, box-shadow 0.3s;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.15), 
+                0px 3px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .value{
+    margin-right: 40px;
+  }
+
+  .content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0 16px;
+  }
+
+  .active-users-title {
+    font-size: 1.2rem;
+    font-weight: 200;
+    color: var(--color-text);
+  }
+
+  .active-users-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-primary);
+  }
+
+  .icon {
+    font-size: 3rem;
+    color: var(--color-primary);
+  }
+
+  &.custom-card {
+    border: 2px solid #000;
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    box-shadow: none;
+    flex-direction: column;
+  }
+}
+
+.custom-card {
+  box-shadow: none !important;
+}
+
+@media (max-width: 1200px) {
+  .metrics-card {
+    flex: 1 1 calc(50% - 16px);
+    height: 90px;
+
+    .value {
+      margin-right: 10px;
+    }
+
+    .active-users-title {
+      font-size: 1.2rem;
+    }
+
+    .active-users-value {
+      font-size: 1.8rem;
+    }
+
+    .icon {
+      font-size: 2.5rem;
+    }
+  }
+}
+
+@media (max-width: 992px) {
+  .metrics-card {
+    flex: 1 1 calc(50% - 16px);
+    height: 80px;
+    min-width: 200px;
+
+    .active-users-title {
+      font-size: 1.2rem;
+    }
+
+    .active-users-value {
+      font-size: 1.5rem;
+    }
+
+    .icon {
+      font-size: 2rem;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .metrics-card {
+    flex: 1 1 calc(100% - 16px);
+    height: 70px;
+
+    .active-users-title {
+      font-size: 1.2rem;
+    }
+
+    .active-users-value {
+      font-size: 1.3rem;
+    }
+
+    .icon {
+      font-size: 1.8rem;
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .metrics-card {
+    flex: 1 1 calc(100% - 16px);
+    height: 60px;
+
+    .value {
+      margin-right: 5px;
+    }
+    
+    .active-users-title {
+      font-size: 1rem;
+    }
+
+    .active-users-value {
+      font-size: 0.9rem;
+    }
+
+    .icon {
+      font-size: 1.2rem;
+    }
+  }
+}

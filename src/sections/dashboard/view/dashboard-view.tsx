@@ -1,5 +1,7 @@
+import { DashboardComponent } from "../components";
+
 const DashboardView= ()=>{
-    return <div>Dashboard view</div>
+    return <DashboardComponent />
 }
 
 export default DashboardView;

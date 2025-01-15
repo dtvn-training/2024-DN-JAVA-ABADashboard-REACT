@@ -17,8 +17,17 @@ export default function Router() {
       children: [
         {
             path: "/",
-            element: <DashboardPage />,
+            element: <Navigate to="/dashboard" />,
             index: true,
+        },
+        {
+          path: "/dashboard",
+          element: <DashboardPage />,
+          index: true,
+        },
+        {
+          path: "/*",
+          element: <Navigate to="/dashboard" />,
         }
       ]
     },

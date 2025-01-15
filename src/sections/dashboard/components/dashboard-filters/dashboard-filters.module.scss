@@ -1,0 +1,143 @@
+.filters {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0;
+  margin-bottom: 5px;
+  box-sizing: border-box;
+
+  .fill {
+    position: relative;
+    justify-items: left;
+    background-color: #fff;
+    border: 1px solid #879699;
+    border-radius: 10px;
+    padding: 10px 15px;
+    min-width: 240px;
+    height: 50px;
+    font-size: 16px;
+    color: var(--color-dark);
+    cursor: pointer;
+    outline: none;
+    color: black !important;
+    transition: border-color 0.3s, background-color 0.3s, color 0.3s;
+    background-position: right 10px center;
+    background-size: 10px;
+
+  }
+  .select-wrapper {
+    position: relative;
+  }
+  
+  .select-wrapper::after {
+    content: attr(data-label);
+    position: absolute;
+    top: -20px;
+    left: -5px;
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--color-primary);
+    padding: 0 10px;
+    pointer-events: none;
+  }
+}
+
+.filter-dropdown {
+  margin: 0 10px;
+  min-width: 250px;
+  background-color: #fff;
+  font-size: 16px;
+
+  .MuiOutlinedInput-root {
+    border-radius: 30px;
+    background-color: #f9f9f9;
+
+    &.Mui-focused .MuiOutlinedInput-notchedOutline {
+      border-color: #ccc;
+    }
+
+    .MuiSelect-select {
+      padding: 10px 0;
+    }
+  }
+
+  .filter-item {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 16px;
+  }
+
+  .MuiInputLabel-root {
+    top: -5px;
+  }
+
+  .MuiPaper-root {
+    .MuiMenuItem-root {
+      transition: background-color 0.3s;
+
+      &:hover {
+        background-color: var(--color-accent);
+        color: var(--color-primary);
+      }
+    }
+  }
+}
+
+@media (max-width: 1300px) {
+  .filters {
+    .fill {
+      min-width: 180px;
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
+  }
+}
+
+@media (max-width: 1100px) {
+  .filters {
+
+    .fill {
+      min-width: 140px;
+      font-size: 12px;
+      margin-bottom: 10px;
+    }
+  }
+}
+
+@media (max-width: 980px) {
+  .filters {
+    flex-direction: column;
+    align-items: flex-start;
+
+    .select-wrapper{
+      min-width: 100%;
+    }
+
+    .fill {
+      min-width: 100%;
+      font-size: 13px;
+      margin-bottom: 30px;
+    }
+  }
+}
+
+
+@media (max-width: 768px) {
+  .filters {
+
+    .fill {
+      font-size: 12px;
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .filters {
+    .fill {
+      min-width: 100%;
+      font-size: 11px;
+      padding: 8px 10px;
+    }
+  }
+}
