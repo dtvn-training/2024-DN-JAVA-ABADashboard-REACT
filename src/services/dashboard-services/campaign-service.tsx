@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 interface Campaign {
-  campaignId: number;
+  campaignId: string;
+  campaignName : string;
 }
 
 interface ApiResponse {

@@ -41,8 +41,8 @@ const DashboardFilters: React.FC = () => {
     const timer = setTimeout(() => {
       dispatch(
         setDateRange({
-          startDate: sevenDaysAgo.toISOString(),
-          endDate: today.toISOString(),
+          startDate: sevenDaysAgo,
+          endDate: today,
         })
       );
     }, 1000); 
@@ -72,8 +72,8 @@ const DashboardFilters: React.FC = () => {
   const handleDateRangeChange = (range: { startDate: Date; endDate: Date }) => {
     dispatch(
       setDateRange({
-        startDate: range.startDate.toISOString(),
-        endDate: range.endDate.toISOString(),
+        startDate: range.startDate,
+        endDate: range.endDate,
       })
     );
   };
