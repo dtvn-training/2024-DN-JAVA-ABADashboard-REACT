@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Box, Button, Grid2, TextField, IconButton, Menu } from "@mui/material";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
@@ -12,13 +10,18 @@ import {
   referralStats,
 } from "../../../utils/_mock-data";
 import { TableReport } from "../../../components/table-report";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { DateTimePicker } from "../../../components/date-time-picker";
 import useRouter from "../../../hooks/useRouter";
 import { CreateFileExcel } from "../../../utils/_create-file-excel";
+import { useAppDispatch } from "../../../redux/store";
+import { GetReportForPreviewByTimestampBetween } from "../../../services/preview-services/preview-services";
+import { format } from 'date-fns';
+import { PreviewDataRequest } from "../../../services/preview-services/preview-type";
 
 const cx = classNames.bind(styles);
 const PreviewComponent = () => {
+  const dispatch= useAppDispatch();
   const router = useRouter();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [fileName, setFileName]= useState("Report today");
@@ -62,6 +65,15 @@ const PreviewComponent = () => {
     CreateFileExcel(valueDownloaded);
   }
   
+  useEffect(()=>{
+    if(rangePicker){
+      const data : PreviewDataRequest= {
+        startDate: format(rangePicker.startDate, 'yyyy-MM-dd'),
+        endDate: format(rangePicker.endDate, 'yyyy-MM-dd')
+      }
+      dispatch(GetReportForPreviewByTimestampBetween(data))
+    }
+  },[]);
 
   return (
     <Box sx={{ height: "100vh", backgroundColor: "#ffffff" }}>

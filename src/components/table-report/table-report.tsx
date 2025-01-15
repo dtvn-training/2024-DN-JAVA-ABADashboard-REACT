@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import styles from "./table-report.module.scss";
 import classNames from "classnames/bind";
-import { PreviewInterface } from "../interface/interface";
+import { PreviewInterface } from "../../services/preview-services/preview-type";
 import { format } from 'date-fns';
 
 

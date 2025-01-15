@@ -1,7 +1,7 @@
-import { PreviewComponent } from '../component';
+import { PreviewComponent } from "../component";
 
 const PreviewView = () => {
-  return <PreviewComponent />
-}
+  return <PreviewComponent />;
+};
 
 export default PreviewView;
